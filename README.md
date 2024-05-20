@@ -75,7 +75,7 @@ A aplicação estará disponível em http://localhost:8080.
 - GET /api/users/buscarPorId/{id}: busca usuário por id.
 - DELETE /api/users/deletarUsuarioPorId/{id}: deletar usuário por id.
 
-  ```http
+```http
   POST /api/users/cadastrarUsuario
 ```
 |Parâmetro  	| Tipo 	| Descrição|
@@ -95,6 +95,7 @@ Re
   POST /api/users/login
 ```
 Recebe os parametros  `email` `senha` para realizar o login e gerar a `api_key`
+
 |Parâmetro  	| Tipo 	| Descrição|
 |---	|---	|---	|
 | `email` 	| `string`  	| ----- |
@@ -122,11 +123,12 @@ Recebe um parametro `id` para realizar a busca do usuário associado aquele id
 | `api_key`   | `string`   | **Obrigatório**. A chave da sua API |
 
 ```http
-  DELETE /api/users/buscarPorId/{id}
+DELETE /api/users/buscarPorId/{id}
 ```
 Recebe um parametro `id` para realizar a exclusão do usuário associado aquele id
-| Parâmetro   | Tipo       | Descrição                                   |
-| :---------- | :--------- | :------------------------------------------ |
+
+| Parâmetro   | Tipo       | Descrição|
+| :---------- | :--------- | :----------|
 | `id`        | `string`   | **Obrigatório**. O ID do usuario que você quer |
 | `api_key`   | `string`   | **Obrigatório**. A chave da sua API |
 
@@ -138,11 +140,12 @@ Recebe um parametro `id` para realizar a exclusão do usuário associado aquele 
 - PUT /api/tickets/atualizaTicket/{id}: Atualiza tickets por id.
 
 ```http
-  POST /api/tickets/cadastrarTicket
+POST /api/tickets/cadastrarTicket
 ```
 Cadastra um ticket com base nos parametros abaixo preenchidos
+
 |Parâmetro  	| Tipo 	| Descrição|
-|---	|---	|---	|                                 |
+|---	|---	|---	|
 | `id` 	| `Long`  	| **Obrigatório**. Chave unica |
 | `idTecnico` 	| `Long`  	| **Campo obrigatório.**|
 | `descriçãoChamado` 	| `string`  	| **Campo obrigatório.** |
@@ -172,9 +175,10 @@ Recebe um parametro `id` para realizar a busca do ticket associado aquele id
 | `api_key`   | `string`   | **Obrigatório**. A chave da sua API |
 
 ```http
-  DELETE /api/users/deletarTicketPorId/{id}
+DELETE /api/users/deletarTicketPorId/{id}
 ```
 Recebe um parametro `id` para realizar a exclusão do ticket associado aquele id
+
 | Parâmetro   | Tipo       | Descrição                                   |
 | :---------- | :--------- | :------------------------------------------ |
 | `id`        | `string`   | **Obrigatório**. O ID do ticket que você quer |
