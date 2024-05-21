@@ -1,7 +1,6 @@
-package br.com.franca.HelpDesk.repositorys;
+package br.com.franca.helpdesk.repositorys;
 
-import br.com.franca.HelpDesk.domains.Cliente;
-import br.com.franca.HelpDesk.domains.Tecnico;
+import br.com.franca.helpdesk.domains.Tecnico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,7 @@
-package br.com.franca.HelpDesk.domains;
+package br.com.franca.helpdesk.domains;
 
-import br.com.franca.HelpDesk.domains.enums.PerfilEnum;
+import br.com.franca.helpdesk.domains.enums.PerfilEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -16,6 +15,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
+@DiscriminatorColumn(name = "PERFIL", discriminatorType = DiscriminatorType.STRING)
 public abstract class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;

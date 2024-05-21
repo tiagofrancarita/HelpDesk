@@ -1,13 +1,10 @@
-package br.com.franca.HelpDesk.domains;
+package br.com.franca.helpdesk.domains;
 
-import br.com.franca.HelpDesk.domains.enums.PerfilEnum;
+import br.com.franca.helpdesk.domains.enums.PerfilEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 

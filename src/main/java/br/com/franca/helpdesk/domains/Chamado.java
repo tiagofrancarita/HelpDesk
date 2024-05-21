@@ -1,16 +1,12 @@
-package br.com.franca.HelpDesk.domains;
+package br.com.franca.helpdesk.domains;
 
 
-import br.com.franca.HelpDesk.domains.enums.PrioridadeEnum;
-import br.com.franca.HelpDesk.domains.enums.StatusEnum;
+import br.com.franca.helpdesk.domains.enums.PrioridadeEnum;
+import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.security.PrivateKey;
 import java.time.LocalDateTime;
 
 @Entity
