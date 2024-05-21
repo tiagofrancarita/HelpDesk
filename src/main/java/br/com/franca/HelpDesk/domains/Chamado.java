@@ -27,13 +27,11 @@ public class Chamado implements Serializable {
     @Column(name = "id", updatable = false, unique = true, nullable = false)
     private Long id;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
     @Column(name = "data_abertura", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataAbertura = LocalDateTime.now();
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
     @Column(name = "data_fechamento", nullable = true, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataFechamento = LocalDateTime.now();
 
@@ -55,24 +53,11 @@ public class Chamado implements Serializable {
     private String observacao;
 
     @ManyToOne
+    @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
     @ManyToOne
+    @JoinColumn(name = "tecnico_id")
     private Tecnico tecnico;
 
-    public Chamado() {
-        super();
-    }
-
-    public Chamado(Long id, String tituloChamado, String descricaoChamado, PrioridadeEnum prioridadeEnum,
-                   StatusEnum statusEnum, String observacao, Cliente cliente, Tecnico tecnico) {
-        this.id = id;
-        this.tituloChamado = tituloChamado;
-        this.descricaoChamado = descricaoChamado;
-        this.prioridadeEnum = prioridadeEnum;
-        this.statusEnum = statusEnum;
-        this.observacao = observacao;
-        this.cliente = cliente;
-        this.tecnico = tecnico;
-    }
 }

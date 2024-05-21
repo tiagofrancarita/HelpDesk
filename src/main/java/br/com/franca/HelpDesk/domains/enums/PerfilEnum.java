@@ -1,6 +1,6 @@
 package br.com.franca.HelpDesk.domains.enums;
 
-import lombok.Data;
+
 
 
 public enum PerfilEnum {
@@ -31,7 +31,7 @@ public enum PerfilEnum {
         this.descricao = descricao;
     }
 
-public static PerfilEnum toEnum(Integer codigo) {
+    public static PerfilEnum toEnum(Integer codigo) {
         if (codigo == null) {
             return null;
         }
@@ -44,6 +44,4 @@ public static PerfilEnum toEnum(Integer codigo) {
 
         throw new IllegalArgumentException("Perfil inválido: " + "código: " + codigo);
     }
-
-
 }
