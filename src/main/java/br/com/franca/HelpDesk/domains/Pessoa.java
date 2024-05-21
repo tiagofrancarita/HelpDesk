@@ -4,7 +4,6 @@ import br.com.franca.HelpDesk.domains.enums.PerfilEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.validator.constraints.br.CPF;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,14 +16,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @Data
 public abstract class Pessoa implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Size(min = 5, message = "Favor informar o nome completo")
@@ -36,11 +34,11 @@ public abstract class Pessoa implements Serializable {
     @NotNull(message = "Favor informar o campo status da conta a pagar")
     @NotBlank(message = "O campo CPF deve ser informado!")
     @CPF(message = "CPF inválido")
-    @Column(name = "cpf", nullable = false)
+    @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
 
     @Email(message = "Campo e-mail é obrigatório")
-    @Column(name = "email", nullable = false)
+    @Column(name = "email", nullable = false,unique = true)
     private String email;
 
 
@@ -51,13 +49,12 @@ public abstract class Pessoa implements Serializable {
     private String senha;
 
     @NotNull(message = "Favor informar o perfil do usuário")
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status_conta_pagar", nullable = false)
     @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "pessoa_perfis", joinColumns = @JoinColumn(name = "pessoa_id"))
+    @Column(name = "perfil")
     private Set<Integer> perfis = new HashSet<>();
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
     @Column(name = "data_contratacao", nullable = false, columnDefinition = "TIMESTAMP")
     private LocalDateTime dataCriacao = LocalDateTime.now();
 
