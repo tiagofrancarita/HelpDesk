@@ -1,6 +1,6 @@
-package br.com.franca.HelpDesk.domains;
+package br.com.franca.helpdesk.domains;
 
-import br.com.franca.HelpDesk.domains.enums.PerfilEnum;
+import br.com.franca.helpdesk.domains.enums.PerfilEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;

@@ -28,7 +28,7 @@ O Helpdesk System é uma aplicação completa de gerenciamento de chamados e tic
 
 ```bash
 git clone https://github.com/tiagofrancarita/HelpDesk.git
-cd HelpDesk
+cd helpdesk
 ```
 
 # Configurando o Banco de dados.

@@ -1,4 +1,4 @@
-package br.com.franca.HelpDesk;
+package br.com.franca.helpdesk;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

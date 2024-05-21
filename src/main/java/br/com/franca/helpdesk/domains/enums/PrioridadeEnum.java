@@ -1,14 +1,14 @@
-package br.com.franca.HelpDesk.domains.enums;
+package br.com.franca.helpdesk.domains.enums;
 
 
-public enum StatusEnum {
+public enum PrioridadeEnum {
 
-    ABERTO(0,"ABERTO"), EXECUÇÃO(1, "EXECUÇÃO"), ENCERRADO(2, "ENCERRADO"), CANCELADO(3, "CANCELADO"), DEVOLVIDO(4, "DEVOLVIDO");
+    BAIXA(0,"BAIXA"), MEDIA(1, "MEDIA"), ALTA(2, "ALTA"), CRITICA(3, "CRITICA");
 
     private Integer codigo;
     private String descricao;
 
-    private StatusEnum(Integer codigo, String descricao) {
+    private PrioridadeEnum(Integer codigo, String descricao) {
         this.codigo = codigo;
         this.descricao = descricao;
     }
@@ -29,18 +29,18 @@ public enum StatusEnum {
         this.descricao = descricao;
     }
 
-public static StatusEnum toEnum(Integer codigo) {
+public static PrioridadeEnum toEnum(Integer codigo) {
         if (codigo == null) {
             return null;
         }
 
-        for (StatusEnum x : StatusEnum.values()) {
+        for (PrioridadeEnum x : PrioridadeEnum.values()) {
             if (codigo.equals(x.getCodigo())) {
                 return x;
             }
         }
 
-        throw new IllegalArgumentException("Status inválido: " + "código: " + codigo);
+        throw new IllegalArgumentException("Prioridade inválida: " + "código: " + codigo);
     }
 
 
