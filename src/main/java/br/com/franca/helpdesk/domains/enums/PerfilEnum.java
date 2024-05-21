@@ -1,4 +1,4 @@
-package br.com.franca.HelpDesk.domains.enums;
+package br.com.franca.helpdesk.domains.enums;
 
 
 
