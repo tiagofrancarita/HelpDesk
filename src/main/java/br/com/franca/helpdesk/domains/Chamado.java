@@ -25,7 +25,7 @@ public class Chamado implements Serializable {
 
     @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
     @Column(name = "data_fechamento", nullable = true)
-    private LocalDateTime dataFechamento = LocalDateTime.now();
+    private LocalDateTime dataFechamento;
 
     @Column(name = "titulo_chamado", nullable = false)
     private String tituloChamado;
@@ -39,7 +39,7 @@ public class Chamado implements Serializable {
 
     @Column(name = "status_chamado", nullable = false)
     @Enumerated(EnumType.STRING)
-    private StatusEnum statusEnum;
+    private StatusEnum statusEnum = StatusEnum.ABERTO;
 
     @Column(name = "observacao_chamado", nullable = true)
     private String observacao;
