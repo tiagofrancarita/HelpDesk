@@ -1,6 +1,7 @@
 package br.com.franca.HelpDesk.domains;
 
 import br.com.franca.HelpDesk.domains.enums.PerfilEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -11,11 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "tecnicos")
-@PrimaryKeyJoinColumn(name = "id")
-@Data
 public class Tecnico extends Pessoa {
 
+    @JsonIgnore
     @OneToMany(mappedBy = "tecnico")
     private List<Chamado> chamados = new ArrayList<>();
 
@@ -27,5 +26,13 @@ public class Tecnico extends Pessoa {
     public Tecnico(Long id, String nome, String cpf, String email, String senha) {
         super(id, nome, cpf, email, senha);
         addPerfil(PerfilEnum.TECNICO);
+    }
+
+    public List<Chamado> getChamados() {
+        return chamados;
+    }
+
+    public void setChamados(List<Chamado> chamados) {
+        this.chamados = chamados;
     }
 }
