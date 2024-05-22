@@ -2,6 +2,8 @@ package br.com.franca.helpdesk.tests.tecnicoUseCase;
 
 import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.Tecnico;
+import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
+import br.com.franca.helpdesk.domains.enums.PerfilEnum;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
@@ -13,14 +15,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Validation;
 import javax.validation.ValidationException;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -54,15 +59,38 @@ public class TecnicosUseCaseTest {
 
     @Test
     public void testListarTecnicos() {
-        when(tecnicoRepository.findAll()).thenReturn(List.of(tecnico));
+        // Dados de entrada
+        Tecnico tecnico1 = new Tecnico(1L, "Técnico 1", "12345678900", "tecnico1@example.com", "senha123");
+        Tecnico tecnico2 = new Tecnico(2L, "Técnico 2", "09876543211", "tecnico2@example.com", "senha456");
 
-        List<Tecnico> tecnicos = tecnicosUseCase.listarTecnicos();
+        // Mock do repositório
+        TecnicoRepository tecnicoRepository = mock(TecnicoRepository.class);
+        when(tecnicoRepository.findAll()).thenReturn(Arrays.asList(tecnico1, tecnico2));
 
-        assertNotNull(tecnicos);
-        assertFalse(tecnicos.isEmpty());
-        assertEquals(tecnico.getId(), tecnicos.get(0).getId());
+        // Instância do caso de uso
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadosRepository);
 
-        verify(tecnicoRepository, times(1)).findAll();
+        // Execução do método
+        List<TecnicoDTO> tecnicoDTOs = tecnicoUseCase.listarTecnicos();
+
+        // Verificações
+        assertNotNull(tecnicoDTOs);
+        assertEquals(2, tecnicoDTOs.size());
+        assertEquals(tecnico1.getId(), tecnicoDTOs.get(0).getId());
+        assertEquals(tecnico1.getNome(), tecnicoDTOs.get(0).getNome());
+        assertEquals(tecnico1.getCpf(), tecnicoDTOs.get(0).getCpf());
+        assertEquals(tecnico1.getEmail(), tecnicoDTOs.get(0).getEmail());
+        assertEquals(tecnico1.getSenha(), tecnicoDTOs.get(0).getSenha());
+        assertEquals(tecnico1.getDataCriacao(), tecnicoDTOs.get(0).getDataCriacao());
+        assertEquals(tecnico1.getPerfis().stream().map(PerfilEnum::getCodigo).collect(Collectors.toSet()), tecnicoDTOs.get(0).getPerfis());
+
+        assertEquals(tecnico2.getId(), tecnicoDTOs.get(1).getId());
+        assertEquals(tecnico2.getNome(), tecnicoDTOs.get(1).getNome());
+        assertEquals(tecnico2.getCpf(), tecnicoDTOs.get(1).getCpf());
+        assertEquals(tecnico2.getEmail(), tecnicoDTOs.get(1).getEmail());
+        assertEquals(tecnico2.getSenha(), tecnicoDTOs.get(1).getSenha());
+        assertEquals(tecnico2.getDataCriacao(), tecnicoDTOs.get(1).getDataCriacao());
+        assertEquals(tecnico2.getPerfis().stream().map(PerfilEnum::getCodigo).collect(Collectors.toSet()), tecnicoDTOs.get(1).getPerfis());
     }
 
     @Test
@@ -82,10 +110,10 @@ public class TecnicosUseCaseTest {
     public void testBuscarPorId() {
         when(tecnicoRepository.findById(1L)).thenReturn(Optional.of(tecnico));
 
-        Tecnico foundTecnico = tecnicosUseCase.buscarPorId(1L);
+        ResponseEntity<TecnicoDTO> foundTecnico = tecnicosUseCase.buscarPorId(1L);
 
         assertNotNull(foundTecnico);
-        assertEquals(tecnico.getId(), foundTecnico.getId());
+        assertEquals(tecnico.getId(), foundTecnico.getBody().getId());
 
         verify(tecnicoRepository, times(1)).findById(1L);
     }
@@ -111,38 +139,98 @@ public class TecnicosUseCaseTest {
 
     @Test
     public void testCadastrarTecnico() {
-        when(tecnicoRepository.findByEmail(tecnico.getEmail())).thenReturn(Optional.empty());
-        when(tecnicoRepository.save(tecnico)).thenReturn(tecnico);
+        // Dados de entrada
+        Set<Integer> perfis = new HashSet<>();
+        perfis.add(PerfilEnum.ADMIN.getCodigo());
+        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        perfis.add(PerfilEnum.CLIENTE.getCodigo());
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome("Técnico Teste");
+        tecnicoDTO.setCpf("12345678900");
+        tecnicoDTO.setEmail("tecnico@example.com");
+        tecnicoDTO.setSenha("Senha123!");
+        tecnicoDTO.setDataCriacao(LocalDateTime.now());
+        tecnicoDTO.setPerfis(perfis);
 
-        Tecnico novoTecnico = tecnicosUseCase.cadastrarTecnico(tecnico);
+        //    ADMIN(0,"ROLE_ADMIN"), CLIENTE(1, "ROLE_CLIENTE"), TECNICO(2, "ROLE_TECNICO");
 
-        assertNotNull(novoTecnico);
-        assertEquals(tecnico.getEmail(), novoTecnico.getEmail());
+        // Mock do repositório
+        TecnicoRepository tecnicoRepository = mock(TecnicoRepository.class);
+        when(tecnicoRepository.findByEmail(tecnicoDTO.getEmail())).thenReturn(Optional.empty());
+        Tecnico tecnico = new Tecnico(null, tecnicoDTO.getNome(), tecnicoDTO.getCpf(), tecnicoDTO.getEmail(), tecnicoDTO.getSenha());
+        tecnico.addPerfil(PerfilEnum.ADMIN);
+        tecnico.addPerfil(PerfilEnum.TECNICO);
+        when(tecnicoRepository.save(any(Tecnico.class))).thenReturn(tecnico);
 
-        verify(tecnicoRepository, times(1)).findByEmail(tecnico.getEmail());
-        verify(tecnicoRepository, times(1)).save(tecnico);
+        // Configuração do Validator
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        // Instância do caso de uso
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadosRepository);
+
+        // Execução do método
+        TecnicoDTO result = tecnicoUseCase.cadastrarTecnico(tecnicoDTO);
+
+        // Verificações
+        assertNotNull(result);
+        assertEquals(tecnicoDTO.getNome(), result.getNome());
+        assertEquals(tecnicoDTO.getCpf(), result.getCpf());
+        assertEquals(tecnicoDTO.getEmail(), result.getEmail());
+        assertEquals(tecnicoDTO.getSenha(), result.getSenha());
+        assertTrue(ChronoUnit.SECONDS.between(tecnicoDTO.getDataCriacao(), result.getDataCriacao()) < 1);
+        assertEquals(tecnicoDTO.getPerfis(), result.getPerfis());
+
+        verify(tecnicoRepository, times(1)).findByEmail(tecnicoDTO.getEmail());
+        verify(tecnicoRepository, times(1)).save(any(Tecnico.class));
     }
 
     @Test
-    public void testCadastrarTecnicoEmailExistente() {
-        when(tecnicoRepository.findByEmail(tecnico.getEmail())).thenReturn(Optional.of(tecnico));
+    public void testCadastrarTecnicoEmailEmUso() {
+        // Dados de entrada
+        Set<Integer> perfis = new HashSet<>();
+        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome("Técnico Teste");
+        tecnicoDTO.setCpf("12345678900");
+        tecnicoDTO.setEmail("tecnico@example.com");
+        tecnicoDTO.setSenha("Senha123!");
+        tecnicoDTO.setDataCriacao(LocalDateTime.now());
+        tecnicoDTO.setPerfis(perfis);
 
-        ValidationException exception = assertThrows(ValidationException.class, () -> {
-            tecnicosUseCase.cadastrarTecnico(tecnico);
-        });
+        // Mock do repositório
+        TecnicoRepository tecnicoRepository = mock(TecnicoRepository.class);
+        when(tecnicoRepository.findByEmail(tecnicoDTO.getEmail())).thenReturn(Optional.of(new Tecnico()));
 
-        assertEquals("Email já está em uso", exception.getMessage());
+        // Configuração do Validator
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
 
-        verify(tecnicoRepository, times(1)).findByEmail(tecnico.getEmail());
-        verify(tecnicoRepository, never()).save(any());
+        // Instância do caso de uso
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadosRepository);
+
+        // Execução do método
+        assertThrows(ValidationException.class, () -> tecnicoUseCase.cadastrarTecnico(tecnicoDTO));
+
+        // Verificações
+        verify(tecnicoRepository, times(1)).findByEmail(tecnicoDTO.getEmail());
+        verify(tecnicoRepository, never()).save(any(Tecnico.class));
     }
 
     @Test
     public void testCadastrarTecnicoNomeObrigatorio() {
-        tecnico.setNome(null);
+        Set<Integer> perfis = new HashSet<>();
+        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome(null); // Nome não informado
+        tecnicoDTO.setCpf("12345678900");
+        tecnicoDTO.setEmail("tecnico@example.com");
+        tecnicoDTO.setSenha("Senha123!");
+        tecnicoDTO.setDataCriacao(LocalDateTime.now());
+        tecnicoDTO.setPerfis(perfis);
 
         ValidationException exception = assertThrows(ValidationException.class, () -> {
-            tecnicosUseCase.cadastrarTecnico(tecnico);
+            tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
         });
 
         assertEquals("Nome é obrigatório", exception.getMessage());
@@ -150,11 +238,20 @@ public class TecnicosUseCaseTest {
 
     @Test
     public void testCadastrarTecnicoSenhaInvalida() {
-        tecnico.setSenha("senha");
+        Set<Integer> perfis = new HashSet<>();
+        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome("Tiago França"); // Nome não informado
+        tecnicoDTO.setCpf("12345678900");
+        tecnicoDTO.setEmail("tecnico@example.com");
+        tecnicoDTO.setSenha("Senha123");
+        tecnicoDTO.setDataCriacao(LocalDateTime.now());
+        tecnicoDTO.setPerfis(perfis);
 
         ValidationException exception = assertThrows(ValidationException.class, () -> {
-            tecnicosUseCase.cadastrarTecnico(tecnico);
+            tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
         });
+
 
         assertEquals("A senha não atende aos critérios mínimos", exception.getMessage());
     }
@@ -207,37 +304,84 @@ public class TecnicosUseCaseTest {
 
     @Test
     public void testAtualizarTecnico() {
-        when(tecnicoRepository.findById(1L)).thenReturn(Optional.of(tecnico));
-        when(tecnicoRepository.save(tecnico)).thenReturn(tecnico);
+        // Dados de entrada
+        Set<Integer> perfis = new HashSet<>();
+        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        perfis.add(PerfilEnum.CLIENTE.getCodigo());
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome("Técnico Teste");
+        tecnicoDTO.setCpf("12345678900");
+        tecnicoDTO.setEmail("tecnico@example.com");
+        tecnicoDTO.setSenha("Senha123!");
+        tecnicoDTO.setDataCriacao(LocalDateTime.now());
+        tecnicoDTO.setPerfis(perfis);
 
-        Tecnico tecnicoAtualizado = new Tecnico();
-        tecnicoAtualizado.setNome("Tecnico Atualizado");
-        tecnicoAtualizado.setEmail("atualizado@teste.com");
-        tecnicoAtualizado.setSenha("Senha1234!");
-        tecnicoAtualizado.getPerfis().clear();
-        tecnicoAtualizado.getPerfis().addAll(tecnicoAtualizado.getPerfis());
+        // Mock do repositório
+        TecnicoRepository tecnicoRepository = mock(TecnicoRepository.class);
+        ChamadosRepository chamadoRepository = mock(ChamadosRepository.class);
+        Tecnico tecnicoExistente = new Tecnico(1L, "Técnico Antigo", "12345678900", "tecnico@oldexample.com", "SenhaAntiga");
+        when(tecnicoRepository.findById(1L)).thenReturn(Optional.of(tecnicoExistente));
+        when(tecnicoRepository.save(any(Tecnico.class))).thenReturn(tecnicoExistente);
 
-        Tecnico updatedTecnico = tecnicosUseCase.atualizarTecnico(1L, tecnicoAtualizado);
+        // Instância do caso de uso
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository);
 
-        assertNotNull(updatedTecnico);
-        assertEquals(tecnicoAtualizado.getNome(), updatedTecnico.getNome());
+        // Execução do método
+        TecnicoDTO result = tecnicoUseCase.atualizarTecnico(1L, tecnicoDTO);
+
+        // Verificações
+        assertNotNull(result);
+        assertEquals(tecnicoDTO.getNome(), result.getNome());
+        assertEquals(tecnicoDTO.getEmail(), result.getEmail());
+        assertEquals(tecnicoDTO.getSenha(), result.getSenha());
+        assertEquals(tecnicoDTO.getPerfis(), result.getPerfis());
 
         verify(tecnicoRepository, times(1)).findById(1L);
-        verify(tecnicoRepository, times(1)).save(tecnico);
+        verify(tecnicoRepository, times(1)).save(any(Tecnico.class));
     }
 
     @Test
     public void testAtualizarTecnicoIdInvalido() {
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome("Técnico Teste");
+        tecnicoDTO.setCpf("12345678900");
+        tecnicoDTO.setEmail("tecnico@example.com");
+        tecnicoDTO.setSenha("Senha123!");
+        tecnicoDTO.setDataCriacao(LocalDateTime.now());
+        Set<Integer> perfis = new HashSet<>();
+        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        tecnicoDTO.setPerfis(perfis);
 
-        assertThrows(IllegalArgumentException.class, () -> tecnicosUseCase.atualizarTecnico(0L, tecnico));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
+            tecnicosUseCase.atualizarTecnico(0L, tecnicoDTO);
+        });
+
+        assertEquals("O ID informado é inválido", exception.getMessage());
     }
 
     @Test
     public void testAtualizarTecnicoNaoEncontrado() {
+        // Dados de entrada para o teste
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setId(1L);
+        tecnicoDTO.setNome("Novo Nome");
+        tecnicoDTO.setCpf("12345678900");
+        tecnicoDTO.setEmail("novo_email@example.com");
+        tecnicoDTO.setSenha("novaSenha123!");
+        tecnicoDTO.setDataCriacao(LocalDateTime.now());
+        Set<Integer> perfis = new HashSet<>();
+        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        tecnicoDTO.setPerfis(perfis);
+
+        // Simula o repositório retornando um Optional vazio ao buscar o técnico pelo ID
         when(tecnicoRepository.findById(1L)).thenReturn(Optional.empty());
 
-        assertThrows(EntityNotFoundException.class, () -> tecnicosUseCase.atualizarTecnico(1L, tecnico));
+        // Verifica se uma EntityNotFoundException é lançada ao tentar atualizar o técnico
+        EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () -> {
+            tecnicosUseCase.atualizarTecnico(1L, tecnicoDTO);
+        });
 
+        // Verifica se o método findById do repositório foi chamado exatamente uma vez com o ID correto
         verify(tecnicoRepository, times(1)).findById(1L);
     }
 
@@ -246,15 +390,16 @@ public class TecnicosUseCaseTest {
         // Simula a existência do técnico
         when(tecnicoRepository.findById(1L)).thenReturn(Optional.of(new Tecnico()));
 
-        // Define o nome do técnico como nulo
-        tecnico.setNome(null);
+        // Cria um objeto TecnicoDTO para representar a atualização do técnico com o nome nulo
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome(null);
 
         // Verifica se a exceção ValidationException é lançada e se a mensagem é a esperada
         ValidationException exception = assertThrows(ValidationException.class, () -> {
-            tecnicosUseCase.atualizarTecnico(1L, tecnico);
+            tecnicosUseCase.atualizarTecnico(1L, tecnicoDTO);
         });
 
-        assertEquals("Nome é obrigatório", exception.getMessage());
+        assertEquals("O Campo nome é obrigatório", exception.getMessage());
 
         // Verifica se findById foi chamado uma vez
         verify(tecnicoRepository, times(1)).findById(1L);
@@ -265,13 +410,14 @@ public class TecnicosUseCaseTest {
         // Simula a existência do técnico
         when(tecnicoRepository.findById(1L)).thenReturn(Optional.of(new Tecnico()));
 
-        // Define o nome do técnico como nulo
-        tecnico.setNome("Teste Email OBGTORIO");
-        tecnico.setEmail(null);
+        // Cria um objeto TecnicoDTO para representar a atualização do técnico com o e-mail nulo
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome("Teste Email Obrigatório");
+        tecnicoDTO.setEmail(null);
 
         // Verifica se a exceção ValidationException é lançada e se a mensagem é a esperada
         ValidationException exception = assertThrows(ValidationException.class, () -> {
-            tecnicosUseCase.atualizarTecnico(1L, tecnico);
+            tecnicosUseCase.atualizarTecnico(1L, tecnicoDTO);
         });
 
         assertEquals("O Campo e-mail é obrigatório", exception.getMessage());
@@ -282,17 +428,19 @@ public class TecnicosUseCaseTest {
 
     @Test
     void testAtualizarTecnicoSenhaObrigatorio() {
+
         // Simula a existência do técnico
         when(tecnicoRepository.findById(1L)).thenReturn(Optional.of(new Tecnico()));
 
-        // Define o nome do técnico como nulo
-        tecnico.setNome("Teste Email OBGTORIO");
-        tecnico.setEmail("tiagofranca.rita@gmail.com");
-        tecnico.setSenha(null);
+        // Cria um objeto TecnicoDTO para representar a atualização do técnico com a senha nula
+        TecnicoDTO tecnicoDTO = new TecnicoDTO();
+        tecnicoDTO.setNome("Teste Senha Obrigatória");
+        tecnicoDTO.setEmail("tiagofranca.rita@gmail.com");
+        tecnicoDTO.setSenha(null);
 
         // Verifica se a exceção ValidationException é lançada e se a mensagem é a esperada
         ValidationException exception = assertThrows(ValidationException.class, () -> {
-            tecnicosUseCase.atualizarTecnico(1L, tecnico);
+            tecnicosUseCase.atualizarTecnico(1L, tecnicoDTO);
         });
 
         assertEquals("O Campo senha é obrigatório", exception.getMessage());

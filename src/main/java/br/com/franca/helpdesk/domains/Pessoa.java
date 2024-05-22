@@ -24,15 +24,10 @@ public abstract class Pessoa implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Size(min = 5, message = "Favor informar o nome completo")
-    @NotBlank(message = "O campo nome deve ser informado!")
-    @NotNull(message = "O campo nome deve ser informado!")
     @Column(name = "nome_completo", nullable = false)
     private String nome;
 
-    @NotNull(message = "Favor informar o campo status da conta a pagar")
-    @NotBlank(message = "O campo CPF deve ser informado!")
-    @CPF(message = "CPF inválido")
+
     @Column(name = "cpf", nullable = false, unique = true)
     private String cpf;
 
@@ -41,9 +36,7 @@ public abstract class Pessoa implements Serializable {
     private String email;
 
 
-    @NotNull(message = "Favor informar o campo senha")
-    @Size(min = 8, message = "O campo senha deve ter no mínimo 8 caracteres")
-    @NotBlank(message = "O campo senha deve ser informado!")
+
     @Column(name = "senha", nullable = false)
     private String senha;
 
