@@ -11,6 +11,8 @@ public interface TecnicoRepository extends JpaRepository<Tecnico, Long> {
 
     Optional <Tecnico> findById(Long id);
 
+    Optional<Tecnico> findByEmail(String email);
+
 
 
 
