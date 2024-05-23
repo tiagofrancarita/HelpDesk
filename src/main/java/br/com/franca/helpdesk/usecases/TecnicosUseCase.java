@@ -2,7 +2,8 @@ package br.com.franca.helpdesk.usecases;
 
 import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.Tecnico;
-import br.com.franca.helpdesk.domains.enums.PerfilEnum;
+import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
+import br.com.franca.helpdesk.domains.enums.Perfil;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
@@ -10,15 +11,14 @@ import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class TecnicosUseCase {
@@ -33,7 +33,7 @@ public class TecnicosUseCase {
         this.chamadosRepository = chamadosRepository;
     }
 
-    public List<Tecnico> listarTecnicos() {
+    public List<TecnicoDTO> listarTecnicos() {
 
         log.info("---- Iniciando a listagem de técnicos cadastrados.... ----");
         List<Tecnico> tecnicos = tecnicoRepository.findAll();
@@ -41,11 +41,14 @@ public class TecnicosUseCase {
             log.error("Nenhum técnico encontrado");
             throw new TecnicosNotFoundException("Nenhum técnico encontrado.");
         }
+        List<TecnicoDTO> tecnicoDTOs = tecnicos.stream()
+                .map(TecnicoDTO::new)
+                .collect(Collectors.toList());
         log.info("---- Técnicos listados com sucesso. ----");
-        return tecnicos;
+        return tecnicoDTOs;
     }
 
-    public Tecnico buscarPorId(Long id) {
+    public ResponseEntity<TecnicoDTO> buscarPorId(Long id) {
 
         if (id <= 0) {
             throw new IllegalArgumentException("ID inválido");
@@ -60,55 +63,63 @@ public class TecnicosUseCase {
 
         Tecnico tecnico = optionalTecnico.get();
         log.info("---- Técnico encontrado. ----ID: " + tecnico.getId());
-        return tecnico;
+        return ResponseEntity.ok(new TecnicoDTO(tecnico));
     }
 
-    public Tecnico cadastrarTecnico(@Valid Tecnico tecnico) {
+    public TecnicoDTO cadastrarTecnico(@Valid TecnicoDTO tecnicoDTO) {
 
-        log.info("---- Iniciando o cadastro do técnico... ----");
+            log.info("---- Iniciando o cadastro do técnico... ----");
 
-        log.info("---- Iniciando validação dos dados informados... ----");
-        // Verifica se já existe um técnico com o mesmo email
-        Optional<Tecnico> existingTecnico = tecnicoRepository.findByEmail(tecnico.getEmail());
-        if (existingTecnico.isPresent()) {
-            log.error("---- Erro ao cadastrar o técnico, e-mail informado já está sendo utilizado. ----");
-            throw new ValidationException("Email já está em uso");
-        }
+            log.info("---- Iniciando validação dos dados informados... ----");
+            // Verifica se já existe um técnico com o mesmo email
+            Optional<Tecnico> existingTecnico = tecnicoRepository.findByEmail(tecnicoDTO.getEmail());
+            if (existingTecnico.isPresent()) {
+                log.error("---- Erro ao cadastrar o técnico, e-mail informado já está sendo utilizado. ----");
+                throw new ValidationException("Email já está em uso");
+            }
 
-        // Validação dos campos obrigatórios
-        if (tecnico.getNome() == null || tecnico.getNome().isEmpty()) {
-            log.error("---- Erro ao cadastrar o técnico, campo nome é obrigatório. ----");
-            throw new ValidationException("Nome é obrigatório");
-        }
-        if (tecnico.getSenha() == null || tecnico.getSenha().isEmpty()) {
-            log.error("---- Erro ao cadastrar o técnico, campo senha é obrigatório. ----");
-            throw new ValidationException("Senha é obrigatória");
-        }
-        if (tecnico.getDataCriacao() == null) {
-            log.error("---- Erro ao cadastrar o técnico, campo data de criação é obrigatório. ----");
-            throw new ValidationException("Data de criação é obrigatória");
-        }
-        if (tecnico.getPerfis() == null || tecnico.getPerfis().isEmpty()) {
-            log.error("---- Erro ao cadastrar o técnico, campo perfil é obrigatório. ----");
-            throw new ValidationException("Perfil é obrigatório");
-        }
+            Optional<Tecnico> existingCpf = tecnicoRepository.findByCpf(tecnicoDTO.getCpf());
+            if (existingCpf.isPresent()) {
+                log.error("---- Erro ao cadastrar o técnico, cpf informado já está sendo utilizado. ----");
+                throw new ValidationException("Erro ao cadastrar o técnico, cpf informado já está sendo utilizado.");
+            }
 
+            // Validação dos campos obrigatórios
+            if (tecnicoDTO.getNome() == null || tecnicoDTO.getNome().isEmpty()) {
+                log.error("---- Erro ao cadastrar o técnico, campo nome é obrigatório. ----");
+                throw new ValidationException("Nome é obrigatório");
+            }
+            if (tecnicoDTO.getSenha() == null || tecnicoDTO.getSenha().isEmpty()) {
+                log.error("---- Erro ao cadastrar o técnico, campo senha é obrigatório. ----");
+                throw new ValidationException("Senha é obrigatória");
+            }
+            if (tecnicoDTO.getDataCriacao() == null) {
+                log.error("---- Erro ao cadastrar o técnico, campo data de criação é obrigatório. ----");
+                throw new ValidationException("Data de criação é obrigatória");
+            }
+            if (tecnicoDTO.getPerfis() == null ||tecnicoDTO.getPerfis().isEmpty()){
+                log.error("---- Erro ao cadastrar o técnico, campo perfil é obrigatório. ----");
+                throw new ValidationException("Perfil é obrigatório");
+            }
 
-        // Validação da senha
-        if (!isValidPassword(tecnico.getSenha())) {
-            log.error("---- A senha não atende aos critérios mínimos. ----");
-            log.info("---- A senha deve ter pelo menos 8 caracteres.  ----");
-            log.info("---- A senha deve conter pelo menos uma letra minúscula  ----");
-            log.info("---- A senha deve conter pelo menos uma letra maiúscula ----");
-            log.info("---- A senha deve conter pelo menos um dígito (NÚMERO) ----");
-            log.info("---- A senha deve conter pelo menos um caractere especial ----");
-            log.info("---- A senha não deve conter espaços em branco ----");
-            throw new ValidationException("A senha não atende aos critérios mínimos");
-        }
+            // Validação da senha
+            if (!isValidPassword(tecnicoDTO.getSenha())) {
+                log.error("---- A senha não atende aos critérios mínimos. ----");
+                log.info("---- A senha deve ter pelo menos 8 caracteres.  ----");
+                log.info("---- A senha deve conter pelo menos uma letra minúscula  ----");
+                log.info("---- A senha deve conter pelo menos uma letra maiúscula ----");
+                log.info("---- A senha deve conter pelo menos um dígito (NÚMERO) ----");
+                log.info("---- A senha deve conter pelo menos um caractere especial ----");
+                log.info("---- A senha não deve conter espaços em branco ----");
+                throw new ValidationException("A senha não atende aos critérios mínimos");
+            }
 
-        // Salva o técnico no banco de dados
-        log.info("---- Tecnico salvo com sucesso ----");
-        return tecnicoRepository.save(tecnico);
+        Tecnico tecnicoSalvo = new Tecnico(tecnicoDTO);
+
+            // Salva o técnico no banco de dados
+
+            log.info("---- Técnico salvo com sucesso ----");
+            return new TecnicoDTO(tecnicoRepository.save(tecnicoSalvo));
 
 
     }
@@ -120,7 +131,7 @@ public class TecnicosUseCase {
         return pattern.matcher(password).matches();
     }
 
-    public void deletarTecnico(Long id) {
+    public TecnicoDTO deletarTecnico(Long id) {
 
         log.info("---- Iniciando processo de deleção de técnico por id ----");
 
@@ -143,12 +154,15 @@ public class TecnicosUseCase {
                 log.error("---- Erro ao deletar técnico, " + mensagem + " ----");
                 throw new ValidationException(mensagem);
             }
-            log.info(" ---- Não há chamados abertos, associados ao técnico ---- "  + " ID_Tecnico: " + tecnico.getId());
+            log.info(" ---- Não há chamados abertos, associados ao técnico ---- " + " ID_Tecnico: " + tecnico.getId());
 
             // Se não houver chamados abertos, exclui o técnico
             log.info("---- Excluindo técnico ----");
             tecnicoRepository.delete(tecnico);
             log.info("---- Técnico excluído ----");
+
+            // Retorna DTO do técnico excluído
+            return new TecnicoDTO(tecnico);
 
         } else {
             log.error("---- Técnico não encontrado ----");
@@ -156,66 +170,50 @@ public class TecnicosUseCase {
         }
     }
 
-    public Tecnico atualizarTecnico(Long id, @Valid Tecnico tecnicoAtualizado) {
+    public TecnicoDTO atualizarTecnico(Long id, TecnicoDTO tecnicoAtualizadoDTO) {
+        log.info("---- Iniciando processo de atualização de técnico por ID ----");
 
-        log.info("---- Iniciando processo de atualização de tecnico por id  ----");
-
-        log.info("---- Verificando se o id informado é válido ----");
+        // Verifica se o ID é válido
         if (id == null || id <= 0) {
-            log.error("---- Erro ao atualizar técnico, id informado é invalido ----");
-            throw new IllegalArgumentException("id informado é invalido");
+            log.error("---- Erro ao atualizar técnico, ID inválido ----");
+            throw new IllegalArgumentException("O ID informado é inválido");
         }
 
-        log.info("---- Verificando se o técnico a ser atualizado existe ----");
+        // Busca o técnico existente pelo ID
         Tecnico tecnicoExistente = tecnicoRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("---- Erro ao atualizar técnico, técnico não existe ---- ID_TECNICO: " + id);
+                    log.error("---- Erro ao atualizar técnico, técnico não encontrado ---- ID_TECNICO: " + id);
                     return new EntityNotFoundException("Técnico não encontrado");
                 });
 
         log.info("---- Iniciando validação dos dados informados ----");
         // Validação dos campos obrigatórios
-        if (tecnicoAtualizado.getNome() == null || tecnicoAtualizado.getNome().isEmpty()) {
+        if (tecnicoAtualizadoDTO.getNome() == null || tecnicoAtualizadoDTO.getNome().isEmpty()) {
             log.error("---- Erro ao atualizar técnico, campo nome é obrigatório. ----");
-            throw new ValidationException("Nome é obrigatório");
+            throw new ValidationException("O Campo nome é obrigatório");
         }
-        if (tecnicoAtualizado.getPerfis() == null || tecnicoAtualizado.getPerfis().isEmpty()) {
-            log.error("---- Erro ao atualizar técnico, campo perfil é obrigatório. ----");
-            throw new ValidationException("O Campo perfil é obrigatório");
-        }
-
-        if (tecnicoAtualizado.getEmail() == null || tecnicoAtualizado.getEmail().isEmpty()) {
+        if (tecnicoAtualizadoDTO.getEmail() == null || tecnicoAtualizadoDTO.getEmail().isEmpty()) {
             log.error("---- Erro ao atualizar técnico, campo e-mail é obrigatório. ----");
             throw new ValidationException("O Campo e-mail é obrigatório");
         }
-
-        if (tecnicoAtualizado.getSenha() == null || tecnicoAtualizado.getSenha().isEmpty()) {
+        if (tecnicoAtualizadoDTO.getSenha() == null || tecnicoAtualizadoDTO.getSenha().isEmpty()) {
             log.error("---- Erro ao atualizar técnico, campo senha é obrigatório. ----");
             throw new ValidationException("O Campo senha é obrigatório");
         }
+        // Você pode adicionar mais validações conforme necessário
 
-        log.info("---- Validações efetuadas. ----");
-
-        log.info("---- Atualizando técnico ----");
-
-        // Atualiza os campos do técnico existente com os valores do técnico atualizado
-        tecnicoExistente.setNome(tecnicoAtualizado.getNome());
-        tecnicoExistente.setEmail(tecnicoAtualizado.getEmail());
-        tecnicoExistente.setSenha(tecnicoAtualizado.getSenha());
-
-        // Verifica se houve alteração nos perfis do técnico
-        if (!tecnicoExistente.getPerfis().equals(tecnicoAtualizado.getPerfis())) {
-            // Se os perfis forem diferentes, lança uma exceção, pois não é permitido alterar os perfis
-            log.error("---- Erro ao atualizar técnico, não é permitido alterar os perfis do técnico. ----");
-            throw new ValidationException("Não é permitido alterar os perfis do técnico durante a atualização.");
-        }
-
-        // Atualiza os perfis do técnico existente
+        // Atualiza os campos do técnico existente com os valores do DTO
+        tecnicoExistente.setNome(tecnicoAtualizadoDTO.getNome());
+        tecnicoExistente.setCpf(tecnicoAtualizadoDTO.getCpf());
+        tecnicoExistente.setEmail(tecnicoAtualizadoDTO.getEmail());
+        tecnicoExistente.setSenha(tecnicoAtualizadoDTO.getSenha());
+        // Limpar e adicionar os perfis atualizados
         tecnicoExistente.getPerfis().clear();
-        tecnicoExistente.getPerfis().addAll(tecnicoAtualizado.getPerfis());
+        tecnicoAtualizadoDTO.getPerfis().forEach(perfil -> tecnicoExistente.addPerfil(Perfil.toEnum(perfil.getCodigo())));
 
-        // Salva o técnico atualizado no banco de dados
-        log.info("---- Técnico atualizado com sucesso ----");
-        return tecnicoRepository.save(tecnicoExistente);
+        // Salvar o técnico atualizado no repositório
+        Tecnico tecnicoAtualizado = tecnicoRepository.save(tecnicoExistente);
+
+        return new TecnicoDTO(tecnicoAtualizado);
     }
 }
