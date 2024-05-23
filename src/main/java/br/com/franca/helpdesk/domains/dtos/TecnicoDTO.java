@@ -11,36 +11,33 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class TecnicoDTO implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    protected Long id;
+    protected String nome;
+    protected String cpf;
+    protected String email;
+    protected String senha;
+    protected Set<Integer> perfis = new HashSet<>();
 
-    private String nome;
-
-    private String cpf;
-
-    private String email;
-
-    private String senha;
-
-    @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
-    private LocalDateTime dataCriacao;
-
-    private Set<Perfil> perfis = new HashSet<>();
+    @JsonFormat(pattern = "dd/MM/yyyy")
+    protected LocalDateTime dataCriacao = LocalDateTime.now();
 
     public TecnicoDTO() {
         super();
+        addPerfil(Perfil.TECNICO);
     }
 
-    public TecnicoDTO(Tecnico tecnico) {
-        this.id = tecnico.getId();
-        this.nome = tecnico.getNome();
-        this.cpf = tecnico.getCpf();
-        this.email = tecnico.getEmail();
-        this.senha = tecnico.getSenha();
-        this.dataCriacao = tecnico.getDataCriacao();
-        this.perfis = tecnico.getPerfis();
+    public TecnicoDTO(Tecnico obj) {
+        super();
+        this.id = obj.getId();
+        this.nome = obj.getNome();
+        this.cpf = obj.getCpf();
+        this.email = obj.getEmail();
+        this.senha = obj.getSenha();
+        this.perfis = obj.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
+        this.dataCriacao = obj.getDataCriacao();
+        addPerfil(Perfil.TECNICO);
     }
 
     public Long getId() {
@@ -83,19 +80,23 @@ public class TecnicoDTO implements Serializable {
         this.senha = senha;
     }
 
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
+    }
+
+    public void setPerfis(Set<Perfil> perfis) {
+        this.perfis = perfis.stream().map(Perfil::getCodigo).collect(Collectors.toSet());
+    }
+
+    public void addPerfil(Perfil perfil) {
+        this.perfis.add(perfil.getCodigo());
+    }
+
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
-    }
-
-    public Set<Perfil> getPerfis() {
-        return perfis;
-    }
-
-    public void setPerfis(Set<Perfil> perfis) {
-        this.perfis = perfis;
     }
 }
