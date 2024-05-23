@@ -1,6 +1,7 @@
 package br.com.franca.helpdesk.domains;
 
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
+import br.com.franca.helpdesk.domains.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Entity;
@@ -18,11 +19,15 @@ public class Tecnico extends Pessoa {
 
     public Tecnico() {
         super();
+        addPerfil(Perfil.TECNICO);
 
     }
 
     public Tecnico(Long id, String nome, String cpf, String email, String senha) {
         super(id, nome, cpf, email, senha);
+        addPerfil(Perfil.TECNICO);
+
+
 
     }
 
