@@ -4,14 +4,13 @@ package br.com.franca.helpdesk.service;
 import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.Cliente;
 import br.com.franca.helpdesk.domains.Tecnico;
-import br.com.franca.helpdesk.domains.enums.PerfilEnum;
+import br.com.franca.helpdesk.domains.enums.Perfil;
 import br.com.franca.helpdesk.domains.enums.PrioridadeEnum;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.ClienteRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -33,7 +32,7 @@ public class DBService {
     public void instacieDB() {
 
         Tecnico T1 = new Tecnico(null, "Tecnico 1", "43830635001","tecnico@email.com","@Biatico681");
-        T1.addPerfil(PerfilEnum.ADMIN);
+        T1.addPerfil(Perfil.ADMIN);
         tecnicoRepository.saveAll(Arrays.asList(T1));
 
         Cliente C1 = new Cliente(null, "Cliente 1", "42193087091","cliente@email.com","@Biatico681");

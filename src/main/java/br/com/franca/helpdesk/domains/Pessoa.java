@@ -1,13 +1,9 @@
 package br.com.franca.helpdesk.domains;
 
-import br.com.franca.helpdesk.domains.enums.PerfilEnum;
+import br.com.franca.helpdesk.domains.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.validator.constraints.br.CPF;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -22,35 +18,35 @@ public abstract class Pessoa implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    protected Long id;
 
     @Column(name = "nome_completo", nullable = false)
-    private String nome;
+    protected String nome;
 
 
     @Column(name = "cpf", nullable = false, unique = true)
-    private String cpf;
+    protected String cpf;
 
     @Email(message = "Campo e-mail é obrigatório")
     @Column(name = "email", nullable = false,unique = true)
-    private String email;
+    protected String email;
 
 
 
     @Column(name = "senha", nullable = false)
-    private String senha;
+    protected String senha;
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "PERFIS")
-    private Set<Integer> perfis = new HashSet<>();
+    protected Set<Integer> perfis = new HashSet<>();
 
     @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
     @Column(name = "data_contratacao", nullable = false, columnDefinition = "TIMESTAMP")
-    private LocalDateTime dataCriacao = LocalDateTime.now();
+    protected LocalDateTime dataCriacao = LocalDateTime.now();
 
     public Pessoa() {
         super();
-        addPerfil(PerfilEnum.CLIENTE);
+
     }
 
     public Pessoa(Long id, String nome, String cpf, String email, String senha) {
@@ -59,7 +55,7 @@ public abstract class Pessoa implements Serializable {
         this.cpf = cpf;
         this.email = email;
         this.senha = senha;
-        addPerfil(PerfilEnum.CLIENTE);
+
     }
 
     public Long getId() {
@@ -102,11 +98,11 @@ public abstract class Pessoa implements Serializable {
         this.senha = senha;
     }
 
-    public Set<PerfilEnum> getPerfis() {
-        return perfis.stream().map(x -> PerfilEnum.toEnum(x)).collect(Collectors.toSet());
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
     }
 
-    public void addPerfil(PerfilEnum perfil) {
+    public void addPerfil(Perfil perfil) {
         this.perfis.add(perfil.getCodigo());
     }
 

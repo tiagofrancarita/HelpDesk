@@ -1,6 +1,5 @@
 package br.com.franca.helpdesk.domains;
 
-import br.com.franca.helpdesk.domains.enums.PerfilEnum;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
@@ -16,12 +15,12 @@ public class Cliente extends Pessoa {
 
     public Cliente() {
         super();
-        addPerfil(PerfilEnum.CLIENTE);
+
     }
 
     public Cliente(Long id, String nome, String cpf, String email, String senha) {
         super(id, nome, cpf, email, senha);
-        addPerfil(PerfilEnum.CLIENTE);
+
     }
 
     public List<Chamado> getChamados() {

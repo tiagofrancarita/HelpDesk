@@ -1,6 +1,7 @@
 package br.com.franca.helpdesk.domains.dtos;
 
 import br.com.franca.helpdesk.domains.Tecnico;
+import br.com.franca.helpdesk.domains.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
@@ -26,7 +27,7 @@ public class TecnicoDTO implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
     private LocalDateTime dataCriacao;
 
-    private Set<Integer> perfis = new HashSet<>();
+    private Set<Perfil> perfis = new HashSet<>();
 
     public TecnicoDTO() {
         super();
@@ -39,8 +40,7 @@ public class TecnicoDTO implements Serializable {
         this.email = tecnico.getEmail();
         this.senha = tecnico.getSenha();
         this.dataCriacao = tecnico.getDataCriacao();
-        this.perfis = tecnico.getPerfis().stream().map(perfil -> perfil.getCodigo()).collect(Collectors.toSet());
-
+        this.perfis = tecnico.getPerfis();
     }
 
     public Long getId() {
@@ -91,11 +91,11 @@ public class TecnicoDTO implements Serializable {
         this.dataCriacao = dataCriacao;
     }
 
-    public Set<Integer> getPerfis() {
+    public Set<Perfil> getPerfis() {
         return perfis;
     }
 
-    public void setPerfis(Set<Integer> perfis) {
+    public void setPerfis(Set<Perfil> perfis) {
         this.perfis = perfis;
     }
 }

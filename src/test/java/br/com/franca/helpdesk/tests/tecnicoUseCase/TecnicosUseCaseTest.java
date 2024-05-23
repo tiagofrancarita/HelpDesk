@@ -3,12 +3,13 @@ package br.com.franca.helpdesk.tests.tecnicoUseCase;
 import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
-import br.com.franca.helpdesk.domains.enums.PerfilEnum;
+import br.com.franca.helpdesk.domains.enums.Perfil;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import br.com.franca.helpdesk.usecases.TecnicosUseCase;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -82,7 +83,7 @@ public class TecnicosUseCaseTest {
         assertEquals(tecnico1.getEmail(), tecnicoDTOs.get(0).getEmail());
         assertEquals(tecnico1.getSenha(), tecnicoDTOs.get(0).getSenha());
         assertEquals(tecnico1.getDataCriacao(), tecnicoDTOs.get(0).getDataCriacao());
-        assertEquals(tecnico1.getPerfis().stream().map(PerfilEnum::getCodigo).collect(Collectors.toSet()), tecnicoDTOs.get(0).getPerfis());
+        assertEquals(tecnico1.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet()), tecnicoDTOs.get(0).getPerfis());
 
         assertEquals(tecnico2.getId(), tecnicoDTOs.get(1).getId());
         assertEquals(tecnico2.getNome(), tecnicoDTOs.get(1).getNome());
@@ -90,7 +91,7 @@ public class TecnicosUseCaseTest {
         assertEquals(tecnico2.getEmail(), tecnicoDTOs.get(1).getEmail());
         assertEquals(tecnico2.getSenha(), tecnicoDTOs.get(1).getSenha());
         assertEquals(tecnico2.getDataCriacao(), tecnicoDTOs.get(1).getDataCriacao());
-        assertEquals(tecnico2.getPerfis().stream().map(PerfilEnum::getCodigo).collect(Collectors.toSet()), tecnicoDTOs.get(1).getPerfis());
+        assertEquals(tecnico2.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet()), tecnicoDTOs.get(1).getPerfis());
     }
 
     @Test
@@ -137,13 +138,12 @@ public class TecnicosUseCaseTest {
         verify(tecnicoRepository, times(1)).findById(idNaoExistente);
     }
 
-    @Test
     public void testCadastrarTecnico() {
         // Dados de entrada
-        Set<Integer> perfis = new HashSet<>();
-        perfis.add(PerfilEnum.ADMIN.getCodigo());
-        perfis.add(PerfilEnum.TECNICO.getCodigo());
-        perfis.add(PerfilEnum.CLIENTE.getCodigo());
+        Set<Perfil> perfis = new HashSet<>();
+        perfis.add(Perfil.ADMIN);
+        perfis.add(Perfil.TECNICO);
+        perfis.add(Perfil.CLIENTE);
         TecnicoDTO tecnicoDTO = new TecnicoDTO();
         tecnicoDTO.setNome("Técnico Teste");
         tecnicoDTO.setCpf("12345678900");
@@ -152,15 +152,9 @@ public class TecnicosUseCaseTest {
         tecnicoDTO.setDataCriacao(LocalDateTime.now());
         tecnicoDTO.setPerfis(perfis);
 
-        //    ADMIN(0,"ROLE_ADMIN"), CLIENTE(1, "ROLE_CLIENTE"), TECNICO(2, "ROLE_TECNICO");
-
         // Mock do repositório
         TecnicoRepository tecnicoRepository = mock(TecnicoRepository.class);
         when(tecnicoRepository.findByEmail(tecnicoDTO.getEmail())).thenReturn(Optional.empty());
-        Tecnico tecnico = new Tecnico(null, tecnicoDTO.getNome(), tecnicoDTO.getCpf(), tecnicoDTO.getEmail(), tecnicoDTO.getSenha());
-        tecnico.addPerfil(PerfilEnum.ADMIN);
-        tecnico.addPerfil(PerfilEnum.TECNICO);
-        when(tecnicoRepository.save(any(Tecnico.class))).thenReturn(tecnico);
 
         // Configuração do Validator
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -181,15 +175,17 @@ public class TecnicosUseCaseTest {
         assertTrue(ChronoUnit.SECONDS.between(tecnicoDTO.getDataCriacao(), result.getDataCriacao()) < 1);
         assertEquals(tecnicoDTO.getPerfis(), result.getPerfis());
 
+        // Verifica se o método findByEmail foi chamado uma vez com o email do técnicoDTO
         verify(tecnicoRepository, times(1)).findByEmail(tecnicoDTO.getEmail());
+        // Verifica se o método save foi chamado uma vez com qualquer instância de Tecnico
         verify(tecnicoRepository, times(1)).save(any(Tecnico.class));
     }
 
     @Test
     public void testCadastrarTecnicoEmailEmUso() {
         // Dados de entrada
-        Set<Integer> perfis = new HashSet<>();
-        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        Set<Perfil> perfis = new HashSet<>();
+        perfis.add(Perfil.TECNICO);
         TecnicoDTO tecnicoDTO = new TecnicoDTO();
         tecnicoDTO.setNome("Técnico Teste");
         tecnicoDTO.setCpf("12345678900");
@@ -219,8 +215,8 @@ public class TecnicosUseCaseTest {
 
     @Test
     public void testCadastrarTecnicoNomeObrigatorio() {
-        Set<Integer> perfis = new HashSet<>();
-        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        Set<Perfil> perfis = new HashSet<>();
+        perfis.add(Perfil.TECNICO);
         TecnicoDTO tecnicoDTO = new TecnicoDTO();
         tecnicoDTO.setNome(null); // Nome não informado
         tecnicoDTO.setCpf("12345678900");
@@ -238,8 +234,8 @@ public class TecnicosUseCaseTest {
 
     @Test
     public void testCadastrarTecnicoSenhaInvalida() {
-        Set<Integer> perfis = new HashSet<>();
-        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        Set<Perfil> perfis = new HashSet<>();
+        perfis.add(Perfil.TECNICO);
         TecnicoDTO tecnicoDTO = new TecnicoDTO();
         tecnicoDTO.setNome("Tiago França"); // Nome não informado
         tecnicoDTO.setCpf("12345678900");
@@ -305,9 +301,8 @@ public class TecnicosUseCaseTest {
     @Test
     public void testAtualizarTecnico() {
         // Dados de entrada
-        Set<Integer> perfis = new HashSet<>();
-        perfis.add(PerfilEnum.TECNICO.getCodigo());
-        perfis.add(PerfilEnum.CLIENTE.getCodigo());
+        Set<Perfil> perfis = new HashSet<>();
+        perfis.add(Perfil.TECNICO);
         TecnicoDTO tecnicoDTO = new TecnicoDTO();
         tecnicoDTO.setNome("Técnico Teste");
         tecnicoDTO.setCpf("12345678900");
@@ -316,10 +311,12 @@ public class TecnicosUseCaseTest {
         tecnicoDTO.setDataCriacao(LocalDateTime.now());
         tecnicoDTO.setPerfis(perfis);
 
+
         // Mock do repositório
         TecnicoRepository tecnicoRepository = mock(TecnicoRepository.class);
         ChamadosRepository chamadoRepository = mock(ChamadosRepository.class);
         Tecnico tecnicoExistente = new Tecnico(1L, "Técnico Antigo", "12345678900", "tecnico@oldexample.com", "SenhaAntiga");
+        tecnicoExistente.addPerfil(Perfil.TECNICO);
         when(tecnicoRepository.findById(1L)).thenReturn(Optional.of(tecnicoExistente));
         when(tecnicoRepository.save(any(Tecnico.class))).thenReturn(tecnicoExistente);
 
@@ -348,8 +345,8 @@ public class TecnicosUseCaseTest {
         tecnicoDTO.setEmail("tecnico@example.com");
         tecnicoDTO.setSenha("Senha123!");
         tecnicoDTO.setDataCriacao(LocalDateTime.now());
-        Set<Integer> perfis = new HashSet<>();
-        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        Set<Perfil> perfis = new HashSet<>();
+        perfis.add(Perfil.TECNICO);
         tecnicoDTO.setPerfis(perfis);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -369,8 +366,8 @@ public class TecnicosUseCaseTest {
         tecnicoDTO.setEmail("novo_email@example.com");
         tecnicoDTO.setSenha("novaSenha123!");
         tecnicoDTO.setDataCriacao(LocalDateTime.now());
-        Set<Integer> perfis = new HashSet<>();
-        perfis.add(PerfilEnum.TECNICO.getCodigo());
+        Set<Perfil> perfis = new HashSet<>();
+        perfis.add(Perfil.TECNICO);
         tecnicoDTO.setPerfis(perfis);
 
         // Simula o repositório retornando um Optional vazio ao buscar o técnico pelo ID
