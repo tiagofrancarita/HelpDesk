@@ -11,8 +11,12 @@ import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
@@ -34,12 +38,11 @@ public class TecnicosUseCase {
     }
 
     public List<TecnicoDTO> listarTecnicos() {
-
         log.info("---- Iniciando a listagem de técnicos cadastrados.... ----");
         List<Tecnico> tecnicos = tecnicoRepository.findAll();
         if (tecnicos.isEmpty()) {
             log.error("Nenhum técnico encontrado");
-            throw new TecnicosNotFoundException("Nenhum técnico encontrado.");
+            throw new TecnicosNotFoundException("Nenhum técnico encontrado.", HttpStatus.NOT_FOUND, "Not Found", "/listarTecnicos");
         }
         List<TecnicoDTO> tecnicoDTOs = tecnicos.stream()
                 .map(TecnicoDTO::new)
@@ -48,8 +51,8 @@ public class TecnicosUseCase {
         return tecnicoDTOs;
     }
 
-    public ResponseEntity<TecnicoDTO> buscarPorId(Long id) {
 
+    public ResponseEntity<TecnicoDTO> buscarPorId(Long id) {
         if (id <= 0) {
             throw new IllegalArgumentException("ID inválido");
         }
@@ -58,13 +61,14 @@ public class TecnicosUseCase {
 
         if (optionalTecnico.isEmpty()) {
             log.error("---- Técnico não encontrado. ----ID: " + id);
-            throw new EntityNotFoundException("Técnico não encontrado");
+            throw new TecnicosNotFoundException("Técnico não encontrado.", HttpStatus.NOT_FOUND, "Not Found", "/buscarPorId/" + id);
         }
 
         Tecnico tecnico = optionalTecnico.get();
         log.info("---- Técnico encontrado. ----ID: " + tecnico.getId());
         return ResponseEntity.ok(new TecnicoDTO(tecnico));
     }
+
 
     public TecnicoDTO cadastrarTecnico(@Valid TecnicoDTO tecnicoDTO) {
 

@@ -4,32 +4,36 @@ import org.springframework.http.HttpStatus;
 
 import java.time.LocalDateTime;
 
-public class TecnicosNotFoundException extends RuntimeException {
+public class ErrorDetails {
 
-    private static final long serialVersionUID = 1L;
-
-    private HttpStatus status;
+    private LocalDateTime timestamp;
+    private Integer status;
     private String error;
     private String message;
     private String path;
-    private LocalDateTime timestamp;
 
-    public TecnicosNotFoundException() {
-        super();
-    }
-
-    public TecnicosNotFoundException(String message, HttpStatus status, String error, String path) {
-        super(message);
+    public ErrorDetails(LocalDateTime timestamp, Integer status, String error, String message, String path) {
+        this.timestamp = timestamp;
         this.status = status;
         this.error = error;
+        this.message = message;
         this.path = path;
     }
 
-    public HttpStatus getStatus() {
+    // Getters e setters
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
+    public void setStatus(int Integer) {
         this.status = status;
     }
 
@@ -41,7 +45,6 @@ public class TecnicosNotFoundException extends RuntimeException {
         this.error = error;
     }
 
-    @Override
     public String getMessage() {
         return message;
     }
@@ -58,11 +61,4 @@ public class TecnicosNotFoundException extends RuntimeException {
         this.path = path;
     }
 
-    public LocalDateTime getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(LocalDateTime timestamp) {
-        this.timestamp = timestamp;
-    }
 }
