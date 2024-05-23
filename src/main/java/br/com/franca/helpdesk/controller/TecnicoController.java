@@ -4,6 +4,7 @@ import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
+import br.com.franca.helpdesk.exceptions.ErrorDetails;
 import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,22 +57,26 @@ public class TecnicoController {
         }
     }
 
-    @GetMapping("buscarTecnicoPorId/{id}")
-    public ResponseEntity<TecnicoDTO> buscarTecnicoPorId(@PathVariable Long id) {
+    @GetMapping(value = "buscarTecnicoPorId/{id}")
+    public ResponseEntity<?> buscarTecnicoPorId(@PathVariable Long id) {
         try {
             TecnicoDTO tecnicoDTO = tecnicosUseCase.buscarPorId(id).getBody();
-            return new ResponseEntity<TecnicoDTO>(tecnicoDTO, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            log.info("ID inválido: " + id);
-            return new ResponseEntity<TecnicoDTO>(new TecnicoDTO(), HttpStatus.BAD_REQUEST);
-        } catch (EntityNotFoundException e) {
-            log.info("Técnico com ID " + id + " não encontrado");
-            return new ResponseEntity<TecnicoDTO>(new TecnicoDTO(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            log.error("Erro ao buscar técnico com ID " + id, e);
-            return new ResponseEntity<TecnicoDTO>(new TecnicoDTO(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity.ok(tecnicoDTO);
+        } catch (TecnicosNotFoundException ex) {
+            String message = ex.getMessage();
+            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "Tecnico não encontrado ID:" + id , " /v1/tecnicos/buscarTecnicoPorId/" + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         }
+
     }
+
+    /*
+        private LocalDateTime timestamp;
+    private int status;
+    private String error;
+    private String message;
+    private String path;
+     */
 
     @PostMapping("/cadastrarTecnico")
     public ResponseEntity<Object> cadastrarTecnico(@RequestBody @Valid TecnicoDTO tecnicoDTO) {
