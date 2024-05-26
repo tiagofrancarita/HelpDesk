@@ -1,10 +1,9 @@
 package br.com.franca.helpdesk.controller;
 
-import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
-import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import br.com.franca.helpdesk.exceptions.ErrorDetails;
+import br.com.franca.helpdesk.exceptions.TecnicoNotExludeAssociantioTicket;
 import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
@@ -12,14 +11,15 @@ import br.com.franca.helpdesk.usecases.TecnicosUseCase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -44,6 +44,13 @@ public class TecnicoController {
     public ResponseEntity<String> handleNoTecnicosFoundException(TecnicosNotFoundException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
     }
+
+    @ExceptionHandler(TecnicoNotExludeAssociantioTicket.class)
+    public ResponseEntity<String> handleTecnicoNotExludeAssociantioTicket(TecnicoNotExludeAssociantioTicket e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
+    }
+
+
 
 
     @GetMapping("/listarTecnicos")
@@ -70,40 +77,33 @@ public class TecnicoController {
 
     }
 
-    /*
-        private LocalDateTime timestamp;
-    private int status;
-    private String error;
-    private String message;
-    private String path;
-     */
-
     @PostMapping("/cadastrarTecnico")
-    public ResponseEntity<Object> cadastrarTecnico(@RequestBody @Valid TecnicoDTO tecnicoDTO) {
+    public ResponseEntity<?> cadastrarTecnico(@RequestBody @Valid TecnicoDTO tecnicoDTO) {
         try {
             TecnicoDTO novoTecnico = tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
-            return new ResponseEntity<>(novoTecnico, HttpStatus.CREATED);
-        } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Erro interno no servidor", HttpStatus.INTERNAL_SERVER_ERROR);
+            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoTecnico.getId()).toUri();
+            return ResponseEntity.created(uri).body(novoTecnico); // Correct way to create ResponseEntity
+        } catch (TecnicosNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "Erro ao Cadastrar tecnico", " /v1/tecnicos/cadastrarTecnico");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+
         }
     }
 
     @DeleteMapping("deletarTecnicoPorId/{id}")
-    public ResponseEntity<String> deletarTecnicoPorId(@PathVariable Long id) {
+    public ResponseEntity<?> deletarTecnicoPorId(@PathVariable Long id) {
         try {
             tecnicosUseCase.deletarTecnico(id);
             return new ResponseEntity<>("Técnico excluído com sucesso", HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>("ID inválido", HttpStatus.BAD_REQUEST);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>("Técnico não encontrado", HttpStatus.NOT_FOUND);
-        } catch (ValidationException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (TecnicosNotFoundException e) {
+            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "ID inválido", " /v1/tecnicos/deletarTecnicoPorId/" + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
+        } catch (TecnicoNotExludeAssociantioTicket e) {
+            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "Erro ao Excluir o tecnico, há tickets abertos associados a ele", " /v1/tecnicos/deletarTecnicoPorId/" + id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
         } catch (Exception e) {
-            return new ResponseEntity<>("Erro interno no servidor", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Object NOT FOUND", "Erro interno do servidor", " /v1/tecnicos/deletarTecnicoPorId/" + id);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);        }
     }
 
     @PutMapping("atualizarTecnico/{id}")
