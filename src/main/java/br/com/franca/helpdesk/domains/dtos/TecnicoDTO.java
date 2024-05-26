@@ -2,8 +2,11 @@ package br.com.franca.helpdesk.domains.dtos;
 
 import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.enums.Perfil;
+import br.com.franca.helpdesk.util.PerfilDeserializer;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
+import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonSetter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -13,31 +16,34 @@ import java.util.stream.Collectors;
 public class TecnicoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    protected Long id;
-    protected String nome;
-    protected String cpf;
-    protected String email;
-    protected String senha;
-    protected Set<Integer> perfis = new HashSet<>();
+    private Long id;
+    private String nome;
+    private String email;
+    private String cpf;
+    private String senha;
 
-    @JsonFormat(pattern = "dd/MM/yyyy")
-    protected LocalDateTime dataCriacao = LocalDateTime.now();
+    @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
+    private LocalDateTime dataCriacao;
+
+
+    protected Set<Integer> perfis = new HashSet<>();
 
     public TecnicoDTO() {
         super();
-        addPerfil(Perfil.TECNICO);
     }
 
+    // Getters e Setters
+    // Construtor que aceita um objeto Tecnico
     public TecnicoDTO(Tecnico obj) {
         super();
         this.id = obj.getId();
         this.nome = obj.getNome();
-        this.cpf = obj.getCpf();
         this.email = obj.getEmail();
+        this.cpf = obj.getCpf();
         this.senha = obj.getSenha();
-        this.perfis = obj.getPerfis().stream().map(Perfil::getCodigo).collect(Collectors.toSet());
         this.dataCriacao = obj.getDataCriacao();
-        addPerfil(Perfil.TECNICO);
+        this.perfis = obj.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+
     }
 
     public Long getId() {
@@ -56,20 +62,20 @@ public class TecnicoDTO implements Serializable {
         this.nome = nome;
     }
 
-    public String getCpf() {
-        return cpf;
-    }
-
-    public void setCpf(String cpf) {
-        this.cpf = cpf;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 
     public String getSenha() {
@@ -80,18 +86,6 @@ public class TecnicoDTO implements Serializable {
         this.senha = senha;
     }
 
-    public Set<Perfil> getPerfis() {
-        return perfis.stream().map(Perfil::toEnum).collect(Collectors.toSet());
-    }
-
-    public void setPerfis(Set<Perfil> perfis) {
-        this.perfis = perfis.stream().map(Perfil::getCodigo).collect(Collectors.toSet());
-    }
-
-    public void addPerfil(Perfil perfil) {
-        this.perfis.add(perfil.getCodigo());
-    }
-
     public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
@@ -99,4 +93,9 @@ public class TecnicoDTO implements Serializable {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+
+    public Set<Perfil> getPerfis() {
+        return perfis.stream().map(x -> Perfil.toEnum(x)).collect(Collectors.toSet());
+    }
+
 }

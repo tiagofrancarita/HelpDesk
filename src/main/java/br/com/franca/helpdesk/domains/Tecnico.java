@@ -3,7 +3,7 @@ package br.com.franca.helpdesk.domains;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
 import br.com.franca.helpdesk.domains.enums.Perfil;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import java.util.Optional;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -19,15 +19,12 @@ public class Tecnico extends Pessoa {
 
     public Tecnico() {
         super();
-        addPerfil(Perfil.TECNICO);
+
 
     }
 
     public Tecnico(Long id, String nome, String cpf, String email, String senha) {
         super(id, nome, cpf, email, senha);
-        addPerfil(Perfil.TECNICO);
-
-
 
     }
 
@@ -39,6 +36,7 @@ public class Tecnico extends Pessoa {
         this.email = obj.getEmail();
         this.senha = obj.getSenha();
         this.perfis = obj.getPerfis().stream().map(x -> x.getCodigo()).collect(Collectors.toSet());
+
         this.dataCriacao = obj.getDataCriacao();
     }
 
