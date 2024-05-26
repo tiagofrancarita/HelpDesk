@@ -1,5 +1,10 @@
 package br.com.franca.helpdesk.domains.enums;
 
+import org.springframework.http.HttpStatus;
+
+import java.util.Arrays;
+import java.util.Optional;
+
 public enum Perfil {
 
     ADMIN(0, "ROLE_ADMIN"), CLIENTE(1, "ROLE_CLIENTE"), TECNICO(2, "ROLE_TECNICO");
@@ -12,6 +17,8 @@ public enum Perfil {
         this.descricao = descricao;
     }
 
+
+
     public Integer getCodigo() {
         return codigo;
     }
@@ -19,7 +26,6 @@ public enum Perfil {
     public String getDescricao() {
         return descricao;
     }
-
     public static Perfil toEnum(Integer cod) {
         if(cod == null) {
             return null;
