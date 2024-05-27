@@ -98,8 +98,8 @@ public class TecnicoController {
     @PostMapping("/cadastrarTecnico")
     @ApiOperation(value = "Cadastra um novo técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "POST")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
-            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
+            @ApiResponse(code = 201, message = "Técnico cadastrado com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao cadastrar tecnico"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 
     })
@@ -117,7 +117,7 @@ public class TecnicoController {
 
     @ApiOperation(value = "Deleta um técnico pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
+            @ApiResponse(code = 200, message = "Teccnico excluído com sucesso"),
             @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 
@@ -140,7 +140,7 @@ public class TecnicoController {
 
     @ApiOperation(value = "Atualiza um técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
+            @ApiResponse(code = 200, message = "Técnicos atualizado com sucesso"),
             @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
 
@@ -156,7 +156,6 @@ public class TecnicoController {
 
         // Atualiza os campos do técnico existente com os valores do DTO
         tecnicoExistente.setNome(tecnicoAtualizadoDTO.getNome());
-        tecnicoExistente.setCpf(tecnicoAtualizadoDTO.getCpf());
         tecnicoExistente.setEmail(tecnicoAtualizadoDTO.getEmail());
         tecnicoExistente.setSenha(tecnicoAtualizadoDTO.getSenha());
         // Atualize outros campos conforme necessário
