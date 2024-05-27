@@ -8,6 +8,10 @@ import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import br.com.franca.helpdesk.usecases.TecnicosUseCase;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +29,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "v1/tecnicos")
+//@RequestMapping(value = "/pessoa", method = RequestMethod.GET, produces="application/json")
+@RequestMapping(value = "v1/tecnicos", produces = "application/json")
+@Api(value = "Tecnico Management System", description = "Operações referentes ao técnico no Sistema de Helpdesk")
 public class TecnicoController {
 
     private TecnicoRepository tecnicoRepository;
@@ -51,9 +57,14 @@ public class TecnicoController {
     }
 
 
-
-
     @GetMapping("/listarTecnicos")
+    @ApiOperation(value = "Lista todos os técnicos", response = TecnicoDTO.class, responseContainer = "List", produces = "application/json", consumes = "application/json", httpMethod = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+
+    })
     public ResponseEntity<List<TecnicoDTO>> listarTecnicos() {
         try {
             List<TecnicoDTO> tecnicos = tecnicosUseCase.listarTecnicos();
@@ -64,6 +75,13 @@ public class TecnicoController {
         }
     }
 
+    @ApiOperation(value = "Busca um tecnico cadastrado pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+
+    })
     @GetMapping(value = "buscarTecnicoPorId/{id}")
     public ResponseEntity<?> buscarTecnicoPorId(@PathVariable Long id) {
         try {
@@ -78,6 +96,13 @@ public class TecnicoController {
     }
 
     @PostMapping("/cadastrarTecnico")
+    @ApiOperation(value = "Cadastra um novo técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "POST")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+
+    })
     public ResponseEntity<?> cadastrarTecnico(@RequestBody @Valid TecnicoDTO tecnicoDTO) {
         try {
             TecnicoDTO novoTecnico = tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
@@ -90,6 +115,13 @@ public class TecnicoController {
         }
     }
 
+    @ApiOperation(value = "Deleta um técnico pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+
+    })
     @DeleteMapping("deletarTecnicoPorId/{id}")
     public ResponseEntity<?> deletarTecnicoPorId(@PathVariable Long id) {
         try {
@@ -106,6 +138,13 @@ public class TecnicoController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);        }
     }
 
+    @ApiOperation(value = "Atualiza um técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+
+    })
     @PutMapping("atualizarTecnico/{id}")
     public ResponseEntity<TecnicoDTO> atualizarTecnico(@PathVariable Long id, @Valid @RequestBody TecnicoDTO tecnicoAtualizadoDTO) {
         // Busca o técnico existente pelo ID
