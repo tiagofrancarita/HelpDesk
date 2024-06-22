@@ -1,27 +1,25 @@
 package br.com.franca.helpdesk.usecases;
 
 import br.com.franca.helpdesk.domains.Chamado;
+import br.com.franca.helpdesk.domains.Pessoa;
 import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
-import br.com.franca.helpdesk.domains.enums.Perfil;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
-import br.com.franca.helpdesk.exceptions.PerfilNotFoundException;
-import br.com.franca.helpdesk.exceptions.TecnicoNotExludeAssociantioTicket;
-import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
+import br.com.franca.helpdesk.exceptions.DataIntegrityViolationException;
+import br.com.franca.helpdesk.exceptions.ObjectnotFoundException;
+import br.com.franca.helpdesk.exceptions.TecnicoAndChamadosNotDeleted;
+import br.com.franca.helpdesk.exceptions.ValidationException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
+import br.com.franca.helpdesk.repositorys.PessoaRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
-import javax.validation.ValidationException;
-import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -32,11 +30,13 @@ public class TecnicosUseCase {
     private Logger log = LoggerFactory.getLogger(TecnicosUseCase.class);
     private final TecnicoRepository tecnicoRepository;
     private final ChamadosRepository chamadosRepository;
+    private final PessoaRepository pessoaRepository;
 
     @Autowired
-    public TecnicosUseCase(TecnicoRepository tecnicoRepository, ChamadosRepository chamadosRepository) {
+    public TecnicosUseCase(TecnicoRepository tecnicoRepository, ChamadosRepository chamadosRepository, PessoaRepository pessoaRepository) {
         this.tecnicoRepository = tecnicoRepository;
         this.chamadosRepository = chamadosRepository;
+        this.pessoaRepository = pessoaRepository;
     }
 
     public List<TecnicoDTO> listarTecnicos() {
@@ -44,7 +44,7 @@ public class TecnicosUseCase {
         List<Tecnico> tecnicos = tecnicoRepository.findAll();
         if (tecnicos.isEmpty()) {
             log.error("Nenhum técnico encontrado");
-            throw new TecnicosNotFoundException("Nenhum técnico encontrado.", HttpStatus.NOT_FOUND, "Not Found", "/listarTecnicos");
+            throw new ObjectnotFoundException("Nenhum técnico encontrado");
         }
         List<TecnicoDTO> tecnicoDTOs = tecnicos.stream()
                 .map(TecnicoDTO::new)
@@ -63,7 +63,7 @@ public class TecnicosUseCase {
 
         if (optionalTecnico.isEmpty()) {
             log.error("---- Técnico não encontrado. ----ID: " + id);
-            throw new TecnicosNotFoundException("Técnico não encontrado.", HttpStatus.NOT_FOUND, "Not Found", "/buscarPorId/" + id);
+            throw new ObjectnotFoundException("Nenhum técnico encontrado");
         }
 
         Tecnico tecnico = optionalTecnico.get();
@@ -72,40 +72,35 @@ public class TecnicosUseCase {
     }
 
 
-    public TecnicoDTO cadastrarTecnico(@Valid TecnicoDTO tecnicoDTO) {
+    public Tecnico cadastrarTecnico(TecnicoDTO tecnicoDTO) {
 
         log.info("---- Iniciando o cadastro do técnico... ----");
 
         log.info("---- Iniciando validação dos dados informados... ----");
-        // Verifica se já existe um técnico com o mesmo email
-        Optional<Tecnico> existingTecnico = tecnicoRepository.findByEmail(tecnicoDTO.getEmail());
-        if (existingTecnico.isPresent()) {
-            log.error("---- Erro ao cadastrar o técnico, e-mail informado já está sendo utilizado. ----");
-            throw new TecnicosNotFoundException("Erro ao cadastrar o técnico, e-mail informado já está sendo utilizado.", HttpStatus.BAD_REQUEST, "Not Found", "v1/api-helpdesk/tecnicos/cadastrarTecnico");
-        }
+        validaCpfAndEmail(tecnicoDTO);
 
-        Optional<Tecnico> existingCpf = tecnicoRepository.findByCpf(tecnicoDTO.getCpf());
-        if (existingCpf.isPresent()) {
-            log.error("---- Erro ao cadastrar o técnico, cpf informado já está sendo utilizado. ----");
-            throw new TecnicosNotFoundException("Erro ao cadastrar o técnico, cpf informado já está sendo utilizado.", HttpStatus.BAD_REQUEST, "Not Found", "v1/api-helpdesk/tecnicos/cadastrarTecnico");
-        }
 
         // Validação dos campos obrigatórios
         if (tecnicoDTO.getNome() == null || tecnicoDTO.getNome().isEmpty()) {
             log.error("---- Erro ao cadastrar o técnico, campo nome é obrigatório. ----");
-            throw new TecnicosNotFoundException("Erro ao cadastrar o técnico, campo nome é obrigatório.", HttpStatus.BAD_REQUEST, "Not Found", "v1/api-helpdesk/tecnicos/cadastrarTecnico");
+            throw new DataIntegrityViolationException("O campo nome é obrigatório");
+
+
         }
         if (tecnicoDTO.getSenha() == null || tecnicoDTO.getSenha().isEmpty()) {
             log.error("---- Erro ao cadastrar o técnico, campo senha é obrigatório. ----");
-            throw new TecnicosNotFoundException("Erro ao cadastrar o técnico, campo senha é obrigatório.", HttpStatus.BAD_REQUEST, "Not Found", "v1/api-helpdesk/tecnicos/cadastrarTecnico");
+            throw new DataIntegrityViolationException("O campo senha é obrigatório");
+
         }
         if (tecnicoDTO.getDataCriacao() == null) {
             log.error("---- Erro ao cadastrar o técnico, campo data de criação é obrigatório. ----");
-            throw new TecnicosNotFoundException("Erro ao cadastrar o técnico, campo senha é obrigatório.", HttpStatus.BAD_REQUEST, "Not Found", "v1/api-helpdesk/tecnicos/cadastrarTecnico");
+            throw new DataIntegrityViolationException("O campo data criação é obrigatório");
+
         }
         if (tecnicoDTO.getPerfis() == null || tecnicoDTO.getPerfis().isEmpty()) {
             log.error("---- Erro ao cadastrar o técnico, campo perfil é obrigatório. ----");
-            throw new TecnicosNotFoundException("Erro ao cadastrar o técnico, campo senha é obrigatório.", HttpStatus.BAD_REQUEST, "Not Found", "v1/api-helpdesk/tecnicos/cadastrarTecnico");
+            throw new DataIntegrityViolationException("O campo perfil é obrigatório");
+
         }
 
 
@@ -118,7 +113,7 @@ public class TecnicosUseCase {
             log.info("---- A senha deve conter pelo menos um dígito (NÚMERO) ----");
             log.info("---- A senha deve conter pelo menos um caractere especial ----");
             log.info("---- A senha não deve conter espaços em branco ----");
-            throw new ValidationException("A senha não atende aos critérios mínimos");
+            throw new ValidationException("A senha não atende aos critérios mínimos. A Senha deverá conter pelo menos 8 caracteres, uma letra minúscula, uma letra maiúscula, um dígito, um caractere especial e não deve conter espaços em branco.");
         }
 
 
@@ -127,8 +122,23 @@ public class TecnicosUseCase {
         // Salva o técnico no banco de dados
 
         log.info("---- Técnico salvo com sucesso ----");
-        return new TecnicoDTO(tecnicoRepository.save(tecnicoSalvo));
+        return tecnicoRepository.save(tecnicoSalvo);
 
+    }
+
+    private void validaCpfAndEmail(TecnicoDTO tecnicoDTO) {
+
+        Optional<Pessoa> pessoaCpf = pessoaRepository.findByCpf(tecnicoDTO.getCpf());
+            if (pessoaCpf.isPresent() && pessoaCpf.get().getId() != tecnicoDTO.getId()) {
+                log.error("---- Erro ao cadastrar o técnico, O Cpf informado já está sendo utilizado. ----");
+                throw new DataIntegrityViolationException("O Cpf informado já está sendo utilizado");
+            }
+
+        Optional<Pessoa> pessoaEmail = pessoaRepository.findByEmail(tecnicoDTO.getEmail());
+            if (pessoaEmail.isPresent() && pessoaEmail.get().getId() != tecnicoDTO.getId()) {
+                log.error("---- Erro ao cadastrar o técnico, O Email informado já está sendo utilizado. ----");
+                throw new DataIntegrityViolationException("O Email informado já está sendo utilizado");
+            }
     }
 
     private boolean isValidPassword(String password) {
@@ -142,38 +152,38 @@ public class TecnicosUseCase {
 
         log.info("---- Iniciando processo de deleção de técnico por id ----");
 
-        if (id == null || id <= 0) {
-            log.error("---- Erro ao deletar técnico, id informado é inválido ----");
-            throw new TecnicoNotExludeAssociantioTicket("ID inválido", HttpStatus.BAD_REQUEST, "Bad Request", "/deletarTecnico/" + id);
-        }
+            if (id == null || id <= 0) {
+                log.error("---- Erro ao deletar técnico, id informado é inválido ----");
+                throw new ObjectNotFoundException("Id Invalido","/listarTecnicos");
+            }
 
-        log.info("---- Verificando se há chamados abertos atribuídos ao técnico a ser excluído ----");
+            log.info("---- Verificando se há chamados abertos atribuídos ao técnico a ser excluído ----");
 
         Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(id);
-        if (optionalTecnico.isPresent()) {
-            Tecnico tecnico = optionalTecnico.get();
+            if (optionalTecnico.isPresent()) {
+                Tecnico tecnico = optionalTecnico.get();
 
-            // Verifica se há chamados abertos atribuídos a este técnico
-            List<Chamado> chamadosAbertos = chamadosRepository.findByTecnicoAndStatusEnum(tecnico, StatusEnum.ABERTO);
-            if (!chamadosAbertos.isEmpty()) {
-                Chamado chamadoAberto = chamadosAbertos.get(0); // pegar o primeiro chamado em aberto
-                String mensagem = String.format("Não é possível excluir o técnico com ID %d. Existem chamados abertos atribuídos a ele. Chamado ID: %d", tecnico.getId(), chamadoAberto.getId());
-                log.error("---- Erro ao deletar técnico, " + mensagem + " ----");
-                throw new TecnicoNotExludeAssociantioTicket("Não é possível excluir o técnico. Existem chamados abertos atribuídos", HttpStatus.BAD_REQUEST, "Bad Request", "/deletarTecnico/" + id);
-            }
+                // Verifica se há chamados abertos atribuídos a este técnico
+                List<Chamado> chamadosAbertos = chamadosRepository.findByTecnicoAndStatusEnum(tecnico, StatusEnum.ABERTO);
+                if (!chamadosAbertos.isEmpty()) {
+                    Chamado chamadoAberto = chamadosAbertos.get(0); // pegar o primeiro chamado em aberto
+                    String mensagem = String.format("Não é possível excluir o técnico com ID %d. Existem chamados abertos atribuídos a ele. Chamado ID: %d", tecnico.getId(), chamadoAberto.getId());
+                    log.error("---- Erro ao deletar técnico, " + mensagem + " ----");
+                    throw new TecnicoAndChamadosNotDeleted("Não é possível excluir o tecnico informado, o mesmo possui chamados em aberto atrelado a ele.");
+                }
             log.info(" ---- Não há chamados abertos, associados ao técnico ---- " + " ID_Tecnico: " + tecnico.getId());
 
-            // Se não houver chamados abertos, exclui o técnico
-            log.info("---- Excluindo técnico ----");
-            tecnicoRepository.delete(tecnico);
-            log.info("---- Técnico excluído ----");
+                // Se não houver chamados abertos, exclui o técnico
+                log.info("---- Excluindo técnico ----");
+                tecnicoRepository.delete(tecnico);
+                log.info("---- Técnico excluído ----");
 
-            // Retorna DTO do técnico excluído
-            return new TecnicoDTO(tecnico);
+                // Retorna DTO do técnico excluído
+                return new TecnicoDTO(tecnico);
 
         } else {
             log.error("---- Técnico não encontrado ----");
-            throw new TecnicosNotFoundException("Técnico não encontrado", HttpStatus.NOT_FOUND, "Not Found", "/deletarTecnico/" + id);
+            throw new ObjectNotFoundException("Nenhum técnico encontrado","/listarTecnicos");
         }
     }
 

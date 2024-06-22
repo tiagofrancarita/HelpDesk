@@ -14,4 +14,5 @@ public interface TecnicoRepository extends JpaRepository<Tecnico, Long> {
     Optional<Tecnico> findByEmail(String email);
 
     Optional<Tecnico> findByCpf(String cpf);
+
 }

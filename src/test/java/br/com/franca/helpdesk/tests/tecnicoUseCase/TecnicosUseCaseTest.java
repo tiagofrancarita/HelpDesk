@@ -5,11 +5,9 @@ import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
 import br.com.franca.helpdesk.domains.enums.Perfil;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
-import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import br.com.franca.helpdesk.usecases.TecnicosUseCase;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,9 +22,7 @@ import javax.validation.ValidationException;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
@@ -72,7 +68,7 @@ public class TecnicosUseCaseTest {
 
         // Instância do caso de uso
         ChamadosRepository chamadoRepository = mock(ChamadosRepository.class); // Mock do chamadoRepository
-        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository);
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository, pessoaRepository);
 
         // Execução do método
         List<TecnicoDTO> tecnicoDTOs = tecnicoUseCase.listarTecnicos();
@@ -165,7 +161,7 @@ public class TecnicosUseCaseTest {
         when(tecnicoRepository.save(any(Tecnico.class))).thenReturn(tecnicoExistente);
 
         // Instância do caso de uso
-        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository);
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository, pessoaRepository);
 
         // Execução do método
         TecnicoDTO result = tecnicoUseCase.cadastrarTecnico(tecnicoDTO);
@@ -202,7 +198,7 @@ public class TecnicosUseCaseTest {
         Validator validator = factory.getValidator();
 
         // Instância do caso de uso
-        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadosRepository);
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadosRepository, pessoaRepository);
 
         // Execução do método
         assertThrows(ValidationException.class, () -> tecnicoUseCase.cadastrarTecnico(tecnicoDTO));
@@ -319,7 +315,7 @@ public class TecnicosUseCaseTest {
         when(tecnicoRepository.save(any(Tecnico.class))).thenReturn(tecnicoExistente);
 
         // Instância do caso de uso
-        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository);
+        TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository, pessoaRepository);
 
         // Execução do método
         TecnicoDTO result = tecnicoUseCase.atualizarTecnico(1L, tecnicoDTO);
