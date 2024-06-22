@@ -126,6 +126,77 @@ public class TecnicosUseCase {
 
     }
 
+    public TecnicoDTO deletarTecnico(Long id) {
+
+        log.info("---- Iniciando processo de deleção de técnico por id ----");
+
+        if (id == null || id <= 0) {
+            log.error("---- Erro ao deletar técnico, id informado é inválido ----");
+            throw new ObjectNotFoundException("Id Invalido","/listarTecnicos");
+        }
+
+        log.info("---- Verificando se há chamados abertos atribuídos ao técnico a ser excluído ----");
+
+        Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(id);
+        if (optionalTecnico.isPresent()) {
+            Tecnico tecnico = optionalTecnico.get();
+
+            // Verifica se há chamados abertos atribuídos a este técnico
+            List<Chamado> chamadosAbertos = chamadosRepository.findByTecnicoAndStatusEnum(tecnico, StatusEnum.ABERTO);
+            if (!chamadosAbertos.isEmpty()) {
+                Chamado chamadoAberto = chamadosAbertos.get(0); // pegar o primeiro chamado em aberto
+                String mensagem = String.format("Não é possível excluir o técnico com ID %d. Existem chamados abertos atribuídos a ele. Chamado ID: %d", tecnico.getId(), chamadoAberto.getId());
+                log.error("---- Erro ao deletar técnico, " + mensagem + " ----");
+                throw new TecnicoAndChamadosNotDeleted("Não é possível excluir o tecnico informado, o mesmo possui chamados em aberto atrelado a ele.");
+            }
+            log.info(" ---- Não há chamados abertos, associados ao técnico ---- " + " ID_Tecnico: " + tecnico.getId());
+
+            // Se não houver chamados abertos, exclui o técnico
+            log.info("---- Excluindo técnico ----");
+            tecnicoRepository.delete(tecnico);
+            log.info("---- Técnico excluído ----");
+
+            // Retorna DTO do técnico excluído
+            return new TecnicoDTO(tecnico);
+
+        } else {
+            log.error("---- Técnico não encontrado ----");
+            throw new ObjectNotFoundException("Nenhum técnico encontrado","/listarTecnicos");
+        }
+    }
+
+    public TecnicoDTO atualizarTecnico(Long id, TecnicoDTO tecnicoAtualizadoDTO) {
+        log.info("---- Iniciando processo de atualização de técnico por ID ----");
+
+        // Verifica se o ID é válido
+        if (id == null || id <= 0) {
+            log.error("---- Erro ao atualizar técnico, ID inválido ----");
+            throw new IllegalArgumentException("O ID informado é inválido");
+        }
+
+        // Busca o técnico existente pelo ID
+        Tecnico tecnicoExistente = tecnicoRepository.findById(id)
+                .orElseThrow(() -> {
+                    log.error("---- Erro ao atualizar técnico, técnico não encontrado ---- ID_TECNICO: " + id);
+                    return new ObjectnotFoundException("Técnico não encontrado");
+                });
+
+        log.info("---- Tecnico encontrado, iniciando a atualização. ----" + "ID_TECNICO: " + tecnicoExistente.getId());
+
+        tecnicoExistente.setNome(tecnicoAtualizadoDTO.getNome());
+        tecnicoExistente.setCpf(tecnicoAtualizadoDTO.getCpf());
+        tecnicoExistente.setEmail(tecnicoAtualizadoDTO.getEmail());
+        tecnicoExistente.setSenha(tecnicoAtualizadoDTO.getSenha());
+
+
+        // Salvar o técnico atualizado no repositório
+        Tecnico tecnicoAtualizado = tecnicoRepository.save(tecnicoExistente);
+        log.info("---- Tecnico atualizado com sucesso -----" + "ID_TECNICO: " + tecnicoAtualizado.getId());
+
+
+        return new TecnicoDTO(tecnicoAtualizado);
+    }
+
     private void validaCpfAndEmail(TecnicoDTO tecnicoDTO) {
 
         Optional<Pessoa> pessoaCpf = pessoaRepository.findByCpf(tecnicoDTO.getCpf());
@@ -148,69 +219,5 @@ public class TecnicosUseCase {
         return pattern.matcher(password).matches();
     }
 
-    public TecnicoDTO deletarTecnico(Long id) {
 
-        log.info("---- Iniciando processo de deleção de técnico por id ----");
-
-            if (id == null || id <= 0) {
-                log.error("---- Erro ao deletar técnico, id informado é inválido ----");
-                throw new ObjectNotFoundException("Id Invalido","/listarTecnicos");
-            }
-
-            log.info("---- Verificando se há chamados abertos atribuídos ao técnico a ser excluído ----");
-
-        Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(id);
-            if (optionalTecnico.isPresent()) {
-                Tecnico tecnico = optionalTecnico.get();
-
-                // Verifica se há chamados abertos atribuídos a este técnico
-                List<Chamado> chamadosAbertos = chamadosRepository.findByTecnicoAndStatusEnum(tecnico, StatusEnum.ABERTO);
-                if (!chamadosAbertos.isEmpty()) {
-                    Chamado chamadoAberto = chamadosAbertos.get(0); // pegar o primeiro chamado em aberto
-                    String mensagem = String.format("Não é possível excluir o técnico com ID %d. Existem chamados abertos atribuídos a ele. Chamado ID: %d", tecnico.getId(), chamadoAberto.getId());
-                    log.error("---- Erro ao deletar técnico, " + mensagem + " ----");
-                    throw new TecnicoAndChamadosNotDeleted("Não é possível excluir o tecnico informado, o mesmo possui chamados em aberto atrelado a ele.");
-                }
-            log.info(" ---- Não há chamados abertos, associados ao técnico ---- " + " ID_Tecnico: " + tecnico.getId());
-
-                // Se não houver chamados abertos, exclui o técnico
-                log.info("---- Excluindo técnico ----");
-                tecnicoRepository.delete(tecnico);
-                log.info("---- Técnico excluído ----");
-
-                // Retorna DTO do técnico excluído
-                return new TecnicoDTO(tecnico);
-
-        } else {
-            log.error("---- Técnico não encontrado ----");
-            throw new ObjectNotFoundException("Nenhum técnico encontrado","/listarTecnicos");
-        }
-    }
-
-    public TecnicoDTO atualizarTecnico(Long id, TecnicoDTO tecnicoAtualizadoDTO) {
-        log.info("---- Iniciando processo de atualização de técnico por ID ----");
-
-        // Verifica se o ID é válido
-        if (id == null || id <= 0) {
-            log.error("---- Erro ao atualizar técnico, ID inválido ----");
-            throw new IllegalArgumentException("O ID informado é inválido");
-        }
-
-        // Busca o técnico existente pelo ID
-        Tecnico tecnicoExistente = tecnicoRepository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("---- Erro ao atualizar técnico, técnico não encontrado ---- ID_TECNICO: " + id);
-                    return new EntityNotFoundException("Técnico não encontrado");
-                });
-
-        log.info("---- Tecnico encontrado, iniciando a atualização. ----" + "ID_TECNICO: " + tecnicoExistente.getId());
-
-
-        // Salvar o técnico atualizado no repositório
-        Tecnico tecnicoAtualizado = tecnicoRepository.save(tecnicoExistente);
-        log.info("---- Tecnico atualizado com sucesso -----" + "ID_TECNICO: " + tecnicoAtualizado.getId());
-
-
-        return new TecnicoDTO(tecnicoAtualizado);
-    }
 }

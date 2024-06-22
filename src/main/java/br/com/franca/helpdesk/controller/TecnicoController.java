@@ -109,17 +109,7 @@ public class TecnicoController {
     })
     @PutMapping("atualizarTecnico/{id}")
     public ResponseEntity<TecnicoDTO> atualizarTecnico(@PathVariable Long id, @Valid @RequestBody TecnicoDTO tecnicoAtualizadoDTO) {
-        // Busca o técnico existente pelo ID
-        Optional<Tecnico> optionalTecnico = tecnicoRepository.findById(id);
-        if (!optionalTecnico.isPresent()) {
-            throw new EntityNotFoundException("Técnico não encontrado");
-        }
-        Tecnico tecnicoExistente = optionalTecnico.get();
 
-        // Atualiza os campos do técnico existente com os valores do DTO
-        tecnicoExistente.setNome(tecnicoAtualizadoDTO.getNome());
-        tecnicoExistente.setEmail(tecnicoAtualizadoDTO.getEmail());
-        tecnicoExistente.setSenha(tecnicoAtualizadoDTO.getSenha());
         // Atualize outros campos conforme necessário
 
         // Chama o método de atualização do caso de uso e converte o resultado para DTO
