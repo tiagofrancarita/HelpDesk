@@ -59,8 +59,7 @@ public class TecnicoDTO implements Serializable {
         super();
     }
 
-    // Getters e Setters
-    // Construtor que aceita um objeto Tecnico
+
     public TecnicoDTO(Tecnico obj) {
         super();
         this.id = obj.getId();

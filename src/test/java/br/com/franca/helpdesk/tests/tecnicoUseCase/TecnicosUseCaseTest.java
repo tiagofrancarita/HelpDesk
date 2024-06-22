@@ -5,7 +5,9 @@ import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
 import br.com.franca.helpdesk.domains.enums.Perfil;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
+import br.com.franca.helpdesk.exceptions.ObjectnotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
+import br.com.franca.helpdesk.repositorys.PessoaRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import br.com.franca.helpdesk.usecases.TecnicosUseCase;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,6 +38,9 @@ public class TecnicosUseCaseTest {
 
     @Mock
     private ChamadosRepository chamadosRepository;
+
+    @Mock
+    private PessoaRepository pessoaRepository;
 
     @InjectMocks
     private TecnicosUseCase tecnicosUseCase;
@@ -100,7 +105,7 @@ public class TecnicosUseCaseTest {
     public void testListarTecnicosEmpty() {
         when(tecnicoRepository.findAll()).thenReturn(Collections.emptyList());
 
-        TecnicosNotFoundException exception = assertThrows(TecnicosNotFoundException.class, () -> {
+        ObjectnotFoundException exception = assertThrows(ObjectnotFoundException.class, () -> {
             tecnicosUseCase.listarTecnicos();
         });
 
@@ -142,6 +147,7 @@ public class TecnicosUseCaseTest {
 
     @Test
     public void testCadastrarTecnico() {
+
         // Dados de entrada
         Set<Integer> perfis = new HashSet<>();
         perfis.add(Perfil.ADMIN.getCodigo()); // Adiciona o perfil ADMIN
@@ -164,7 +170,7 @@ public class TecnicosUseCaseTest {
         TecnicosUseCase tecnicoUseCase = new TecnicosUseCase(tecnicoRepository, chamadoRepository, pessoaRepository);
 
         // Execução do método
-        TecnicoDTO result = tecnicoUseCase.cadastrarTecnico(tecnicoDTO);
+        Tecnico result = tecnicoUseCase.cadastrarTecnico(tecnicoDTO);
 
         // Verificações
         assertNotNull(result);
