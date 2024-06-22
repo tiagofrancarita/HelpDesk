@@ -2,9 +2,6 @@ package br.com.franca.helpdesk.controller;
 
 import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
-import br.com.franca.helpdesk.exceptions.ErrorDetails;
-import br.com.franca.helpdesk.exceptions.TecnicoNotExludeAssociantioTicket;
-import br.com.franca.helpdesk.exceptions.TecnicosNotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import br.com.franca.helpdesk.usecases.TecnicosUseCase;
@@ -22,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,15 +42,6 @@ public class TecnicoController {
         this.tecnicosUseCase = tecnicosUseCase;
     }
 
-    @ExceptionHandler(TecnicosNotFoundException.class)
-    public ResponseEntity<String> handleNoTecnicosFoundException(TecnicosNotFoundException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
-    }
-
-    @ExceptionHandler(TecnicoNotExludeAssociantioTicket.class)
-    public ResponseEntity<String> handleTecnicoNotExludeAssociantioTicket(TecnicoNotExludeAssociantioTicket e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.NO_CONTENT);
-    }
 
 
     @GetMapping("/listarTecnicos")
@@ -66,13 +53,10 @@ public class TecnicoController {
 
     })
     public ResponseEntity<List<TecnicoDTO>> listarTecnicos() {
-        try {
+
             List<TecnicoDTO> tecnicos = tecnicosUseCase.listarTecnicos();
             return new ResponseEntity<>(tecnicos, HttpStatus.OK);
-        } catch (TecnicosNotFoundException e) {
-            log.error(e.getMessage());
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     @ApiOperation(value = "Busca um tecnico cadastrado pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "GET")
@@ -84,35 +68,21 @@ public class TecnicoController {
     })
     @GetMapping(value = "buscarTecnicoPorId/{id}")
     public ResponseEntity<?> buscarTecnicoPorId(@PathVariable Long id) {
-        try {
+
             TecnicoDTO tecnicoDTO = tecnicosUseCase.buscarPorId(id).getBody();
+
             return ResponseEntity.ok(tecnicoDTO);
-        } catch (TecnicosNotFoundException ex) {
-            String message = ex.getMessage();
-            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "Tecnico não encontrado ID:" + id , " /v1/tecnicos/buscarTecnicoPorId/" + id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        }
+
 
     }
 
     @PostMapping("/cadastrarTecnico")
     @ApiOperation(value = "Cadastra um novo técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "POST")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Técnico cadastrado com sucesso"),
-            @ApiResponse(code = 404, message = "Erro ao cadastrar tecnico"),
-            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
+        Tecnico newObj = tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 
-    })
-    public ResponseEntity<?> cadastrarTecnico(@RequestBody @Valid TecnicoDTO tecnicoDTO) {
-        try {
-            TecnicoDTO novoTecnico = tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
-            URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoTecnico.getId()).toUri();
-            return ResponseEntity.created(uri).body(novoTecnico); // Correct way to create ResponseEntity
-        } catch (TecnicosNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "Erro ao Cadastrar tecnico", " /v1/tecnicos/cadastrarTecnico");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-
-        }
+        return ResponseEntity.created(uri).build();
     }
 
     @ApiOperation(value = "Deleta um técnico pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
@@ -124,18 +94,10 @@ public class TecnicoController {
     })
     @DeleteMapping("deletarTecnicoPorId/{id}")
     public ResponseEntity<?> deletarTecnicoPorId(@PathVariable Long id) {
-        try {
+
             tecnicosUseCase.deletarTecnico(id);
             return new ResponseEntity<>("Técnico excluído com sucesso", HttpStatus.OK);
-        } catch (TecnicosNotFoundException e) {
-            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "ID inválido", " /v1/tecnicos/deletarTecnicoPorId/" + id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (TecnicoNotExludeAssociantioTicket e) {
-            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.NOT_FOUND.value(), "Object NOT FOUND", "Erro ao Excluir o tecnico, há tickets abertos associados a ele", " /v1/tecnicos/deletarTecnicoPorId/" + id);
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
-        } catch (Exception e) {
-            ErrorDetails errorDetails = new ErrorDetails(LocalDateTime.now(), HttpStatus.INTERNAL_SERVER_ERROR.value(), "Object NOT FOUND", "Erro interno do servidor", " /v1/tecnicos/deletarTecnicoPorId/" + id);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);        }
+
     }
 
     @ApiOperation(value = "Atualiza um técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
