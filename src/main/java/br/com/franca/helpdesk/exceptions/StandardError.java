@@ -1,18 +1,23 @@
 package br.com.franca.helpdesk.exceptions;
 
-import org.springframework.http.HttpStatus;
+import java.io.Serializable;
 
-import java.time.LocalDateTime;
+public class StandardError implements Serializable {
 
-public class ErrorDetails {
+    private static final long serialVersionUID = 1L;
 
-    private LocalDateTime timestamp;
+    private Long timestamp;
     private Integer status;
     private String error;
     private String message;
     private String path;
 
-    public ErrorDetails(LocalDateTime timestamp, Integer status, String error, String message, String path) {
+    public StandardError() {
+        super();
+    }
+
+    public StandardError(Long timestamp, Integer status, String error, String message, String path) {
+        super();
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;
@@ -20,12 +25,11 @@ public class ErrorDetails {
         this.path = path;
     }
 
-    // Getters e setters
-    public LocalDateTime getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(LocalDateTime timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 
@@ -33,7 +37,7 @@ public class ErrorDetails {
         return status;
     }
 
-    public void setStatus(int Integer) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

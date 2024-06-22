@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -25,15 +27,23 @@ public class TecnicoDTO implements Serializable {
     private Long id;
 
     @ApiModelProperty(notes = "Nome completo do tecnico", example = "Jõao da Silva")
+    @NotNull(message = "O campo nome é obrigatório")
+    @NotEmpty(message = "O campo nome é obrigatório")
     private String nome;
 
     @ApiModelProperty(notes = "Email do Técnico", example = "tecnico01@exemple.com")
+    @NotNull(message = "O campo email é obrigatório")
+    @NotEmpty(message = "O campo email é obrigatório")
     private String email;
 
     @ApiModelProperty(notes = "CPF do Técnico", example = "123.456.789-00")
+    @NotNull(message = "O campo cpf é obrigatório")
+    @NotEmpty(message = "O campo cpf é obrigatório")
     private String cpf;
 
     @ApiModelProperty(notes = "Senha do Técnico", example = "password123")
+    @NotNull(message = "O campo senha é obrigatório")
+    @NotEmpty(message = "O campo senha é obrigatório")
     private String senha;
 
     @ApiModelProperty(notes = "Data de Criação do Técnico", example = "2023-05-26T19:52:58")
@@ -41,7 +51,9 @@ public class TecnicoDTO implements Serializable {
     private LocalDateTime dataCriacao;
 
     @ApiModelProperty(notes = "Perfis do Técnico", example = "[\"ADMIN\", \"USER\"]")
-    protected Set<Integer> perfis = new HashSet<>();
+    @NotNull(message = "O campo perfil é obrigatório")
+    @NotEmpty(message = "O campo perfil é obrigatório")
+    private Set<Integer> perfis = new HashSet<>();
 
     public TecnicoDTO() {
         super();
