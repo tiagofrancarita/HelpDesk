@@ -17,7 +17,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -30,15 +35,17 @@ public class ChamadoUseCase {
     private final TecnicosUseCase tecnicosUseCase;
     private final ClienteUseCase clienteUseCase;
     private final ClienteRepository clienteRepository;
-    private final TecnicoRepository tecnicoRepository;;
+    private final TecnicoRepository tecnicoRepository;
+    private final EmailUseCase emailUseCase;
 
     @Autowired
-    public ChamadoUseCase(ChamadosRepository chamadosRepository, TecnicosUseCase tecnicosUseCase, ClienteUseCase clienteUseCase, ClienteRepository clienteRepository, TecnicoRepository tecnicoRepository) {
+    public ChamadoUseCase(ChamadosRepository chamadosRepository, TecnicosUseCase tecnicosUseCase, ClienteUseCase clienteUseCase, ClienteRepository clienteRepository, TecnicoRepository tecnicoRepository, EmailUseCase emailUseCase) {
         this.chamadosRepository = chamadosRepository;
         this.tecnicosUseCase = tecnicosUseCase;
         this.clienteUseCase = clienteUseCase;
         this.clienteRepository = clienteRepository;
         this.tecnicoRepository = tecnicoRepository;
+        this.emailUseCase = emailUseCase;
     }
 
     public ResponseEntity<ChamadosDTO> buscarChamadoPorId(Long id) {
@@ -297,7 +304,44 @@ public class ChamadoUseCase {
         return new ChamadosDTO(chamadoEncontrado);
     }
 
-    //ABERTO(0,"ABERTO")**, EXECUÇÃO(1, "EXECUÇÃO")**, ENCERRADO(2, "ENCERRADO")**, CANCELADO(3, "CANCELADO")**, DEVOLVIDO(4, "DEVOLVIDO");
+    @Scheduled(fixedRate = 300000)
+    public void chamadosAbertosHa7DiasOuMais (){
+        log.info("---- Iniciando verificação de chamados abertos há 7 dias ou mais ----");
+
+        // Calcula a data de 7 dias atrás
+        LocalDateTime seteDiasAtras = LocalDateTime.now().minus(7, ChronoUnit.DAYS);
+
+        // Busca todos os chamados com status Aberto há 7 dias ou mais
+        List<Chamado> chamadosAbertos = chamadosRepository.findByStatusEnumAndDataAberturaBefore(StatusEnum.ABERTO, seteDiasAtras);
+
+        if (chamadosAbertos.isEmpty()) {
+            log.info("---- Nenhum chamado com status Aberto há 7 dias ou mais foi encontrado ----");
+        } else {
+            // Envia alerta
+            enviarAlertaChamadosAbertosHa7DiasOuMais(chamadosAbertos);
+        }
+
+    }
+
+    private void enviarAlertaChamadosAbertosHa7DiasOuMais(List<Chamado> chamadosAbertos) {
+        log.warn("---- ALERTA: Existem chamados com status Aberto há 7 dias ou mais ----");
+
+        StringBuilder mensagem = new StringBuilder();
+        mensagem.append("Os seguintes chamados estão abertos há 7 dias ou mais:\n");
+
+        for (Chamado chamado : chamadosAbertos) {
+            String infoChamado = String.format("Chamado ID: %d, Data de Abertura: %s, Cliente ID: %d\n",
+                    chamado.getId(), chamado.getDataAbertura(), chamado.getCliente().getId());
+            mensagem.append(infoChamado);
+            log.warn(infoChamado);
+        }
+
+        // Envia email
+        String destinatario = "tiagofranca.ritaa@outlook.com"; // Altere para o email desejado
+        String assunto = "Alerta: Chamados abertos há 7 dias ou mais";
+        emailUseCase.sendSimpleMessage(destinatario, assunto, mensagem.toString());
+    }
+
 
     private void validaDadosInformados(ChamadosDTO chamadosDTO) {
 

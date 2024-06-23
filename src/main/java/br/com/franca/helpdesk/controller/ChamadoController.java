@@ -91,7 +91,7 @@ public class ChamadoController {
 
     }
 
-    @ApiOperation(value = "Atualiza o status do chamado para execução", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiOperation(value = "Atualiza o status do chamado para execução", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
             @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
@@ -105,7 +105,7 @@ public class ChamadoController {
 
     }
 
-    @ApiOperation(value = "Atualiza o status do chamado para encerrado", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiOperation(value = "Atualiza o status do chamado para encerrado", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
             @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
@@ -119,7 +119,7 @@ public class ChamadoController {
 
     }
 
-    @ApiOperation(value = "Atualiza o status do chamado para cancelado", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiOperation(value = "Atualiza o status do chamado para cancelado", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
             @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
@@ -133,7 +133,7 @@ public class ChamadoController {
 
     }
 
-    @ApiOperation(value = "Atualiza o status do chamado para devolvido", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiOperation(value = "Atualiza o status do chamado para devolvido", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
             @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
@@ -147,7 +147,7 @@ public class ChamadoController {
 
     }
 
-    @ApiOperation(value = "Atualiza o status do chamado para aberto", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiOperation(value = "Atualiza o status do chamado para aberto", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
             @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
