@@ -18,8 +18,6 @@ public class Cliente extends Pessoa {
 
     public Cliente() {
         super();
-
-
     }
 
     public Cliente(Long id, String nome, String cpf, String email, String senha) {
