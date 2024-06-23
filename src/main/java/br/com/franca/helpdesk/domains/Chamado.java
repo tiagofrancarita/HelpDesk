@@ -1,11 +1,13 @@
 package br.com.franca.helpdesk.domains;
 
 
+import br.com.franca.helpdesk.domains.dtos.ChamadosDTO;
 import br.com.franca.helpdesk.domains.enums.PrioridadeEnum;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -35,7 +37,7 @@ public class Chamado implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "prioridade_chamado", nullable = false)
-    private PrioridadeEnum prioridadeEnum;
+    private @NotNull(message = "O campo PRIORIDADE é requerido") PrioridadeEnum prioridadeEnum;
 
     @Column(name = "status_chamado", nullable = false)
     @Enumerated(EnumType.STRING)
@@ -65,6 +67,17 @@ public class Chamado implements Serializable {
         this.observacao = observacao;
         this.cliente = cliente;
         this.tecnico = tecnico;
+    }
+
+    public Chamado(ChamadosDTO chamadosDTO) {
+        this.id = chamadosDTO.getId();
+        this.tituloChamado = chamadosDTO.getTitulo();
+        this.descricaoChamado = chamadosDTO.getDescricaoChamado();
+        this.prioridadeEnum = chamadosDTO.getPrioridade();
+        this.statusEnum = chamadosDTO.getStatusEnum();
+        this.observacao = chamadosDTO.getObservacoes();
+        this.cliente = chamadosDTO.getCliente();
+        this.tecnico = chamadosDTO.getTecnico();
     }
 
     public Long getId() {

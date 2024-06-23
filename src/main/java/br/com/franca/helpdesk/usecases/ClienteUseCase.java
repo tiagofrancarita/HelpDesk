@@ -42,7 +42,7 @@ public class ClienteUseCase {
     }
 
     public List<ClienteDTO> listarCliente() {
-        log.info("---- Iniciando a listagem de técnicos cadastrados.... ----");
+        log.info("---- Iniciando a listagem de clientes cadastrados.... ----");
         List<Cliente> clientes = clienteRepository.findAll();
         if (clientes.isEmpty()) {
             log.error("Nenhum cliente encontrado");

@@ -55,7 +55,7 @@ public class ResourceExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> validationError(MethodArgumentNotValidException ex,
-                                                                      HttpServletRequest request) {
+                                                         HttpServletRequest request) {
 
         ValidationError errors = new ValidationError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),"Validation errors",
                 "Ocorreu um erro na validação dos campos: ", request.getRequestURI());
@@ -66,5 +66,15 @@ public class ResourceExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
 
+    }
+
+    @ExceptionHandler(ChamadoStatusUpdateException.class)
+    public ResponseEntity<StandardError> ChamadoStatusUpdateException(ChamadoStatusUpdateException ex,
+                                                                      HttpServletRequest request) {
+
+        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+                "Violação de dados", ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 }

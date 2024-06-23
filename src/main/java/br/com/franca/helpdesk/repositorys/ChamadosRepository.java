@@ -7,6 +7,8 @@ import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,4 +18,6 @@ public interface ChamadosRepository extends JpaRepository<Chamado, Long> {
     Optional <Chamado> findById(Long id);
     List<Chamado> findByTecnicoAndStatusEnum(Tecnico tecnico, StatusEnum status);
     List<Chamado> findByClienteAndStatusEnum(Cliente cliente, StatusEnum status);
+
+    List<Chamado> findByStatusEnumAndDataAberturaBefore(StatusEnum status, LocalDateTime dataAbertura);
 }
