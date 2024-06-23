@@ -79,10 +79,11 @@ public class TecnicoController {
     @PostMapping("/cadastrarTecnico")
     @ApiOperation(value = "Cadastra um novo técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "POST")
     public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
-        Tecnico newObj = tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newObj.getId()).toUri();
 
+        Tecnico novoTecnico = tecnicosUseCase.cadastrarTecnico(tecnicoDTO);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoTecnico.getId()).toUri();
         return ResponseEntity.created(uri).build();
+
     }
 
     @ApiOperation(value = "Deleta um técnico pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")

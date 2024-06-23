@@ -50,6 +50,10 @@ public class ClienteDTO implements Serializable {
         @NotEmpty(message = "O campo perfil é obrigatório")
         private Set<Integer> perfis = new HashSet<>();
 
+        public ClienteDTO() {
+            super();
+        }
+
 
     public ClienteDTO(Cliente obj) {
             super();

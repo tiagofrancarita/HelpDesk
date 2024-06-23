@@ -43,6 +43,16 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(ClienteAndChamadosNotDeleted.class)
+    public ResponseEntity<StandardError> clienteAndChamadosNotDeleted(ClienteAndChamadosNotDeleted ex,
+                                                                      HttpServletRequest request) {
+
+        StandardError error = new StandardError(System.currentTimeMillis(), HttpStatus.BAD_REQUEST.value(),
+                "Violação de dados", ex.getMessage(), request.getRequestURI());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<StandardError> validationError(MethodArgumentNotValidException ex,
                                                                       HttpServletRequest request) {
