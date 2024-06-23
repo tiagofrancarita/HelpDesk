@@ -7,10 +7,7 @@ import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.ClienteDTO;
 import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
-import br.com.franca.helpdesk.exceptions.DataIntegrityViolationException;
-import br.com.franca.helpdesk.exceptions.ObjectnotFoundException;
-import br.com.franca.helpdesk.exceptions.TecnicoAndChamadosNotDeleted;
-import br.com.franca.helpdesk.exceptions.ValidationException;
+import br.com.franca.helpdesk.exceptions.*;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.ClienteRepository;
 import br.com.franca.helpdesk.repositorys.PessoaRepository;
@@ -69,7 +66,7 @@ public class ClienteUseCase {
 
         if (buscarClienteID.isEmpty()) {
             log.error("---- Cliente não encontrado. ----ID: " + id);
-            throw new ObjectnotFoundException("Nenhum técnico encontrado");
+            throw new ObjectnotFoundException("Nenhum cliente encontrado");
         }
 
         Cliente clienteEncontrado = buscarClienteID.get();
@@ -120,9 +117,9 @@ public class ClienteUseCase {
                 Chamado chamadoAberto = chamadosAbertos.get(0); // pegar o primeiro chamado em aberto
                 String mensagem = String.format("Não é possível excluir o cliente com ID %d. Existem chamados abertos atribuídos a ele. Chamado ID: %d", clienteEncontrado.getId(), chamadoAberto.getId());
                 log.error("---- Erro ao deletar cliente, " + mensagem + " ----");
-                throw new TecnicoAndChamadosNotDeleted("Não é possível excluir o tecnico informado, o mesmo possui chamados em aberto atrelado a ele.");
+                throw new ClienteAndChamadosNotDeleted("Não é possível excluir o cliente informado, o mesmo possui chamados em aberto atrelado a ele.");
             }
-            log.info(" ---- Não há chamados abertos, associados ao cliente ---- " + " ID_Tecnico: " + clienteEncontrado.getId());
+            log.info(" ---- Não há chamados abertos, associados ao cliente ---- " + " ID_CLIENTE: " + clienteEncontrado.getId());
 
             // Se não houver chamados abertos, exclui o técnico
             log.info("---- Excluindo Cliente ----");
@@ -134,7 +131,7 @@ public class ClienteUseCase {
 
         } else {
             log.error("---- cliente não encontrado ----");
-            throw new ObjectNotFoundException("Nenhum cliente encontrado","/listarCliente");
+            throw new ObjectnotFoundException("Nenhum cliente encontrado");
         }
     }
 

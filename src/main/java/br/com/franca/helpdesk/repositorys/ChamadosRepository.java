@@ -13,11 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ChamadosRepository extends JpaRepository<Chamado, Long> {
 
-
     Optional <Chamado> findById(Long id);
-
     List<Chamado> findByTecnicoAndStatusEnum(Tecnico tecnico, StatusEnum status);
-
-
     List<Chamado> findByClienteAndStatusEnum(Cliente cliente, StatusEnum status);
 }

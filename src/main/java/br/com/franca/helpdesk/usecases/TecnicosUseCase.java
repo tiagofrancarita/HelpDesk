@@ -161,7 +161,7 @@ public class TecnicosUseCase {
 
         } else {
             log.error("---- Técnico não encontrado ----");
-            throw new ObjectNotFoundException("Nenhum técnico encontrado","/listarTecnicos");
+            throw new ObjectnotFoundException("Nenhum técnico encontrado");
         }
     }
 
