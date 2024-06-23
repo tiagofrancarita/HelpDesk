@@ -1,13 +1,10 @@
 package br.com.franca.helpdesk.controller;
 
 import br.com.franca.helpdesk.domains.Chamado;
-import br.com.franca.helpdesk.domains.Cliente;
 import br.com.franca.helpdesk.domains.dtos.ChamadosDTO;
 import br.com.franca.helpdesk.domains.dtos.ClienteDTO;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
-import br.com.franca.helpdesk.repositorys.ClienteRepository;
 import br.com.franca.helpdesk.usecases.ChamadoUseCase;
-import br.com.franca.helpdesk.usecases.ClienteUseCase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -19,11 +16,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "v1/chamados", produces = "application/json")
@@ -31,7 +26,6 @@ import java.util.Optional;
 public class ChamadoController {
 
     private Logger log = LoggerFactory.getLogger(ChamadoController.class);
-
     private final ChamadosRepository chamadosRepository;
     private final ChamadoUseCase chamadoUseCase;
 
@@ -81,5 +75,89 @@ public class ChamadoController {
         Chamado novoChamado = chamadoUseCase.cadastrarChamado(chamadosDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoChamado.getId()).toUri();
         return ResponseEntity.created(uri).build();
+    }
+
+    @ApiOperation(value = "Deleta um chamado por id", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "chamado excluido com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao excluir chamado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @DeleteMapping("deletaChamadoPorId/{id}")
+    public ResponseEntity<String> deletaChamadoPorId(@PathVariable Long id) {
+
+        chamadoUseCase.deletaChamadoPorId(id);
+        return new ResponseEntity<String>("Chamado excluído com sucesso", HttpStatus.OK);
+
+    }
+
+    @ApiOperation(value = "Atualiza o status do chamado para execução", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @PutMapping("atualizaChamadoParaExecucao/{id}")
+    public ResponseEntity<String> atualizaChamadoParaExecucao(@PathVariable Long id) {
+
+        chamadoUseCase.atualizarChamadoParaStatusEmExecucao(id);
+        return new ResponseEntity<String>("Chamado atualizado para execução com sucesso", HttpStatus.OK);
+
+    }
+
+    @ApiOperation(value = "Atualiza o status do chamado para encerrado", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @PutMapping("atualizaChamadoParaEncerrado/{id}")
+    public ResponseEntity<String> atualizaChamadoParaEncerrado(@PathVariable Long id) {
+
+        chamadoUseCase.atualizarChamadoParaStatusEncerrado(id);
+        return new ResponseEntity<String>("Chamado atualizado para encerrado com sucesso", HttpStatus.OK);
+
+    }
+
+    @ApiOperation(value = "Atualiza o status do chamado para cancelado", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @PutMapping("atualizaChamadoParaCancelado/{id}")
+    public ResponseEntity<String> atualizaChamadoParaCancelado(@PathVariable Long id) {
+
+        chamadoUseCase.atualizarChamadoParaStatusCancelado(id);
+        return new ResponseEntity<String>("Chamado atualizado para cancelado com sucesso", HttpStatus.OK);
+
+    }
+
+    @ApiOperation(value = "Atualiza o status do chamado para devolvido", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @PutMapping("atualizaChamadoParaDevolvido/{id}")
+    public ResponseEntity<String> atualizaChamadoParaDevolvido(@PathVariable Long id) {
+
+        chamadoUseCase.atualizarChamadoParaStatusDevolvido(id);
+        return new ResponseEntity<String>("Chamado atualizado para devolvido com sucesso", HttpStatus.OK);
+
+    }
+
+    @ApiOperation(value = "Atualiza o status do chamado para aberto", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "chamado atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao atualizar chamado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @PutMapping("atualizaChamadoParaAberto/{id}")
+    public ResponseEntity<String> atualizaChamadoParaAberto(@PathVariable Long id) {
+
+        chamadoUseCase.atualizarChamadoParaStatusAberto(id);
+        return new ResponseEntity<String>("Chamado atualizado para aberto com sucesso", HttpStatus.OK);
+
     }
 }
