@@ -1,14 +1,10 @@
 package br.com.franca.helpdesk.controller;
 
 import br.com.franca.helpdesk.domains.Cliente;
-import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.ClienteDTO;
-import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.ClienteRepository;
-import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import br.com.franca.helpdesk.usecases.ClienteUseCase;
-import br.com.franca.helpdesk.usecases.TecnicosUseCase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
