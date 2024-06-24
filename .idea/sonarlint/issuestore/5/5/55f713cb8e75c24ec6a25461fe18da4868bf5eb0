@@ -1,0 +1,13 @@
+
+[
+java:S1612G">Replace this lambda with method reference 'Perfil::getCodigo'.(î·ğš8ğ¯Ş’„2
+X
+java:S1612|";Replace this lambda with method reference 'Perfil::toEnum'.(™¹îÅ8ñ¯Ş’„2
+m
+java:S1128"KRemove this unused import 'br.com.franca.helpdesk.util.PerfilDeserializer'.(„ÂÛŒÿÿÿÿÿ8ñ¯Ş’„2
+e
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonGetter'.(×·Æ™8ñ¯Ş’„2
+e
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonSetter'.(–ôŒé8ñ¯Ş’„2
+x
+java:S1128	"VRemove this unused import 'com.fasterxml.jackson.databind.annotation.JsonDeserialize'.(Úˆ×øÿÿÿÿ8ñ¯Ş’„2

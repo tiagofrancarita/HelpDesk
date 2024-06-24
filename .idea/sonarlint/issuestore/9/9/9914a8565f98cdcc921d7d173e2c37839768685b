@@ -1,0 +1,19 @@
+
+P
+java:S1874"3Remove this use of "description"; it is deprecated.(Üƒ8î–ëÓ„2
+H
+java:S1452G"&Remove usage of generic wildcard type.(”ıœîıÿÿÿÿ8ğ–ëÓ„2
+C
+java:S1452c"&Remove usage of generic wildcard type.(÷èµ…8ğ–ëÓ„2
+b
+java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8ñ–ëÓ„2
+V
+java:S1128"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8ñ–ëÓ„2
+Q
+java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8ñ–ëÓ„2
+W
+java:S1068""5Remove this unused "tecnicoRepository" private field.(ô‚†¨üÿÿÿÿ8ñ–ëÓ„2
+X
+java:S1068$"6Remove this unused "chamadosRepository" private field.(£»¥Çıÿÿÿÿ8ñ–ëÓ„2
+I
+java:S1068&"'Remove this unused "log" private field.(¶æª¦ûÿÿÿÿ8ñ–ëÓ„2

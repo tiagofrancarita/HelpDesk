@@ -1,0 +1,44 @@
+
+“	java:S117\"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(á÷ˆ8ãıä­„2J$85881746-93fa-464a-a3f6-0e68a97b03f6
+z
+java:S2629<"7Use the built-in formatting to construct this argument.(§ÄŒ€8äıä­„2J$4a227cee-1a08-43c7-a1f6-41cdc92c4d7f
+m
+java:S2629‚"$Invoke method(s) only conditionally.(¯ÇĞÈüÿÿÿÿ8äıä­„2J$ec61dd87-d940-4f6c-a876-46e9d525bf0c
+m
+java:S2629¡"$Invoke method(s) only conditionally.(ø±áèşÿÿÿÿ8äıä­„2J$23b2b6a9-738b-4430-b387-1581703d142c
+h
+java:S2629Â"$Invoke method(s) only conditionally.(ø²Â–8äıä­„2J$e4115935-1401-4009-9697-25a66e459b5b
+h
+java:S2629ã"$Invoke method(s) only conditionally.(ø²Â–8äıä­„2J$87cb6bb6-0d5f-4091-bf2c-a04610fed0db
+m
+java:S2629„"$Invoke method(s) only conditionally.(Ñôåàşÿÿÿÿ8äıä­„2J$51bb7ae7-db21-4e9c-9a4e-41a6462c613c
+h
+java:S2629¥"$Invoke method(s) only conditionally.(ßÓãÉ8äıä­„2J$24f5fc9d-8403-494b-8303-868a38a259fe
+¥
+java:S1192v"bDefine a constant instead of duplicating this literal "---- Chamado nÃ£o encontrado ----" 6 times.(° ¡š8åıä­„2J$6193ddca-7a14-4974-8086-9e683cd99ca0
+
+java:S1192="ZDefine a constant instead of duplicating this literal "Nenhum chamado encontrado" 3 times.(ì¶Ú‹8åıä­„2J$20dc0e6f-b1ca-4453-805b-14d5287c44e0
+
+java:S1192n"LDefine a constant instead of duplicating this literal "Id Invalido" 6 times.(ÄØÕÎ8åıä­„2J$8e21e945-fcc4-48be-a84c-7e1a2b9dacc4
+Ã
+java:S1192“"Define a constant instead of duplicating this literal "---- Erro ao atualizar chamado, id informado Ã© invÃ¡lido ----" 5 times.(«ó·Ù8åıä­„2J$4072e195-fae6-4807-9b36-d077348092e9
+›
+java:S1192w"XDefine a constant instead of duplicating this literal "Chamado nÃ£o encontrado" 6 times.(¥ÃÊ‰8åıä­„2J$be4ea2bc-4f35-4abf-b026-85c9cdf3c568
+„
+java:S3457<"AFormat specifiers should be used instead of string concatenation.(§ÄŒ€8Èæı®„2J$2bd5cdb4-4b5c-4a91-a18f-08d5d4bc14f8
+„
+java:S3457A"AFormat specifiers should be used instead of string concatenation.(˜Îû”8Èæı®„2J$163481fb-f72c-4dd2-b48a-de75a37f3b0b
+š
+java:S3457Í"Q%n should be used in place of \n to produce the platform-specific line separator.(¬ÎÆ‰øÿÿÿÿ8Ïæı®„2J$d0a958cd-4d98-4c6b-9747-db59143a8997
+“
+java:S1128"KRemove this unused import 'br.com.franca.helpdesk.domains.dtos.ClienteDTO'.(û½€šüÿÿÿÿ8öâ…¯„2J$674214ac-f213-4e82-ba7f-003e3d7a1826
+x
+java:S1128"0Remove this unused import 'java.time.LocalDate'.(›‘¬èıÿÿÿÿ8öâ…¯„2J$4fec4e36-037c-40e8-a0f0-880031beb929
+{
+java:S1068#"3Remove this unused "tecnicosUseCase" private field.(ÓÿÈ¸úÿÿÿÿ8Àå­„2J$5940c1d7-19e7-4608-bec4-fed238e137dd
+z
+java:S1068$"2Remove this unused "clienteUseCase" private field.(Û®ı™øÿÿÿÿ8Àå­„2J$2f0f718b-09f2-4caf-8750-d2e480da1d7a
+}
+java:S1068%"5Remove this unused "clienteRepository" private field.(ÇÑèüÿÿÿÿ8Àå­„2J$70ea95d9-e897-4da4-aa33-fe05481b0a48
+}
+java:S1068&"5Remove this unused "tecnicoRepository" private field.(şÂÌİùÿÿÿÿ8Ñæı®„2J$0c99be43-a617-4a15-b5ba-581b7dbb8dfc

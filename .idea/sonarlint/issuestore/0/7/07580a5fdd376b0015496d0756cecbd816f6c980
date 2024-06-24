@@ -1,0 +1,15 @@
+
+V
+java:S59930"9Change the visibility of this constructor to "protected".(žµ¸Ž8È˜‹¿„2
+V
+java:S59935"9Change the visibility of this constructor to "protected".(¸ñÔ”8Ë˜‹¿„2
+E
+java:S1948*"#Make "perfis" private or transient.(–òžÑþÿÿÿÿ8Ë˜‹¿„2
+X
+java:S1612g";Replace this lambda with method reference 'Perfil::toEnum'.(™¹îÅ8Ë˜‹¿„2
+e
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonGetter'.(×·Æ™8Ë˜‹¿„2
+e
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonSetter'.(–ôŒé8Ë˜‹¿„2
+Q
+java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëÝüÿÿÿÿ8Ë˜‹¿„2
