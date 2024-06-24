@@ -11,6 +11,7 @@ import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.ClienteRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -28,14 +29,17 @@ public class DBService {
     @Autowired
     private ChamadosRepository chamadosRepository;
 
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     public void instacieDB() {
 
-        Tecnico T1 = new Tecnico(null, "Tecnico 1", "43830635001","tecnico@email.com","@Biatico681");
+        Tecnico T1 = new Tecnico(null, "Tecnico 1", "43830635001","tecnico@email.com",bCryptPasswordEncoder.encode("@Biatico681"));
         T1.addPerfil(Perfil.ADMIN);
         tecnicoRepository.saveAll(Arrays.asList(T1));
 
-        Cliente C1 = new Cliente(null, "Cliente 1", "42193087091","cliente@email.com","@Biatico681");
+        Cliente C1 = new Cliente(null, "Cliente 1", "42193087091","cliente@email.com",bCryptPasswordEncoder.encode("@Biatico681"));
         clienteRepository.saveAll(Arrays.asList(C1));
 
         Chamado CH1 = new Chamado(null, "Tela Azul", "Ao Ligar o equipamento, no carregamento do windows 10, usuario informa que aparece tela azul sem a possibilidade de login",
