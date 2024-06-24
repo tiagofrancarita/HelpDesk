@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Profile;
 public class TestConfig {
 
 
-    @Autowired
+
     private DBService dbService;
 
 
