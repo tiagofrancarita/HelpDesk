@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -76,6 +77,7 @@ public class TecnicoController {
 
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/cadastrarTecnico")
     @ApiOperation(value = "Cadastra um novo técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "POST")
     public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
@@ -85,7 +87,7 @@ public class TecnicoController {
         return ResponseEntity.created(uri).build();
 
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Deleta um técnico pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Teccnico excluído com sucesso"),
@@ -100,7 +102,7 @@ public class TecnicoController {
             return new ResponseEntity<>("Técnico excluído com sucesso", HttpStatus.OK);
 
     }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @ApiOperation(value = "Atualiza um técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Técnicos atualizado com sucesso"),
