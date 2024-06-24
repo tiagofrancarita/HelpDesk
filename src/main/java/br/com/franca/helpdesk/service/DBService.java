@@ -54,10 +54,10 @@ public class DBService {
                 PrioridadeEnum.MEDIA, StatusEnum.ABERTO, "Cliente solicita breve prioridade no atendimento, cliente da empresa a 10 anos", C1, T1);
         chamadosRepository.saveAll(Arrays.asList(CH1));
 
-        String numeroChamado = ordemServicoUseCase.gerarNumeroChamado();
+       // String numeroChamado = ordemServicoUseCase.();
 
-        OrdemServico OS1 = new OrdemServico(null,CH1,numeroChamado,  "Problema na tela azul", CH1.getDataAbertura(), CH1.getDataFechamento(), "Problema na tela azul", "Tratativa", "Solucao", StatusEnum.ABERTO);
-        ordemServicoRepository.saveAll(Arrays.asList(OS1));
+        //OrdemServico OS1 = new OrdemServico(null,CH1,numeroChamado,  "Problema na tela azul", CH1.getDataAbertura(), CH1.getDataFechamento(), "Problema na tela azul", "Tratativa", "Solucao", StatusEnum.ABERTO);
+        //ordemServicoRepository.saveAll(Arrays.asList(OS1));
 
         //    public OrdemServico(Long id, Chamado chamado, String numeroChamado, String descricao, LocalDateTime dataCriacao, LocalDateTime dataFechamento, String problema, String tratativa, String solucao, StatusEnum statusEnum) {
 

@@ -2,8 +2,8 @@ package br.com.franca.helpdesk.usecases;
 
 import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.OrdemServico;
-import br.com.franca.helpdesk.domains.dtos.ChamadosDTO;
-import br.com.franca.helpdesk.exceptions.DataIntegrityViolationException;
+import br.com.franca.helpdesk.domains.enums.StatusEnum;
+import br.com.franca.helpdesk.exceptions.ChamadoStatusInvalidoException;
 import br.com.franca.helpdesk.exceptions.ObjectnotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.ClienteRepository;
@@ -12,14 +12,11 @@ import br.com.franca.helpdesk.repositorys.TecnicoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.Random;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -45,25 +42,9 @@ public class OrdemServicoUseCase {
         this.ordemServicoRepository = ordemServicoRepository;
     }
 
-    public ResponseEntity<OrdemServico> buscarOsPorId(Long id) {
-
-        log.error("---- Iniciando a busca de ordem serviço por ID.... ----");
-
-
-        if (id <= 0) {
-            throw new IllegalArgumentException("O id informado é invalido");
-        }
-
-        Optional<OrdemServico> buscaOs = ordemServicoRepository.findById(id);
-
-        if (buscaOs.isEmpty()) {
-            log.error("---- Os não encontrada. ----ID: " + id);
-            throw new ObjectnotFoundException("Nenhum chamado encontrado");
-        }
-
-        OrdemServico OsEncontrada = buscaOs.get();
-        log.info("---- Ordem de serviço encontrada. ----ID: " + OsEncontrada.getId());
-        return ResponseEntity.ok().body(OsEncontrada);
+    public OrdemServico buscarOrdemServicoPorId(Long id) {
+        return ordemServicoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Ordem de Serviço não encontrada"));
     }
 
     public List<OrdemServico> listarOs() {
@@ -72,43 +53,99 @@ public class OrdemServicoUseCase {
 
         List<OrdemServico> buscarOrdemSerico = ordemServicoRepository.findAll();
         if (buscarOrdemSerico.isEmpty()) {
-            log.error("Nenhuma os encontrada");
-            throw new ObjectnotFoundException("Nenhuma os encontrada");
+            log.error("Nenhuma ordem de serviço encontrada");
+            throw new ObjectnotFoundException("Nenhuma ordem de serviço encontrada");
         }
         List<OrdemServico> listagemOS = buscarOrdemSerico.stream().collect(Collectors.toList());
         log.info("---- Listagem de ordem de serviços realizada com sucesso. ----");
         return listagemOS;
     }
 
-    @Transactional
-    public OrdemServico gerarOrdemServico(Long chamadoId) {
+    public OrdemServico criarOrdemServico(Long chamadoId, String descricao, String problema, String tratativa, String solucao) {
+        // Buscar o chamado pelo ID
+        Chamado chamado = chamadosRepository.findById(chamadoId)
+                .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado"));
 
-        log.info("---- Iniciando a geração de ordem de serviço.... ----");
-
-        Optional<Chamado> chamadoOpt = chamadosRepository.findById(chamadoId);
-        if (!chamadoOpt.isPresent()) {
-            log.error("---- Chamado não encontrado ----");
-            throw new RuntimeException("Chamado não encontrado");
-
+        // Verificar se o chamado está com status ABERTO
+        if (!chamado.getStatusEnum().equals(StatusEnum.ABERTO)) {
+            throw new ChamadoStatusInvalidoException("A Ordem de Serviço só pode ser criada para chamados com status ABERTO");
         }
 
-        Chamado chamado = chamadoOpt.get();
+        // Criar a nova ordem de serviço
         OrdemServico ordemServico = new OrdemServico();
         ordemServico.setChamado(chamado);
-        ordemServico.setDescricao(chamado.getDescricaoChamado());
+        ordemServico.setNumeroChamado(generateNumeroChamado());
+        ordemServico.setDescricao(descricao);
         ordemServico.setDataCriacao(LocalDateTime.now());
-        String numeroChamado = gerarNumeroChamado();
-        System.out.println("Numero chamado: " + numeroChamado);
-        ordemServico.setNumeroChamado(gerarNumeroChamado());
-        log.info("---- Salvando ordem serivço.... ----");
+        ordemServico.setProblema(problema);
+        ordemServico.setTratativa(tratativa);
+        ordemServico.setSolucao(solucao);
+        ordemServico.setStatusEnum(StatusEnum.ABERTO);
 
-        log.info("---- Ordem serivço salva com sucesso. ----");
+        // Salvar a ordem de serviço no banco de dados
         return ordemServicoRepository.save(ordemServico);
     }
 
-    public String gerarNumeroChamado() {
-        Random random = new Random();
-        int numero = random.nextInt(1000000);
-        return String.format("CHG-%06d", numero);
+    public OrdemServico atualizarStatusParaExecucao(Long id) {
+        OrdemServico ordemServico = buscarOrdemServicoPorId(id);
+        if (ordemServico.getStatusEnum() == StatusEnum.CANCELADO || ordemServico.getStatusEnum() == StatusEnum.ENCERRADO) {
+            throw new ChamadoStatusInvalidoException("Não é possível alterar o status para EXECUCAO. A OS está CANCELADA ou ENCERRADA.");
+        }
+        if (ordemServico.getStatusEnum() == StatusEnum.ABERTO || ordemServico.getStatusEnum() == StatusEnum.DEVOLVIDO) {
+            ordemServico.setStatusEnum(StatusEnum.EXECUÇÃO);
+            ordemServicoRepository.save(ordemServico);
+        }
+        return ordemServico;
+    }
+
+    public OrdemServico atualizarStatusParaDevolvido(Long id) {
+        OrdemServico ordemServico = buscarOrdemServicoPorId(id);
+        if (ordemServico.getStatusEnum() == StatusEnum.CANCELADO || ordemServico.getStatusEnum() == StatusEnum.ENCERRADO) {
+            throw new ChamadoStatusInvalidoException("Não é possível alterar o status para DEVOLVIDO. A OS está CANCELADA ou ENCERRADA.");
+        }
+        ordemServico.setStatusEnum(StatusEnum.DEVOLVIDO);
+        ordemServicoRepository.save(ordemServico);
+        return ordemServico;
+    }
+
+    public OrdemServico atualizarStatusParaCancelado(Long id) {
+        OrdemServico ordemServico = buscarOrdemServicoPorId(id);
+        if (ordemServico.getStatusEnum() == StatusEnum.CANCELADO || ordemServico.getStatusEnum() == StatusEnum.ENCERRADO) {
+            throw new ChamadoStatusInvalidoException("Não é possível alterar o status para CANCELADO. A OS já está CANCELADA ou ENCERRADA.");
+        }
+        ordemServico.setStatusEnum(StatusEnum.CANCELADO);
+        ordemServicoRepository.save(ordemServico);
+        return ordemServico;
+    }
+
+    public OrdemServico atualizarStatusParaEncerrado(Long id) {
+        OrdemServico ordemServico = buscarOrdemServicoPorId(id);
+        if (ordemServico.getStatusEnum() == StatusEnum.CANCELADO || ordemServico.getStatusEnum() == StatusEnum.ENCERRADO) {
+            throw new ChamadoStatusInvalidoException("Não é possível alterar o status para ENCERRADO. A OS já está CANCELADA ou ENCERRADA.");
+        }
+        ordemServico.setStatusEnum(StatusEnum.ENCERRADO);
+        ordemServico.setDataFechamento(LocalDateTime.now());
+        ordemServicoRepository.save(ordemServico);
+        return ordemServico;
+    }
+
+    public OrdemServico atualizarStatusParaAberto(Long id) {
+        OrdemServico ordemServico = buscarOrdemServicoPorId(id);
+        StatusEnum statusAtual = ordemServico.getStatusEnum();
+
+        if (statusAtual == StatusEnum.CANCELADO || statusAtual == StatusEnum.ENCERRADO) {
+            throw new ChamadoStatusInvalidoException("Ordem de Serviço com status CANCELADO ou ENCERRADO não pode ser atualizada para EXECUCAO");
+        }
+
+        if (statusAtual != StatusEnum.ABERTO && statusAtual != StatusEnum.DEVOLVIDO) {
+            throw new ChamadoStatusInvalidoException("Ordem de Serviço só pode ser atualizada para EXECUCAO se o status atual for ABERTO ou DEVOLVIDO");
+        }
+
+        ordemServico.setStatusEnum(StatusEnum.ABERTO);
+        return ordemServicoRepository.save(ordemServico);
+    }
+
+    private String generateNumeroChamado() {
+        return UUID.randomUUID().toString();
     }
 }
