@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -31,12 +32,14 @@ public class TecnicosUseCase {
     private final TecnicoRepository tecnicoRepository;
     private final ChamadosRepository chamadosRepository;
     private final PessoaRepository pessoaRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
-    public TecnicosUseCase(TecnicoRepository tecnicoRepository, ChamadosRepository chamadosRepository, PessoaRepository pessoaRepository) {
+    public TecnicosUseCase(TecnicoRepository tecnicoRepository, ChamadosRepository chamadosRepository, PessoaRepository pessoaRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.tecnicoRepository = tecnicoRepository;
         this.chamadosRepository = chamadosRepository;
         this.pessoaRepository = pessoaRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public List<TecnicoDTO> listarTecnicos() {
@@ -116,10 +119,14 @@ public class TecnicosUseCase {
             throw new ValidationException("A senha não atende aos critérios mínimos. A Senha deverá conter pelo menos 8 caracteres, uma letra minúscula, uma letra maiúscula, um dígito, um caractere especial e não deve conter espaços em branco.");
         }
 
+        // Criptografa a senha
+        log.info("---- Criptografando a senha informada aguarde.... ----");
+        tecnicoDTO.setSenha(bCryptPasswordEncoder.encode(tecnicoDTO.getSenha()));
+        log.info("---- Senha criptografada com sucesso. ----");
+
+        log.info("---- Salvando dados informados... ----");
 
         Tecnico tecnicoSalvo = new Tecnico(tecnicoDTO);
-
-        // Salva o técnico no banco de dados
 
         log.info("---- Técnico salvo com sucesso ----");
         return tecnicoRepository.save(tecnicoSalvo);
