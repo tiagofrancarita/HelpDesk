@@ -1,19 +1,19 @@
 
-P
-java:S1874"3Remove this use of "description"; it is deprecated.(Üƒ8î–ëÓ„2
-H
-java:S1452G"&Remove usage of generic wildcard type.(”ıœîıÿÿÿÿ8ğ–ëÓ„2
-C
-java:S1452c"&Remove usage of generic wildcard type.(÷èµ…8ğ–ëÓ„2
-b
-java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8ñ–ëÓ„2
-V
-java:S1128"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8ñ–ëÓ„2
-Q
-java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8ñ–ëÓ„2
-W
-java:S1068""5Remove this unused "tecnicoRepository" private field.(ô‚†¨üÿÿÿÿ8ñ–ëÓ„2
-X
-java:S1068$"6Remove this unused "chamadosRepository" private field.(£»¥Çıÿÿÿÿ8ñ–ëÓ„2
-I
-java:S1068&"'Remove this unused "log" private field.(¶æª¦ûÿÿÿÿ8ñ–ëÓ„2
+v
+java:S1874"3Remove this use of "description"; it is deprecated.(Üƒ8î–ëÓ„2J$b81efca3-0de2-4e4c-9459-a442fe583188
+n
+java:S1452G"&Remove usage of generic wildcard type.(”ıœîıÿÿÿÿ8ğ–ëÓ„2J$1ab8e0fa-1c6b-4ae3-8af6-36465395a47e
+i
+java:S1452c"&Remove usage of generic wildcard type.(÷èµ…8ğ–ëÓ„2J$f90c9a95-1543-406a-b4ae-469620a99d19
+ˆ
+java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8ñ–ëÓ„2J$f767a432-862c-477a-91ea-7322271b3496
+|
+java:S1128"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8ñ–ëÓ„2J$dfef8be2-1116-47cc-82b6-c604e0e0f4c5
+w
+java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8ñ–ëÓ„2J$d300f817-e3a6-42f6-a482-83ec97a61131
+}
+java:S1068""5Remove this unused "tecnicoRepository" private field.(ô‚†¨üÿÿÿÿ8ñ–ëÓ„2J$026cd2be-8f87-4ca3-bdc9-46fe3863befe
+~
+java:S1068$"6Remove this unused "chamadosRepository" private field.(£»¥Çıÿÿÿÿ8ñ–ëÓ„2J$8e6dc483-1865-454f-a971-2624e61daccd
+o
+java:S1068&"'Remove this unused "log" private field.(¶æª¦ûÿÿÿÿ8ñ–ëÓ„2J$ac0bdbc4-94e5-4c76-80c9-b49af4f14b60

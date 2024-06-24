@@ -1,22 +1,25 @@
 
-˜	java:S117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï£…¦þÿÿÿÿ8Ÿ·ÍÏ„2J$5fc24458-f8f4-4c6d-a661-3b81d9586d4a
-“	java:S1172"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁÅÞÞ8 ·ÍÏ„2J$970013a1-428c-48dd-a98b-6bb455703a49
-˜	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áé€Éþÿÿÿÿ8 ·ÍÏ„2J$f4914700-eda7-44f2-abec-9afd02444a55
-’	java:S117;"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®ö«~8 ·ÍÏ„2J$eb42e654-3d00-494e-a2b1-d93a9b3fd2d9
+˜	java:S117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï£…¦þÿÿÿÿ8Óàïß„2J$a7de9f7a-1c6e-4413-8636-a219e855ad03
+“	java:S1172"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁÅÞÞ8Óàïß„2J$f3b9a942-5cba-485b-9a2a-3b7de47e7ba8
+˜	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áé€Éþÿÿÿÿ8Óàïß„2J$1f4c9aa6-9220-4aa0-9b96-a37b92dee85d
 …
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8‹ÉÍÏ„2J$3e5c9af1-9120-4721-a024-85ddf4cefb69
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8Ôàïß„2J$a051a798-fbd1-4e8b-a757-c84c45b1a1b3
 …
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8‹ÉÍÏ„2J$82cdce24-5442-4253-b32d-1a8079a107b3
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8Ôàïß„2J$c6b9ca3f-329e-4c6a-bfcc-9d8dc5a178ec
 …
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8‹ÉÍÏ„2J$7efca0e7-061e-4925-bb10-f5325d56ab14
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄÞ8Ôàïß„2J$f66f8f95-f639-463e-8150-e65cf47b3300
 …
-java:S6813""BRemove this field injection and use constructor injection instead.(êæÄÞ8‹ÉÍÏ„2J$ff7d6a6b-ec37-4784-9759-1ad59a8b49e3
+java:S6813""BRemove this field injection and use constructor injection instead.(êæÄÞ8Ôàïß„2J$d407a91d-e891-4b83-81fe-f015dc21fef1
 …
-java:S6813%"BRemove this field injection and use constructor injection instead.(êæÄÞ8‹ÉÍÏ„2J$5df07024-6e8d-4470-b810-b1a12a51cdd1
+java:S6813%"BRemove this field injection and use constructor injection instead.(êæÄÞ8Ôàïß„2J$b4652e3e-601f-4498-a7b6-32a8305303bf
 …
-java:S6813("BRemove this field injection and use constructor injection instead.(êæÄÞ8‹ÉÍÏ„2J$4ac1fb9b-012f-4cce-863e-79935268de46
+java:S6813("BRemove this field injection and use constructor injection instead.(êæÄÞ8Ôàïß„2J$b281ecc4-d80c-459d-bbe3-83abfdd4650d
 ~
-java:S6437."6Revoke and change this password, as it is compromised.(ï£…¦þÿÿÿÿ8ÉÍÏ„2J$e2a3faf4-99e7-45aa-a45b-2f58343609c7
+java:S6437."6Revoke and change this password, as it is compromised.(ï£…¦þÿÿÿÿ8Õàïß„2J$9fe077be-45a8-4af9-b6e7-5bd9cd5e4365
 y
-java:S64372"6Revoke and change this password, as it is compromised.(ÁÅÞÞ8ÉÍÏ„2J$e300f2b3-ac3e-4dbc-91d5-d32a1ba5dbaa
-ƒ	java:S125>"<This block of commented-out lines of code should be removed.(¸øë¯üÿÿÿÿ8ŽÉÍÏ„2J$d3297029-3994-477f-905c-3e1480c67afc
+java:S64372"6Revoke and change this password, as it is compromised.(ÁÅÞÞ8Õàïß„2J$77ac6770-9412-42c2-8cff-93e30e41db09
+~	java:S1259"<This block of commented-out lines of code should be removed.(ÎÅë‚8Öàïß„2J$744457dd-0f2b-4f84-97c9-41edee1941ac
+ƒ	java:S125;"<This block of commented-out lines of code should be removed.(§å‹ìøÿÿÿÿ8ô‡ðß„2J$027d5cfa-961b-4eb3-bc58-f8e902bd34d4
+ƒ	java:S125>"<This block of commented-out lines of code should be removed.(¸øë¯üÿÿÿÿ8Öàïß„2J$aa3150d8-ef79-41c3-b38d-fa4788cf48f1
+‹
+java:S1128"HRemove this unused import 'br.com.franca.helpdesk.domains.OrdemServico'.(Ùíúé8ô‡ðß„2J$ac73f702-a7d4-4555-90e2-f710fa84995f
