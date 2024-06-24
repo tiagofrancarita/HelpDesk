@@ -122,3 +122,5 @@ Ssrc/main/java/br/com/franca/helpdesk/exceptions/ChamadoStatusInvalidoException.
 -.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
 S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
+v
+Fsrc/main/java/br/com/franca/helpdesk/domains/dtos/OrdemServicoDTO.java,d\4\d487150ba063130cf752d7e3ec93164eef09dd77
