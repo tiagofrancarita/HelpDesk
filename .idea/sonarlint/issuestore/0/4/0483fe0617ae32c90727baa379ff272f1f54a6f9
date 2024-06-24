@@ -1,0 +1,33 @@
+
+…
+java:S4973¯"<Strings and Boxed types should be compared using "equals()".(ÉÕÏßşÿÿÿÿ8ÙØƒ“„2J$b99d2793-88f5-475d-a427-e336b70f370f
+…
+java:S4973µ"<Strings and Boxed types should be compared using "equals()".(®Îßÿşÿÿÿÿ8ÚØƒ“„2J$20a603b0-8c2f-475a-85ed-8c249193abff
+
+java:S2629G"7Use the built-in formatting to construct this argument.(ØĞòøùÿÿÿÿ8ùŠ¶“„2J$3d4b281c-e302-407b-8786-b4ba8dfa6e4f
+
+java:S2629"7Use the built-in formatting to construct this argument.(Ò–ƒîúÿÿÿÿ8ùŠ¶“„2J$05916a5a-0492-4cc9-9f5a-5a66f4b770d0
+¢
+java:S11923"ZDefine a constant instead of duplicating this literal "Nenhum cliente encontrado" 4 times.(®æêıÿÿÿÿ8úŠ¶“„2J$019da6e8-d7a2-499f-b245-e32204f5de70
+t
+java:S3416"1Update this logger to use "ClienteUseCase.class".(·ø¶8úŠ¶“„2J$65ec6347-2d4f-4795-90a7-a051cc50c28c
+‰
+java:S3457G"AFormat specifiers should be used instead of string concatenation.(ØĞòøùÿÿÿÿ8ıŠ¶“„2J$71921cde-fe68-41c4-a849-e6d70bc45f16
+„
+java:S3457L"AFormat specifiers should be used instead of string concatenation.(¼üªş8ıŠ¶“„2J$14e1bc5e-9443-4f7d-a0ad-1bcbdc2d1c9d
+‰
+java:S3457"AFormat specifiers should be used instead of string concatenation.(Ò–ƒîúÿÿÿÿ8 ò¥³„2J$63585aab-4560-4e47-8ec1-b89fdb29e833
+„
+java:S3457‚"AFormat specifiers should be used instead of string concatenation.(š¡á}8 ò¥³„2J$b7f46501-c715-4bb6-a171-c4147f06a2b3
+Š
+java:S3457œ"AFormat specifiers should be used instead of string concatenation.(…ùî›ùÿÿÿÿ8¡ò¥³„2J$51b7b9e9-b484-4f91-831a-1a2a36a78ae4
+…
+java:S3457 "AFormat specifiers should be used instead of string concatenation.(ÿ°Ï»8¡ò¥³„2J$b349f654-e10d-4faa-84b6-57de61c61dee
+Š
+java:S3457¨"AFormat specifiers should be used instead of string concatenation.(Ó‰Œêøÿÿÿÿ8¡ò¥³„2J$a74cc7d0-8b69-4aa5-9439-a0046e590830
+€
+java:S6353Û"<Use concise character class syntax '\\d' instead of '[0-9]'.(é¸é¤8£ò¥³„2J$2c598640-a3c2-420c-8923-2577a3b45695
+…
+java:S1128"CRemove this unused import 'br.com.franca.helpdesk.domains.Tecnico'.(¦Ùê"8úô¤³„2J$f99d6440-a72d-4764-bc65-b176ac953517
+
+java:S1128"KRemove this unused import 'br.com.franca.helpdesk.domains.dtos.TecnicoDTO'.(•Şİv8úô¤³„2J$5fabdfc5-2e66-44eb-a6ff-ec0af26e53ea
