@@ -1,9 +1,7 @@
 package br.com.franca.helpdesk.controller;
 
 import br.com.franca.helpdesk.domains.OrdemServico;
-import br.com.franca.helpdesk.domains.Tecnico;
-import br.com.franca.helpdesk.domains.dtos.TecnicoDTO;
-import br.com.franca.helpdesk.exceptions.ChamadoStatusInvalidoException;
+import br.com.franca.helpdesk.domains.dtos.OrdemServicoDTO;
 import br.com.franca.helpdesk.usecases.OrdemServicoUseCase;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -16,10 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import javax.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -72,14 +66,10 @@ public class OrdemServicoController {
 
     @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     @PostMapping(value = "/criarOrdemServico")
-    public ResponseEntity<OrdemServico> criarOrdemServico(@RequestBody OrdemServico ordemServico) {
-
-            OrdemServico novaOrdemServico = ordemServicoUseCase.criarOrdemServico(
-                    ordemServico.getChamado().getId(), ordemServico.getDescricao(),
-                    ordemServico.getProblema(), ordemServico.getTratativa(),
-                    ordemServico.getSolucao());
-            return ResponseEntity.status(HttpStatus.CREATED).body(novaOrdemServico);
-        }
+    public ResponseEntity<OrdemServicoDTO> criarOrdemServico(@RequestBody OrdemServicoDTO ordemServico) {
+        OrdemServicoDTO responseDTO = ordemServicoUseCase.criarOrdemServico(ordemServico);
+        return ResponseEntity.status(HttpStatus.CREATED).body(responseDTO);
+    }
 
     @PutMapping("atualizarStatusParaExecucao/{id}")
     public ResponseEntity<OrdemServico> atualizarStatusParaExecucao(@PathVariable Long id) {

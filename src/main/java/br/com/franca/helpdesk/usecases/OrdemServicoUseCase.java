@@ -2,6 +2,8 @@ package br.com.franca.helpdesk.usecases;
 
 import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.OrdemServico;
+import br.com.franca.helpdesk.domains.Tecnico;
+import br.com.franca.helpdesk.domains.dtos.OrdemServicoDTO;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import br.com.franca.helpdesk.exceptions.ChamadoStatusInvalidoException;
 import br.com.franca.helpdesk.exceptions.ObjectnotFoundException;
@@ -61,29 +63,60 @@ public class OrdemServicoUseCase {
         return listagemOS;
     }
 
-    public OrdemServico criarOrdemServico(Long chamadoId, String descricao, String problema, String tratativa, String solucao) {
-        // Buscar o chamado pelo ID
-        Chamado chamado = chamadosRepository.findById(chamadoId)
-                .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado"));
+    public OrdemServicoDTO criarOrdemServico(OrdemServicoDTO ordemServicoDTO) {
+        log.info("---- Iniciando a criação de OS.... ----");
 
-        // Verificar se o chamado está com status ABERTO
-        if (!chamado.getStatusEnum().equals(StatusEnum.ABERTO)) {
-            throw new ChamadoStatusInvalidoException("A Ordem de Serviço só pode ser criada para chamados com status ABERTO");
+        log.info("---- Iniciando a validação da OS.... ----");
+
+        // Recuperando o chamado do DTO
+        Chamado chamado = chamadosRepository.findById(ordemServicoDTO.getChamadoId())
+                .orElseThrow(() -> new ObjectnotFoundException("Chamado não encontrado"));
+
+        if (chamado.getStatusEnum() != StatusEnum.ABERTO) {
+            log.error("---- A OS só pode ser criada se o chamado estiver com status ABERTO. ----");
+            throw new ChamadoStatusInvalidoException("A OS só pode ser criada se o chamado estiver com status ABERTO.");
         }
 
-        // Criar a nova ordem de serviço
+        if (existeOrdemServicoParaChamado(chamado.getId())) {
+            log.error("---- O chamado já está associado a outra ordem de serviço. ----");
+            throw new ChamadoStatusInvalidoException("O chamado já está associado a outra ordem de serviço.");
+        }
+
+        log.info("---- Validação executada com sucesso. ----");
+
+        // Criando a entidade OrdemServico a partir do DTO
         OrdemServico ordemServico = new OrdemServico();
         ordemServico.setChamado(chamado);
-        ordemServico.setNumeroChamado(generateNumeroChamado());
-        ordemServico.setDescricao(descricao);
+        ordemServico.setDescricao(ordemServicoDTO.getDescricao());
+        ordemServico.setProblema(ordemServicoDTO.getProblema());
+        ordemServico.setTratativa(ordemServicoDTO.getTratativa());
+        ordemServico.setSolucao(ordemServicoDTO.getSolucao());
         ordemServico.setDataCriacao(LocalDateTime.now());
-        ordemServico.setProblema(problema);
-        ordemServico.setTratativa(tratativa);
-        ordemServico.setSolucao(solucao);
         ordemServico.setStatusEnum(StatusEnum.ABERTO);
+        ordemServico.setNumeroChamado(generateNumeroChamado());
+        // Salvando a ordem de serviço no banco de dados
+        OrdemServico ordemServicoSalva = ordemServicoRepository.save(ordemServico);
 
-        // Salvar a ordem de serviço no banco de dados
-        return ordemServicoRepository.save(ordemServico);
+        log.info("---- Ordem de serviço criada com sucesso. ----");
+
+        // Montando o DTO de resposta
+        OrdemServicoDTO responseDTO = new OrdemServicoDTO();
+        responseDTO.setId(ordemServicoSalva.getId());
+        responseDTO.setChamadoId(ordemServicoSalva.getChamado().getId());
+        responseDTO.setNumeroChamado(ordemServicoSalva.getNumeroChamado());
+        responseDTO.setDescricao(ordemServicoSalva.getDescricao());
+        responseDTO.setDataCriacao(ordemServicoSalva.getDataCriacao());
+        responseDTO.setDataFechamento(ordemServicoSalva.getDataFechamento());
+        responseDTO.setProblema(ordemServicoSalva.getProblema());
+        responseDTO.setTratativa(ordemServicoSalva.getTratativa());
+        responseDTO.setSolucao(ordemServicoSalva.getSolucao());
+        responseDTO.setStatusEnum(ordemServicoSalva.getStatusEnum());
+        responseDTO.setTecnicoId(ordemServicoSalva.getChamado().getTecnico().getId());
+        responseDTO.setTecnicoNome(ordemServicoSalva.getChamado().getTecnico().getNome());
+        responseDTO.setClienteId(ordemServicoSalva.getChamado().getCliente().getId());
+        responseDTO.setClienteNome(ordemServicoSalva.getChamado().getCliente().getNome());
+
+        return responseDTO;
     }
 
     public OrdemServico atualizarStatusParaExecucao(Long id) {
@@ -143,6 +176,10 @@ public class OrdemServicoUseCase {
 
         ordemServico.setStatusEnum(StatusEnum.ABERTO);
         return ordemServicoRepository.save(ordemServico);
+    }
+
+    public boolean existeOrdemServicoParaChamado(Long chamadoId) {
+        return ordemServicoRepository.existsByChamadoId(chamadoId);
     }
 
     private String generateNumeroChamado() {

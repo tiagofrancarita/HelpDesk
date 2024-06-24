@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface OrdemServicoRepository extends JpaRepository<OrdemServico, Long> {
 
 
+    boolean existsByChamadoId(Long chamadoId);
 }
