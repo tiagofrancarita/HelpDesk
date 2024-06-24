@@ -1,29 +1,29 @@
 
 …
-java:S4973Ò"<Strings and Boxed types should be compared using "equals()".(ı«úÈøÿÿÿÿ8ÍÆÿ‘„2J$b59ad8cc-47c7-493c-891a-139f9b48a934
+java:S4973Ò"<Strings and Boxed types should be compared using "equals()".(ı«úÈøÿÿÿÿ8ÍÆÿ‘„2J$16baaa8f-cb6e-49a6-b8c0-340b8cd9b588
 €
-java:S4973Ø"<Strings and Boxed types should be compared using "equals()".(†ÊÙ€8ÍÆÿ‘„2J$dc60fae5-45a4-448d-97dd-795bcc67dc6a
-z
-java:S2629D"7Use the built-in formatting to construct this argument.(Ãëì8ÍÆÿ‘„2J$db0059b3-8897-4814-a8e7-503f9b25dba0
+java:S4973Ø"<Strings and Boxed types should be compared using "equals()".(†ÊÙ€8ÍÆÿ‘„2J$f6177a2c-e946-46f8-8e2f-8de22825cc68
+T
+java:S2629D"7Use the built-in formatting to construct this argument.(Ãëì8ÈûÍÙ„2
 {
-java:S2629œ"7Use the built-in formatting to construct this argument.(ô¤¢ª8ÍÆÿ‘„2J$581930d4-2636-4930-8303-1efedc2d16fd
-
-java:S11921"[Define a constant instead of duplicating this literal "Nenhum tÃ©cnico encontrado" 4 times.(¬²‚å8ÎÆÿ‘„2J$c6ceaa04-08a7-46dc-8361-208768ae3572
-„
-java:S3457D"AFormat specifiers should be used instead of string concatenation.(Ãëì8ÑÆÿ‘„2J$7873e5d3-0e9a-4051-95b0-69f2ff6bdb40
-‰
-java:S3457I"AFormat specifiers should be used instead of string concatenation.(„‡ó”şÿÿÿÿ8ÑÆÿ‘„2J$a02e005d-7520-4f7a-bf2b-da976d5247b7
+java:S2629œ"7Use the built-in formatting to construct this argument.(ô¤¢ª8ÍÆÿ‘„2J$454b0e11-a2be-4406-9d45-1d6737aa030c
+x
+java:S11921"[Define a constant instead of duplicating this literal "Nenhum tÃ©cnico encontrado" 4 times.(¬²‚å8ÈûÍÙ„2
+^
+java:S3457D"AFormat specifiers should be used instead of string concatenation.(Ãëì8ÌûÍÙ„2
+c
+java:S3457I"AFormat specifiers should be used instead of string concatenation.(„‡ó”şÿÿÿÿ8ÌûÍÙ„2
 …
-java:S3457œ"AFormat specifiers should be used instead of string concatenation.(ô¤¢ª8é¹¬³„2J$7e85a3c0-0557-4564-9400-51751e979a31
+java:S3457œ"AFormat specifiers should be used instead of string concatenation.(ô¤¢ª8é¹¬³„2J$b2fd1b74-11b4-4186-9cb9-fc7430a2880e
 …
-java:S3457Ÿ"AFormat specifiers should be used instead of string concatenation.(Ö ïÑ8é¹¬³„2J$9bdd954d-8cd6-4615-9253-5ef1b98ebdd9
+java:S3457Ÿ"AFormat specifiers should be used instead of string concatenation.(Ö ïÑ8é¹¬³„2J$ba90ab2c-b678-463a-bdfe-20619fb9a2cd
 Š
-java:S3457»"AFormat specifiers should be used instead of string concatenation.(ìĞåÑüÿÿÿÿ8é¹¬³„2J$a33c3eca-d79a-41a3-8527-5cbc6a6fef28
+java:S3457»"AFormat specifiers should be used instead of string concatenation.(ìĞåÑüÿÿÿÿ8é¹¬³„2J$f860df9a-e1aa-4de0-90ff-c4bf11f3b35c
 …
-java:S3457¿"AFormat specifiers should be used instead of string concatenation.(ÆÍó¬8ÔÆÿ‘„2J$9dcaa7df-610d-4546-b587-c850065365c4
+java:S3457¿"AFormat specifiers should be used instead of string concatenation.(ÆÍó¬8ÔÆÿ‘„2J$d2fa6982-52f4-4986-ba1d-7929595c56f2
 Š
-java:S3457É"AFormat specifiers should be used instead of string concatenation.(«Ÿ¹§ùÿÿÿÿ8ê¹¬³„2J$554402e4-fbd5-470e-b424-6c5299264932
+java:S3457É"AFormat specifiers should be used instead of string concatenation.(«Ÿ¹§ùÿÿÿÿ8ê¹¬³„2J$6a12abd3-5f14-4f83-bb48-52306cd04bc6
 €
-java:S6353à"<Use concise character class syntax '\\d' instead of '[0-9]'.(é¸é¤8ë¹¬³„2J$8e8c7139-89d4-455b-ab1f-c329d7c84884
-ˆ
-java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8ù­ª³„2J$fcc69733-d1db-4476-b5f0-315e9334b738
+java:S6353à"<Use concise character class syntax '\\d' instead of '[0-9]'.(é¸é¤8ë¹¬³„2J$f3667eee-26a7-4186-93e2-a44bc9d1da12
+b
+java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8×ûÍÙ„2

@@ -112,3 +112,13 @@ Bsrc/test/java/br/com/franca/helpdesk/HelpDeskApplicationTests.java,2\f\2f633df
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+k
+;src/main/java/br/com/franca/helpdesk/config/ProdConfig.java,a\e\ae727c3005a43c04d1bd0246eb8cdb0689140889
+{
+Ksrc/main/java/br/com/franca/helpdesk/controller/OrdemServicoController.java,c\5\c5fe93c8644243dbe2883255f78b6a755f8dd602
+ƒ
+Ssrc/main/java/br/com/franca/helpdesk/exceptions/ChamadoStatusInvalidoException.java,4\c\4cb0b82105d1ed10ff178237c43a17d0ea1fb684
+]
+-.idea/sonarlint/securityhotspotstore/index.pb,8\8\88a9255124c95bdc913197c120a8d560edc59c8e
+S
+#.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
