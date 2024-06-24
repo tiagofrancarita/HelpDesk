@@ -16,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,13 +33,15 @@ public class ClienteUseCase {
     private final ClienteRepository clienteRepository;
     private final ChamadosRepository chamadosRepository;
     private final PessoaRepository pessoaRepository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     @Autowired
-    public ClienteUseCase(ClienteRepository clienteRepository, ChamadosRepository chamadosRepository, PessoaRepository pessoaRepository) {
+    public ClienteUseCase(ClienteRepository clienteRepository, ChamadosRepository chamadosRepository, PessoaRepository pessoaRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.clienteRepository = clienteRepository;
         this.chamadosRepository = chamadosRepository;
         this.pessoaRepository = pessoaRepository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public List<ClienteDTO> listarCliente() {
@@ -83,6 +86,11 @@ public class ClienteUseCase {
             log.info("---- Iniciando validação dos dados informados... ----");
             validaDadosInformados(clienteDTO);
             log.info("---- Dados validados com sucesso. ----");
+
+            log.info("---- Criptografando a senha informada... ----");
+            clienteDTO.setSenha(bCryptPasswordEncoder.encode(clienteDTO.getSenha()));
+            log.info("---- Senha criptografada com sucesso. ----");
+
 
             Cliente clienteSalvo = new Cliente(clienteDTO);
 
