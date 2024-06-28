@@ -26,9 +26,9 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-//@RequestMapping(value = "/pessoa", method = RequestMethod.GET, produces="application/json")
 @RequestMapping(value = "v1/tecnicos", produces = "application/json")
 @Api(value = "Tecnico Management System", description = "Operações referentes ao técnico no Sistema de Helpdesk")
+@CrossOrigin(origins = "http://localhost:4200")  // Altere a porta conforme necessário
 public class TecnicoController {
 
     private TecnicoRepository tecnicoRepository;
@@ -44,29 +44,19 @@ public class TecnicoController {
     }
 
 
-
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     @GetMapping("/listarTecnicos")
     @ApiOperation(value = "Lista todos os técnicos", response = TecnicoDTO.class, responseContainer = "List", produces = "application/json", consumes = "application/json", httpMethod = "GET")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
-            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
-            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
-
-    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Técnicos listados com sucesso"), @ApiResponse(code = 404, message = "Nenhum técnico encontrado"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"),})
     public ResponseEntity<List<TecnicoDTO>> listarTecnicos() {
 
             List<TecnicoDTO> tecnicos = tecnicosUseCase.listarTecnicos();
             return new ResponseEntity<>(tecnicos, HttpStatus.OK);
 
     }
-
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     @ApiOperation(value = "Busca um tecnico cadastrado pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "GET")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Técnicos listados com sucesso"),
-            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
-            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
-
-    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Técnicos listados com sucesso"), @ApiResponse(code = 404, message = "Nenhum técnico encontrado"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"),})
     @GetMapping(value = "buscarTecnicoPorId/{id}")
     public ResponseEntity<?> buscarTecnicoPorId(@PathVariable Long id) {
 
@@ -77,7 +67,7 @@ public class TecnicoController {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     @PostMapping("/cadastrarTecnico")
     @ApiOperation(value = "Cadastra um novo técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "POST")
     public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecnicoDTO) {
@@ -87,14 +77,9 @@ public class TecnicoController {
         return ResponseEntity.created(uri).build();
 
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     @ApiOperation(value = "Deleta um técnico pelo id", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Teccnico excluído com sucesso"),
-            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
-            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
-
-    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Teccnico excluído com sucesso"), @ApiResponse(code = 404, message = "Nenhum técnico encontrado"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"),})
     @DeleteMapping("deletarTecnicoPorId/{id}")
     public ResponseEntity<?> deletarTecnicoPorId(@PathVariable Long id) {
 
@@ -102,14 +87,9 @@ public class TecnicoController {
             return new ResponseEntity<>("Técnico excluído com sucesso", HttpStatus.OK);
 
     }
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('TECNICO', 'ADMIN')")
     @ApiOperation(value = "Atualiza um técnico", response = TecnicoDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Técnicos atualizado com sucesso"),
-            @ApiResponse(code = 404, message = "Nenhum técnico encontrado"),
-            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
-
-    })
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Técnicos atualizado com sucesso"), @ApiResponse(code = 404, message = "Nenhum técnico encontrado"), @ApiResponse(code = 500, message = "Foi gerada uma exceção"),})
     @PutMapping("atualizarTecnico/{id}")
     public ResponseEntity<TecnicoDTO> atualizarTecnico(@PathVariable Long id, @Valid @RequestBody TecnicoDTO tecnicoAtualizadoDTO) {
 

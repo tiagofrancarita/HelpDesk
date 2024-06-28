@@ -3,16 +3,6 @@ r
 Bsrc/main/java/br/com/franca/helpdesk/usecases/TecnicosUseCase.java,b\7\b79662e8f704358be7feea094495a156da7302c0
 „
 Tsrc/main/java/br/com/franca/helpdesk/exceptions/DataIntegrityViolationException.java,e\f\ef50dfb1b0d27559cbbd5c79075be81e84bc7879
-q
-Asrc/main/java/br/com/franca/helpdesk/exceptions/ErrorDetails.java,5\f\5ff971df3b0dfabb325c94cdfa5d5bf73284a0a0
-{
-Ksrc/main/java/br/com/franca/helpdesk/exceptions/GlobalExceptionHandler.java,f\5\f54a61b8b2a2c3bdfbda03150ff260cafd4b4ba9
-|
-Lsrc/main/java/br/com/franca/helpdesk/exceptions/PerfilNotFoundException.java,f\5\f50bebeb9d298659bde21905d729d4d30219527a
-†
-Vsrc/main/java/br/com/franca/helpdesk/exceptions/TecnicoNotExludeAssociantioTicket.java,0\3\037554c12b236eedd7b2f00646ba7572fd9b3f08
-~
-Nsrc/main/java/br/com/franca/helpdesk/exceptions/TecnicosNotFoundException.java,5\a\5aacfa01f8b73284f38b88de44fc24cd1c2e51f1
 w
 Gsrc/main/java/br/com/franca/helpdesk/repositorys/TecnicoRepository.java,b\3\b3c0f6bd2b16323b9ab481bdb69a0d51e8ef1355
 k
@@ -41,8 +31,6 @@ q
 Asrc/main/java/br/com/franca/helpdesk/exceptions/FieldMessage.java,d\f\df749a999b4f069f2432dbfb932a0337faf5aeba
 t
 Dsrc/main/java/br/com/franca/helpdesk/exceptions/ValidationError.java,3\f\3f99b0e11428e1df469b4573106205f0d1664412
-‚
-Rsrc/test/java/br/com/franca/helpdesk/tests/tecnicoUseCase/TecnicosUseCaseTest.java,d\f\df1a846da887951facaa1b1e9d41aaa4c6c1de1a
 i
 9src/main/java/br/com/franca/helpdesk/domains/Cliente.java,0\1\01cf816c721bdccfd39a031b17b2a894ada07fb0
 q
@@ -83,8 +71,6 @@ k
 ;src/main/java/br/com/franca/helpdesk/config/TestConfig.java,f\9\f951ebce0f1216abad29421b13a0f712396b1266
 j
 :src/main/java/br/com/franca/helpdesk/config/DevConfig.java,5\4\542f76da2a35a8d2e656f77d9068069c9872fbf0
-`
-0src/main/java/br/com/franca/helpdesk/UserSS.java,c\7\c7a88b07f26811789a29a98c332987ef77112b65
 z
 Jsrc/main/java/br/com/franca/helpdesk/usecases/UserDetailsUseCasesImpl.java,2\1\21161eecdc4b3de6f40fab5d082f60ecb77e53a7
 u
@@ -112,8 +98,6 @@ Bsrc/test/java/br/com/franca/helpdesk/HelpDeskApplicationTests.java,2\f\2f633df
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-k
-;src/main/java/br/com/franca/helpdesk/config/ProdConfig.java,a\e\ae727c3005a43c04d1bd0246eb8cdb0689140889
 {
 Ksrc/main/java/br/com/franca/helpdesk/controller/OrdemServicoController.java,c\5\c5fe93c8644243dbe2883255f78b6a755f8dd602
 ƒ
