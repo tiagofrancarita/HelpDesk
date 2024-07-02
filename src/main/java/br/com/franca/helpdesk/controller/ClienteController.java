@@ -105,7 +105,7 @@ public class ClienteController {
     @PutMapping("atualizarClientePorId/{id}")
     public ResponseEntity<ClienteDTO> atualizarClientePorId(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteAtualizadoDTO) {
 
-        ClienteDTO clienteAtualizadoResponseDTO = clienteUseCase.atualizarClientePorId(id, clienteAtualizadoDTO);
+        ClienteDTO clienteAtualizadoResponseDTO = clienteUseCase.atualizarCliente(id, clienteAtualizadoDTO);
         return new ResponseEntity<>(clienteAtualizadoResponseDTO, HttpStatus.OK);
     }
 }
