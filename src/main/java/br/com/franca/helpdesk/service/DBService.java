@@ -43,6 +43,10 @@ public class DBService {
 
     public void instacieDB() {
 
+
+        /*
+
+
         Tecnico T1 = new Tecnico(null, "Tecnico 1", "43830635001","tecnico@email.com",bCryptPasswordEncoder.encode("@Biatico681"));
         T1.addPerfil(Perfil.ADMIN);
         tecnicoRepository.saveAll(Arrays.asList(T1));
@@ -53,7 +57,7 @@ public class DBService {
         Chamado CH1 = new Chamado(null, "Tela Azul", "Ao Ligar o equipamento, no carregamento do windows 10, usuario informa que aparece tela azul sem a possibilidade de login",
                 PrioridadeEnum.MEDIA, StatusEnum.ABERTO, "Cliente solicita breve prioridade no atendimento, cliente da empresa a 10 anos", C1, T1);
         chamadosRepository.saveAll(Arrays.asList(CH1));
-
+*/
        // String numeroChamado = ordemServicoUseCase.();
 
         //OrdemServico OS1 = new OrdemServico(null,CH1,numeroChamado,  "Problema na tela azul", CH1.getDataAbertura(), CH1.getDataFechamento(), "Problema na tela azul", "Tratativa", "Solucao", StatusEnum.ABERTO);

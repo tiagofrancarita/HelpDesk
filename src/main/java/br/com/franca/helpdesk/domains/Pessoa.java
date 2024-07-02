@@ -104,9 +104,9 @@ public abstract class Pessoa implements Serializable {
 
     }
 
-    public void addPerfil(Perfil perfil) {
-        this.perfis.add(perfil.getCodigo());
-    }
+   // public void addPerfil(Perfil perfil) {
+     //   this.perfis.add(perfil.getCodigo());
+    //}
 
     public LocalDateTime getDataCriacao() {
         return dataCriacao;

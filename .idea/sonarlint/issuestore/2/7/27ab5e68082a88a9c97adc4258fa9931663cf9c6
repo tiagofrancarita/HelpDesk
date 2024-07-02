@@ -1,25 +1,34 @@
 
-˜	java:S117."QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï£…¦şÿÿÿÿ8Óàïß„2J$a7de9f7a-1c6e-4413-8636-a219e855ad03
-“	java:S1172"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÁÅŞŞ8Óàïß„2J$f3b9a942-5cba-485b-9a2a-3b7de47e7ba8
-˜	java:S1175"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(áé€Éşÿÿÿÿ8Óàïß„2J$1f4c9aa6-9220-4aa0-9b96-a37b92dee85d
 …
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$a051a798-fbd1-4e8b-a757-c84c45b1a1b3
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$17c40aac-f8e0-4c69-abce-43ec572ca501
 …
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$c6b9ca3f-329e-4c6a-bfcc-9d8dc5a178ec
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$038f7cbe-dc29-4e63-b64b-f162e1a2dfd7
 …
-java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$f66f8f95-f639-463e-8150-e65cf47b3300
+java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$accff1a5-2b25-4d50-86f7-f8197c9126ba
 …
-java:S6813""BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$d407a91d-e891-4b83-81fe-f015dc21fef1
+java:S6813""BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$e33e96d5-2daf-435d-952b-7d7b54e8d1e0
 …
-java:S6813%"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$b4652e3e-601f-4498-a7b6-32a8305303bf
+java:S6813%"BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$73fab499-0a1d-4474-905f-ceaa0125b8fd
 …
-java:S6813("BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$b281ecc4-d80c-459d-bbe3-83abfdd4650d
-~
-java:S6437."6Revoke and change this password, as it is compromised.(ï£…¦şÿÿÿÿ8Õàïß„2J$9fe077be-45a8-4af9-b6e7-5bd9cd5e4365
-y
-java:S64372"6Revoke and change this password, as it is compromised.(ÁÅŞŞ8Õàïß„2J$77ac6770-9412-42c2-8cff-93e30e41db09
-~	java:S1259"<This block of commented-out lines of code should be removed.(ÎÅë‚8Öàïß„2J$744457dd-0f2b-4f84-97c9-41edee1941ac
-ƒ	java:S125;"<This block of commented-out lines of code should be removed.(§å‹ìøÿÿÿÿ8ô‡ğß„2J$027d5cfa-961b-4eb3-bc58-f8e902bd34d4
-ƒ	java:S125>"<This block of commented-out lines of code should be removed.(¸øë¯üÿÿÿÿ8Öàïß„2J$aa3150d8-ef79-41c3-b38d-fa4788cf48f1
-‹
-java:S1128"HRemove this unused import 'br.com.franca.helpdesk.domains.OrdemServico'.(Ùíúé8ô‡ğß„2J$ac73f702-a7d4-4555-90e2-f710fa84995f
+java:S6813("BRemove this field injection and use constructor injection instead.(êæÄŞ8Ôàïß„2J$cf20b383-4634-4d10-806d-d1ad930ea07e
+]	java:S1252"<This block of commented-out lines of code should be removed.(ï£…¦şÿÿÿÿ8ö’ô…‡2
+~	java:S125="<This block of commented-out lines of code should be removed.(ÎÅë‚8Öàïß„2J$576baf20-c30c-4867-a51c-7bc76cd0281b
+ƒ	java:S125?"<This block of commented-out lines of code should be removed.(§å‹ìøÿÿÿÿ8ô‡ğß„2J$a0de3c40-8987-47cc-b428-a501bcf4078a
+ƒ	java:S125B"<This block of commented-out lines of code should be removed.(¸øë¯üÿÿÿÿ8Öàïß„2J$5e1e74c8-f701-4a4f-bbb8-b1ad4c1915ea
+e
+java:S1128"CRemove this unused import 'br.com.franca.helpdesk.domains.Chamado'.(“îºÒüÿÿÿÿ8êÂ‰œ‡2
+`
+java:S1128"CRemove this unused import 'br.com.franca.helpdesk.domains.Cliente'.(ùåä›8êÂ‰œ‡2
+e
+java:S1128"HRemove this unused import 'br.com.franca.helpdesk.domains.OrdemServico'.(Ùíúé8êÂ‰œ‡2
+_
+java:S1128"CRemove this unused import 'br.com.franca.helpdesk.domains.Tecnico'.(¦Ùê"8êÂ‰œ‡2
+e
+java:S1128"HRemove this unused import 'br.com.franca.helpdesk.domains.enums.Perfil'.(©Ä­¯8êÂ‰œ‡2
+r
+java:S1128	"PRemove this unused import 'br.com.franca.helpdesk.domains.enums.PrioridadeEnum'.(œåå‹üÿÿÿÿ8êÂ‰œ‡2
+i
+java:S1128
+"LRemove this unused import 'br.com.franca.helpdesk.domains.enums.StatusEnum'.(îã³8êÂ‰œ‡2
+O
+java:S1128"-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ8êÂ‰œ‡2
