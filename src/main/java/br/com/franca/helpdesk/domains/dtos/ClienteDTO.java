@@ -42,7 +42,7 @@ public class ClienteDTO implements Serializable {
         private String senha;
 
         @ApiModelProperty(notes = "Data de Criação do cliente", example = "2023-05-26T19:52:58")
-        @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
+        @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
         private LocalDateTime dataCriacao;
 
         @ApiModelProperty(notes = "Perfis do cliente", example = "[\"ADMIN\", \"USER\"]")

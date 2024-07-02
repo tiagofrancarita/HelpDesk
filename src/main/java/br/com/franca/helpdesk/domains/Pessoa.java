@@ -41,7 +41,7 @@ public abstract class Pessoa implements Serializable {
     @CollectionTable(name = "PERFIS")
     protected Set<Integer> perfis = new HashSet<>();
 
-    @JsonFormat(pattern = "dd/MM/yyyy'T'HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     @Column(name = "data_contratacao", nullable = false, columnDefinition = "TIMESTAMP")
     protected LocalDateTime dataCriacao = LocalDateTime.now();
 
