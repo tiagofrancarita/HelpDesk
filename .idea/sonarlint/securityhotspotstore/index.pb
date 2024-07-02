@@ -108,3 +108,7 @@ S
 #.idea/sonarlint/issuestore/index.pb,9\f\9fe84ebb15faf917b7def6236dba604453cc61e0
 v
 Fsrc/main/java/br/com/franca/helpdesk/domains/dtos/OrdemServicoDTO.java,d\4\d487150ba063130cf752d7e3ec93164eef09dd77
+n
+>src/main/java/br/com/franca/helpdesk/config/SwaggerConfig.java,e\1\e199d23b3d78394e9996bcebc92c2129027c3313
+\
+,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c

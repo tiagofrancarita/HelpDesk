@@ -1,19 +1,19 @@
 
 v
-java:S1874"3Remove this use of "description"; it is deprecated.(Üƒ8î–ëÓ„2J$9542bfdc-a9f5-4c7a-8175-2a77ac174b7f
+java:S1874"3Remove this use of "description"; it is deprecated.(Üƒ8î–ëÓ„2J$5d4964d5-acb4-43b4-9b1b-d04ad299ea70
 n
-java:S1452="&Remove usage of generic wildcard type.(”ıœîıÿÿÿÿ8¤¥¤ô…2J$24059056-2417-46ec-be40-1d357e9bf3e3
+java:S1452:"&Remove usage of generic wildcard type.(”ıœîıÿÿÿÿ8²÷†‡2J$08b1f7a1-e6c1-47d1-b84f-98547435d616
 i
-java:S1452T"&Remove usage of generic wildcard type.(÷èµ…8¦¥¤ô…2J$6ecb0542-84a3-4c9f-8fa8-7dbb80b568c3
+java:S1452P"&Remove usage of generic wildcard type.(÷èµ…8³÷†‡2J$498c26bb-87e6-4eeb-8b16-439affd60841
 ˆ
-java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8ñ–ëÓ„2J$4dcf66ba-6df7-453b-8265-7dd0117da26f
+java:S1128"FRemove this unused import 'javax.persistence.EntityNotFoundException'.(©ÿ€8ñ–ëÓ„2J$0e61a3b4-95bc-4240-88a3-ecea0ba65c5e
 |
-java:S1128"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8ñ–ëÓ„2J$cd74ed6a-cdd7-40c7-a8ed-af300869b102
+java:S1128"4Remove this unused import 'java.time.LocalDateTime'.(æÃ§ƒüÿÿÿÿ8ñ–ëÓ„2J$b97192e2-2b0a-4b06-8ec9-1d4cbf8230ab
 w
-java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8ñ–ëÓ„2J$d8b28c44-a4f5-4962-8786-88f5f60d66c3
+java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8ñ–ëÓ„2J$a52677db-8dbc-464a-aa72-987de4c6a0d6
 }
-java:S1068""5Remove this unused "tecnicoRepository" private field.(ô‚†¨üÿÿÿÿ8ñ–ëÓ„2J$b3e0f910-8ac6-4f48-9028-080efa311b04
+java:S1068!"5Remove this unused "tecnicoRepository" private field.(ô‚†¨üÿÿÿÿ8ñ–ëÓ„2J$e622c207-1d84-47d4-86a6-4fb17eec1bae
 ~
-java:S1068$"6Remove this unused "chamadosRepository" private field.(£»¥Çıÿÿÿÿ8ñ–ëÓ„2J$2e16ff3a-2536-4a81-b414-fbb8d8710565
+java:S1068#"6Remove this unused "chamadosRepository" private field.(£»¥Çıÿÿÿÿ8ñ–ëÓ„2J$12ee88f6-6d6a-40df-b28c-349b11be1650
 o
-java:S1068&"'Remove this unused "log" private field.(¶æª¦ûÿÿÿÿ8ñ–ëÓ„2J$7601b635-6edf-4696-91b1-80c9cf2f0f28
+java:S1068%"'Remove this unused "log" private field.(¶æª¦ûÿÿÿÿ8ñ–ëÓ„2J$451749d9-d6d0-4679-be9f-08bc82bc492f

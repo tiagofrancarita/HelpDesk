@@ -1,7 +1,10 @@
 
 …
-java:S6813#"BRemove this field injection and use constructor injection instead.(êæÄŞ8­ÂÒ„2J$7d9d5854-b52f-4422-b7a1-be7af9e41984
+java:S6813""BRemove this field injection and use constructor injection instead.(êæÄŞ8±Ï†‡2J$4b1bfa52-0e22-40da-babb-6bac0b3a5b18
 …
-java:S6813%"BRemove this field injection and use constructor injection instead.(êæÄŞ8­ÂÒ„2J$3142772c-f755-4725-aaeb-2560f32c3938
+java:S6813$"BRemove this field injection and use constructor injection instead.(êæÄŞ8±Ï†‡2J$12221a31-1607-44a6-9600-a73f54f433f4
 …
-java:S6813'"BRemove this field injection and use constructor injection instead.(êæÄŞ8­ÂÒ„2J$863ae226-e68e-4243-a0b2-2df9c77eb1ed
+java:S6813&"BRemove this field injection and use constructor injection instead.(êæÄŞ8±Ï†‡2J$43ddbf2f-7527-4cc9-b96a-168a9b971bd4
+¾
+java:S1128
+"{Remove this unused import 'org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity'.(Ô¦ø8ÿØõ†‡2J$da3eb82b-6d80-4d29-9044-14203b6e64bb
