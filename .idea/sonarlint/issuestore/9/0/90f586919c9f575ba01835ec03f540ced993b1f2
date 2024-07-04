@@ -1,21 +1,21 @@
 
 ¡
-java:S2293Z"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ù€Çøÿÿÿÿ8ö‰¥©„2J$1bafaee6-dd3e-45ce-9d83-99e58efe840f
-¡
-java:S2293h"YReplace the type specification in this constructor call with the diamond operator ("<>").(æŞİÜÿÿÿÿÿ8£†Ôª„2J$c0863b52-7252-4f5e-911d-3f0f01181dec
+java:S2293f"YReplace the type specification in this constructor call with the diamond operator ("<>").(æŞİÜÿÿÿÿÿ8üúñì‡2J$80d85062-a94d-4803-96dd-ccbea1e89d01
 œ
-java:S2293v"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ì†åò8áş‡«„2J$fbafbffa-d302-403d-9497-f99a042bc857
+java:S2293t"YReplace the type specification in this constructor call with the diamond operator ("<>").(Ì†åò8üúñì‡2J$549460b8-c979-4750-98d8-f7eb9959d997
 ¢
-java:S2293„"YReplace the type specification in this constructor call with the diamond operator ("<>").(è‘ÙÄşÿÿÿÿ8èı¿«„2J$763a95e8-5ea8-4a47-9e24-b67f7ad5e092
+java:S2293‚"YReplace the type specification in this constructor call with the diamond operator ("<>").(è‘ÙÄşÿÿÿÿ8üúñì‡2J$23ab1e4c-7e4d-497a-a80d-7f2f15e7f0ec
 
-java:S2293’"YReplace the type specification in this constructor call with the diamond operator ("<>").(¦’Ú¤8°¼İ«„2J$9a555a58-f4f2-4777-b33b-5f1b260c7991
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(¦’Ú¤8ıúñì‡2J$ee89b8d5-689b-4c45-b5aa-93a8bd94779a
 
-java:S2293 "YReplace the type specification in this constructor call with the diamond operator ("<>").(ÖÓ»©8”·ı«„2J$4c7d3929-6236-4311-8ddb-1d7c59e88118
+java:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÖÓ»©8ıúñì‡2J$d6091a81-d9c8-4ee3-a1db-597d177714cb
 {
-java:S1874"3Remove this use of "description"; it is deprecated.(¦ùà¶ÿÿÿÿÿ8÷‰¥©„2J$89d24485-784a-40fc-b2a8-fb886cc39e92
+java:S1874"3Remove this use of "description"; it is deprecated.(¦ùà¶ÿÿÿÿÿ8€ûñì‡2J$1f4a952b-d865-4f99-8193-248d9ce4f886
 i
-java:S1452-"&Remove usage of generic wildcard type.(Ãéğ8ø‰¥©„2J$97596cd4-e7b7-45fe-a51c-079712ac7690
+java:S1452-"&Remove usage of generic wildcard type.(Ãéğ8ûñì‡2J$03085429-5835-4be8-adbe-efc65d5d4879
+m
+java:S1128"KRemove this unused import 'br.com.franca.helpdesk.domains.dtos.ClienteDTO'.(û½€šüÿÿÿÿ8Áç™ğ‡2
 i
-java:S1068"'Remove this unused "log" private field.(’Ü.8ú‰¥©„2J$3d0f310a-7726-45f4-b603-45e8259a1dfb
+java:S1068"'Remove this unused "log" private field.(’Ü.8…ûñì‡2J$b67975fe-a54d-42f7-9841-d95f64294cf9
 y
-java:S1068"6Remove this unused "chamadosRepository" private field.(½æüø8ú‰¥©„2J$ae6bf751-5595-4dca-9f51-755c9c299727
+java:S1068"6Remove this unused "chamadosRepository" private field.(½æüø8†ûñì‡2J$e403eb82-b1ca-4757-99ad-12ca5972da4a
