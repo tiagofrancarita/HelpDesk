@@ -1,13 +1,13 @@
 
 
-java:S1612G">Replace this lambda with method reference 'Perfil::getCodigo'.(î·ğš8ğ¯Ş’„2J$ff595951-89a5-4193-b3bb-521131c2c39f
+java:S1612G">Replace this lambda with method reference 'Perfil::getCodigo'.(î·ğš8ğ¯Ş’„2J$062b1193-dffb-47d6-a7e9-6f8256a2738d
 ~
-java:S1612|";Replace this lambda with method reference 'Perfil::toEnum'.(™¹îÅ8ñ¯Ş’„2J$6da9d579-aeb9-4277-a698-d668d5cc8ed4
+java:S1612|";Replace this lambda with method reference 'Perfil::toEnum'.(™¹îÅ8ñ¯Ş’„2J$eddf895b-afe9-41ee-bead-f728db677f42
 “
-java:S1128"KRemove this unused import 'br.com.franca.helpdesk.util.PerfilDeserializer'.(„ÂÛŒÿÿÿÿÿ8ñ¯Ş’„2J$ee2bce91-8a91-4009-9985-f7e96310077e
+java:S1128"KRemove this unused import 'br.com.franca.helpdesk.util.PerfilDeserializer'.(„ÂÛŒÿÿÿÿÿ8ñ¯Ş’„2J$8a595c95-0897-47f6-8ab5-8e28ab55e988
 ‹
-java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonGetter'.(×·Æ™8ñ¯Ş’„2J$92dbd8f8-ba34-426c-a6fb-01ce0ccb9f7c
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonGetter'.(×·Æ™8ñ¯Ş’„2J$e4e3c3d3-820b-4d89-a30b-a464efb22c45
 ‹
-java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonSetter'.(–ôŒé8ñ¯Ş’„2J$d177fdb0-c0a8-48b4-8a52-72c0c9dd6b47
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonSetter'.(–ôŒé8ñ¯Ş’„2J$b8453d5f-1cba-4076-89a7-21e4572be1b6
 
-java:S1128	"VRemove this unused import 'com.fasterxml.jackson.databind.annotation.JsonDeserialize'.(Úˆ×øÿÿÿÿ8ñ¯Ş’„2J$2c1a3d1c-17d0-45ba-826a-9d4ac364bc14
+java:S1128	"VRemove this unused import 'com.fasterxml.jackson.databind.annotation.JsonDeserialize'.(Úˆ×øÿÿÿÿ8ñ¯Ş’„2J$55c7ebb0-a959-4356-805d-c464201e2d29
