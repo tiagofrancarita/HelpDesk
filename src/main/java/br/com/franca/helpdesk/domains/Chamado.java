@@ -76,8 +76,6 @@ public class Chamado implements Serializable {
         this.prioridadeEnum = chamadosDTO.getPrioridade();
         this.statusEnum = chamadosDTO.getStatusEnum();
         this.observacao = chamadosDTO.getObservacoes();
-        this.cliente = chamadosDTO.getCliente();
-        this.tecnico = chamadosDTO.getTecnico();
     }
 
     public Long getId() {
