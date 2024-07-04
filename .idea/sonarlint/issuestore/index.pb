@@ -114,3 +114,7 @@ n
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
 v
 Fsrc/main/java/br/com/franca/helpdesk/domains/enums/PrioridadeEnum.java,b\0\b00544ea583f9716565728112b3c38bef965475c
+s
+Csrc/main/java/br/com/franca/helpdesk/usecases/RelatorioUseCase.java,2\e\2ea3ba652b86f9a9e21a4a6b8e10633cd5429ced
+x
+Hsrc/main/java/br/com/franca/helpdesk/controller/RelatorioController.java,2\b\2bcbaace2e7756e4f4d6f86fe1a9b9e3e7bd6b4c
