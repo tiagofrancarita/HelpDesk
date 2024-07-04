@@ -120,8 +120,7 @@ public class ChamadoUseCase {
         chamadoExistente.setStatusEnum(objDTO.getStatusEnum());
         chamadoExistente.setPrioridadeEnum(objDTO.getPrioridade());
         chamadoExistente.setObservacao(objDTO.getObservacoes());
-        chamadoExistente.setTecnico(objDTO.getTecnico());
-        chamadoExistente.setCliente(objDTO.getCliente());
+
 
         log.info("---- Informações atualizadas. ----");
 
