@@ -175,33 +175,48 @@ public class TecnicosUseCase {
     public TecnicoDTO atualizarTecnico(Long id, TecnicoDTO tecnicoAtualizadoDTO) {
         log.info("---- Iniciando processo de atualização de técnico por ID ----");
 
-        // Verifica se o ID é válido
+
+        log.info("---- Verificando se o id informado é um id valido ----");
         if (id == null || id <= 0) {
             log.error("---- Erro ao atualizar técnico, ID inválido ----");
             throw new IllegalArgumentException("O ID informado é inválido");
         }
 
-        // Busca o técnico existente pelo ID
+
+        log.info("---- Verificando se o id informado existe no banco de dados. ----");
         Tecnico tecnicoExistente = tecnicoRepository.findById(id)
                 .orElseThrow(() -> {
                     log.error("---- Erro ao atualizar técnico, técnico não encontrado ---- ID_TECNICO: " + id);
                     return new ObjectnotFoundException("Técnico não encontrado");
                 });
 
-        log.info("---- Tecnico encontrado, iniciando a atualização. ----" + "ID_TECNICO: " + tecnicoExistente.getId());
+        log.info("---- Verificando se a senha foi alterada ----");
+        if (tecnicoAtualizadoDTO.getSenha() != null && !tecnicoAtualizadoDTO.getSenha().equals(tecnicoExistente.getSenha())) {
+            log.info("---- Validando a senha foi alterada ----");
+            String novaSenha = tecnicoAtualizadoDTO.getSenha();
+            if (!novaSenha.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+                log.error("---- Erro ao atualizar técnico, senha inválida ----");
+                throw new IllegalArgumentException("A nova senha não atende aos requisitos");
+            }
 
+            log.info("---- Criptografando a nova senha ----");
+            tecnicoAtualizadoDTO.setSenha(bCryptPasswordEncoder.encode(novaSenha));
+        } else {
+            log.info("---- Senha não alterada ----");
+            tecnicoAtualizadoDTO.setSenha(tecnicoExistente.getSenha());
+        }
+
+        log.info("---- Atualizando os outros campos. ----");
         tecnicoExistente.setNome(tecnicoAtualizadoDTO.getNome());
         tecnicoExistente.setCpf(tecnicoAtualizadoDTO.getCpf());
         tecnicoExistente.setEmail(tecnicoAtualizadoDTO.getEmail());
-        tecnicoExistente.setSenha(tecnicoAtualizadoDTO.getSenha());
+        tecnicoExistente.setDataCriacao(tecnicoAtualizadoDTO.getDataCriacao());
 
-
-        // Salvar o técnico atualizado no repositório
-        Tecnico tecnicoAtualizado = tecnicoRepository.save(tecnicoExistente);
-        log.info("---- Tecnico atualizado com sucesso -----" + "ID_TECNICO: " + tecnicoAtualizado.getId());
-
-
-        return new TecnicoDTO(tecnicoAtualizado);
+        log.info("---- Salvando as alterações, aguarde.. ----");
+        tecnicoRepository.save(tecnicoExistente);
+        log.info("---- Alterações salvas com sucesso. ----");
+        // Converte o técnico atualizado para DTO antes de retornar
+        return new TecnicoDTO(tecnicoExistente);
     }
 
     private void validaCpfAndEmail(TecnicoDTO tecnicoDTO) {
@@ -225,6 +240,18 @@ public class TecnicosUseCase {
         Pattern pattern = Pattern.compile(regex);
         return pattern.matcher(password).matches();
     }
-
-
 }
+
+/*
+        // Validação da senha
+        if (!isValidPassword(tecnicoDTO.getSenha())) {
+            log.error("---- A senha não atende aos critérios mínimos. ----");
+            log.info("---- A senha deve ter pelo menos 8 caracteres.  ----");
+            log.info("---- A senha deve conter pelo menos uma letra minúscula  ----");
+            log.info("---- A senha deve conter pelo menos uma letra maiúscula ----");
+            log.info("---- A senha deve conter pelo menos um dígito (NÚMERO) ----");
+            log.info("---- A senha deve conter pelo menos um caractere especial ----");
+            log.info("---- A senha não deve conter espaços em branco ----");
+            throw new ValidationException("A senha não atende aos critérios mínimos. A Senha deverá conter pelo menos 8 caracteres, uma letra minúscula, uma letra maiúscula, um dígito, um caractere especial e não deve conter espaços em branco.");
+        }
+ */

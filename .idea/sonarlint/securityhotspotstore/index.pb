@@ -112,3 +112,5 @@ n
 >src/main/java/br/com/franca/helpdesk/config/SwaggerConfig.java,e\1\e199d23b3d78394e9996bcebc92c2129027c3313
 \
 ,.idea/inspectionProfiles/Project_Default.xml,4\9\496a238a6afa168dbaf6efd37bb459331589579c
+v
+Fsrc/main/java/br/com/franca/helpdesk/domains/enums/PrioridadeEnum.java,b\0\b00544ea583f9716565728112b3c38bef965475c

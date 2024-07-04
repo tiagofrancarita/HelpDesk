@@ -143,31 +143,53 @@ public class ClienteUseCase {
         }
     }
 
-    public ClienteDTO atualizarClientePorId(Long id, ClienteDTO clienteAtualizadoDTO) {
+    public ClienteDTO atualizarCliente(Long id, ClienteDTO clienteAtualizadoDTO) {
 
         log.info("---- Iniciando processo de atualização de cliente por ID ----");
+
+
+        log.info("---- Verificando se o id informado é um id valido ----");
         if (id == null || id <= 0) {
             log.error("---- Erro ao atualizar cliente, ID inválido ----");
             throw new IllegalArgumentException("O ID informado é inválido");
         }
 
+
+        log.info("---- Verificando se o id informado existe no banco de dados. ----");
         Cliente clienteExistente = clienteRepository.findById(id)
                 .orElseThrow(() -> {
-                    log.error("---- Erro ao atualizar cliente, cliente não encontrado ---- ID_TECNICO: " + id);
+                    log.error("---- Erro ao atualizar cliente, cliente não encontrado ---- id_cliente: " + id);
                     return new ObjectnotFoundException("Cliente não encontrado");
                 });
 
-        log.info("---- Cliente encontrado, iniciando a atualização. ----" + "ID_CLIENTE: " + clienteExistente.getId());
+        log.info("---- Verificando se a senha foi alterada ----");
+        if (clienteAtualizadoDTO.getSenha() != null && !clienteAtualizadoDTO.getSenha().equals(clienteExistente.getSenha())) {
+            log.info("---- Validando a senha foi alterada ----");
+            String novaSenha = clienteAtualizadoDTO.getSenha();
+            if (!novaSenha.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$")) {
+                log.error("---- Erro ao atualizar cliente, senha inválida ----");
+                throw new IllegalArgumentException("A nova senha não atende aos requisitos");
+            }
 
+            log.info("---- Criptografando a nova senha ----");
+            clienteAtualizadoDTO.setSenha(bCryptPasswordEncoder.encode(novaSenha));
+        } else {
+            log.info("---- Senha não alterada ----");
+            clienteAtualizadoDTO.setSenha(clienteExistente.getSenha());
+        }
+
+        log.info("---- Atualizando os outros campos. ----");
         clienteExistente.setNome(clienteAtualizadoDTO.getNome());
         clienteExistente.setCpf(clienteAtualizadoDTO.getCpf());
         clienteExistente.setEmail(clienteAtualizadoDTO.getEmail());
-        clienteExistente.setSenha(clienteAtualizadoDTO.getSenha());
+        clienteExistente.setDataCriacao(clienteAtualizadoDTO.getDataCriacao());
 
-        Cliente clienteAtualizado = clienteRepository.save(clienteExistente);
-        log.info("---- Cliente atualizado com sucesso -----" + "ID_Cliente: " + clienteAtualizado.getId());
+        log.info("---- Salvando as alterações, aguarde.. ----");
+        clienteRepository.save(clienteExistente);
 
-        return new ClienteDTO(clienteAtualizado);
+        log.info("---- Alterações salvas com sucesso. ----");
+        // Converte o técnico atualizado para DTO antes de retornar
+        return new ClienteDTO(clienteExistente);
     }
     private void validaDadosInformados(ClienteDTO clienteDTO) {
 

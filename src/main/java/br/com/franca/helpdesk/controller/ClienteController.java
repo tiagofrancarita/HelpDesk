@@ -59,7 +59,7 @@ public class ClienteController {
             @ApiResponse(code = 404, message = "Nenhum cliente encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @GetMapping(value = "buscarClientePorId/{id}")
+    @GetMapping(value = "buscarCliente/{id}")
     public ResponseEntity<?> buscarClientePorId(@PathVariable Long id) {
 
         ClienteDTO buscarClientePorId = clienteUseCase.buscarPorId(id).getBody();
@@ -88,7 +88,7 @@ public class ClienteController {
             @ApiResponse(code = 404, message = "Erro ao excluir cliente"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @DeleteMapping("deletaClientePorId/{id}")
+    @DeleteMapping("deletaCliente/{id}")
     public ResponseEntity<String> deletaClientePorId(@PathVariable Long id) {
 
         clienteUseCase.deletarClientePorID(id);
@@ -102,10 +102,10 @@ public class ClienteController {
             @ApiResponse(code = 404, message = "Nenhum cliente encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @PutMapping("atualizarClientePorId/{id}")
+    @PutMapping("atualizarCliente/{id}")
     public ResponseEntity<ClienteDTO> atualizarClientePorId(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteAtualizadoDTO) {
 
-        ClienteDTO clienteAtualizadoResponseDTO = clienteUseCase.atualizarClientePorId(id, clienteAtualizadoDTO);
+        ClienteDTO clienteAtualizadoResponseDTO = clienteUseCase.atualizarCliente(id, clienteAtualizadoDTO);
         return new ResponseEntity<>(clienteAtualizadoResponseDTO, HttpStatus.OK);
     }
 }

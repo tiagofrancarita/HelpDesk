@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -89,16 +90,44 @@ public class ChamadoUseCase {
             validaDadosInformados(chamadosDTO);
             log.info("---- Dados validados com sucesso. ----");
 
-            Chamado ChamadoSalvo = new Chamado(chamadosDTO);
+            Chamado chamadoSalvo = new Chamado(chamadosDTO);
 
             log.info("---- Chamado salvo com sucesso ----");
 
-            return chamadosRepository.save(ChamadoSalvo);
+            return chamadosRepository.save(chamadoSalvo);
 
-        }catch (Exception e) {
-            log.error("---- Erro ao cadastrar o cliente. ----");
-            throw new DataIntegrityViolationException("Erro ao cadastrar o cliente");
+        } catch (Exception e) {
+            log.error("---- Erro ao cadastrar o chamado. ----");
+            throw new DataIntegrityViolationException("Erro ao cadastrar o chamado");
         }
+    }
+
+    public Chamado atualizaInfoChamado(Long id, @Valid ChamadosDTO objDTO) {
+
+        log.info("---- Iniciando processo de atualização de chamado por id ----");
+
+        // Verifica se o chamado com o ID existe no banco de dados
+        log.info("---- Verificando se o chamado com o ID informado existe ----");
+        Chamado chamadoExistente = chamadosRepository.findById(id)
+                .orElseThrow(() -> new ObjectnotFoundException("Chamado não encontrado com o ID: " + id));
+
+        log.info("---- Chamado encontrado, id: ----" + chamadoExistente.getId());
+
+        log.info("---- Atualizando informações do chamado ----");
+        // Atualiza os campos do chamado existente com os dados do DTO
+        chamadoExistente.setTituloChamado(objDTO.getTitulo());
+        chamadoExistente.setDescricaoChamado(objDTO.getDescricaoChamado());
+        chamadoExistente.setStatusEnum(objDTO.getStatusEnum());
+        chamadoExistente.setPrioridadeEnum(objDTO.getPrioridade());
+        chamadoExistente.setObservacao(objDTO.getObservacoes());
+        chamadoExistente.setTecnico(objDTO.getTecnico());
+        chamadoExistente.setCliente(objDTO.getCliente());
+
+        log.info("---- Informações atualizadas. ----");
+
+        // Salva e retorna o chamado atualizado
+        log.info("---- Salvando informações atualizadas do chamado ----");
+        return chamadosRepository.save(chamadoExistente);
     }
 
     public ChamadosDTO deletaChamadoPorId(Long id) {

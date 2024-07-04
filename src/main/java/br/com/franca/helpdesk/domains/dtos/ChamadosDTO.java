@@ -1,15 +1,11 @@
 package br.com.franca.helpdesk.domains.dtos;
 
 import br.com.franca.helpdesk.domains.Chamado;
-import br.com.franca.helpdesk.domains.Cliente;
-import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.enums.PrioridadeEnum;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
-
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ChamadosDTO implements Serializable {
@@ -37,13 +33,13 @@ public class ChamadosDTO implements Serializable {
     private String observacoes;
 
     @NotNull(message = "O campo TECNICO é requerido")
-    private Tecnico tecnico;
+    private TecnicoDTO tecnico;
 
     @NotNull(message = "O campo Descricao é requerido")
     private String descricaoChamado;
 
     @NotNull(message = "O campo CLIENTE é requerido")
-    private Cliente cliente;
+    private ClienteDTO cliente;
 
     private String nomeTecnico;
 
@@ -57,23 +53,15 @@ public class ChamadosDTO implements Serializable {
         this.id = obj.getId();
         this.dataAbertura = obj.getDataAbertura();
         this.dataFechamento = obj.getDataFechamento();
-        this.prioridade = PrioridadeEnum.toEnum(obj.getPrioridadeEnum().getCodigo());
-        this.statusEnum = StatusEnum.toEnum(obj.getStatusEnum().getCodigo());
+        this.prioridade = obj.getPrioridadeEnum();
+        this.statusEnum = obj.getStatusEnum();
         this.titulo = obj.getTituloChamado();
         this.observacoes = obj.getObservacao();
-        this.tecnico = obj.getTecnico();
-        this.cliente = obj.getCliente();
-        this.nomeCliente = obj.getCliente().getNome();
-        this.nomeTecnico = obj.getTecnico().getNome();
         this.descricaoChamado = obj.getDescricaoChamado();
-    }
-
-    public @NotNull(message = "O campo TECNICO é requerido") String getDescricaoChamado() {
-        return descricaoChamado;
-    }
-
-    public void setDescricaoChamado(@NotNull(message = "O campo TECNICO é requerido") String descricaoChamado) {
-        this.descricaoChamado = descricaoChamado;
+        this.nomeTecnico = obj.getTecnico().getNome();
+        this.nomeCliente = obj.getCliente().getNome();
+        this.tecnico = new TecnicoDTO(obj.getTecnico());
+        this.cliente = new ClienteDTO(obj.getCliente());
     }
 
     public Long getId() {
@@ -132,20 +120,12 @@ public class ChamadosDTO implements Serializable {
         this.observacoes = observacoes;
     }
 
-    public @NotNull(message = "O campo TECNICO é requerido") Tecnico getTecnico() {
-        return tecnico;
+    public @NotNull(message = "O campo Descricao é requerido") String getDescricaoChamado() {
+        return descricaoChamado;
     }
 
-    public void setTecnico(@NotNull(message = "O campo TECNICO é requerido") Tecnico tecnico) {
-        this.tecnico = tecnico;
-    }
-
-    public @NotNull(message = "O campo CLIENTE é requerido") Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(@NotNull(message = "O campo CLIENTE é requerido") Cliente cliente) {
-        this.cliente = cliente;
+    public void setDescricaoChamado(@NotNull(message = "O campo Descricao é requerido") String descricaoChamado) {
+        this.descricaoChamado = descricaoChamado;
     }
 
     public String getNomeTecnico() {
@@ -162,5 +142,21 @@ public class ChamadosDTO implements Serializable {
 
     public void setNomeCliente(String nomeCliente) {
         this.nomeCliente = nomeCliente;
+    }
+
+    public @NotNull(message = "O campo TECNICO é requerido") TecnicoDTO getTecnico() {
+        return tecnico;
+    }
+
+    public void setTecnico(@NotNull(message = "O campo TECNICO é requerido") TecnicoDTO tecnico) {
+        this.tecnico = tecnico;
+    }
+
+    public @NotNull(message = "O campo CLIENTE é requerido") ClienteDTO getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(@NotNull(message = "O campo CLIENTE é requerido") ClienteDTO cliente) {
+        this.cliente = cliente;
     }
 }

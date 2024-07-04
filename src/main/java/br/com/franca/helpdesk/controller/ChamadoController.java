@@ -41,7 +41,7 @@ public class ChamadoController {
             @ApiResponse(code = 404, message = "Nenhum chamado encontrado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @GetMapping(value = "buscarChamadoPorId/{id}")
+    @GetMapping(value = "buscarChamado/{id}")
     public ResponseEntity<?> buscarChamadoPorId(@PathVariable Long id) {
 
         ResponseEntity<ChamadosDTO> buscarChamadoPorId = chamadoUseCase.buscarChamadoPorId(id);
@@ -70,25 +70,23 @@ public class ChamadoController {
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
     @PostMapping("/cadastroChamado")
-    public ResponseEntity<ClienteDTO> cadastroChamado(@Valid @RequestBody ChamadosDTO chamadosDTO) {
+    public ResponseEntity<Void> cadastroChamado(@Valid @RequestBody ChamadosDTO chamadosDTO) {
 
         Chamado novoChamado = chamadoUseCase.cadastrarChamado(chamadosDTO);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(novoChamado.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
-    @ApiOperation(value = "Deleta um chamado por id", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "DELETE")
+    @ApiOperation(value = "Atualiza informações de um chamado", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "chamado excluido com sucesso"),
-            @ApiResponse(code = 404, message = "Erro ao excluir chamado"),
+            @ApiResponse(code = 201, message = "Chamado atualizado com sucesso"),
+            @ApiResponse(code = 404, message = "Erro ao atualizar Chamado"),
             @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
     })
-    @DeleteMapping("deletaChamadoPorId/{id}")
-    public ResponseEntity<String> deletaChamadoPorId(@PathVariable Long id) {
-
-        chamadoUseCase.deletaChamadoPorId(id);
-        return new ResponseEntity<String>("Chamado excluído com sucesso", HttpStatus.OK);
-
+    @PutMapping("atualizaInfoChamado/{id}")
+    public ResponseEntity<Chamado> atualizaInfoChamado(@PathVariable Long id, @RequestBody @Valid ChamadosDTO objDTO) {
+        Chamado chamadoAtualizado = chamadoUseCase.atualizaInfoChamado(id, objDTO);
+        return ResponseEntity.ok(chamadoAtualizado);
     }
 
     @ApiOperation(value = "Atualiza o status do chamado para execução", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "PUT")

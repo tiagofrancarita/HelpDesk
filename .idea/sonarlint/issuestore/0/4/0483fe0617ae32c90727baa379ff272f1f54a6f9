@@ -1,33 +1,29 @@
 
 …
-java:S4973¯"<Strings and Boxed types should be compared using "equals()".(ÉÕÏßşÿÿÿÿ8ÙØƒ“„2J$b99d2793-88f5-475d-a427-e336b70f370f
+java:S4973Å"<Strings and Boxed types should be compared using "equals()".(ÉÕÏßşÿÿÿÿ8ÙØƒ“„2J$de908229-a2eb-45a6-b240-e2d879749efa
 …
-java:S4973µ"<Strings and Boxed types should be compared using "equals()".(®Îßÿşÿÿÿÿ8ÚØƒ“„2J$20a603b0-8c2f-475a-85ed-8c249193abff
+java:S4973Ë"<Strings and Boxed types should be compared using "equals()".(®Îßÿşÿÿÿÿ8ÚØƒ“„2J$2b375633-a5c9-47a3-8fc6-d342da85bf80
 
-java:S2629G"7Use the built-in formatting to construct this argument.(ØĞòøùÿÿÿÿ8ùŠ¶“„2J$3d4b281c-e302-407b-8786-b4ba8dfa6e4f
+java:S2629G"7Use the built-in formatting to construct this argument.(ØĞòøùÿÿÿÿ8ùŠ¶“„2J$7a782702-0d5c-42c8-9aae-eee077ca9b67
 
-java:S2629"7Use the built-in formatting to construct this argument.(Ò–ƒîúÿÿÿÿ8ùŠ¶“„2J$05916a5a-0492-4cc9-9f5a-5a66f4b770d0
+java:S2629"7Use the built-in formatting to construct this argument.(Ò–ƒîúÿÿÿÿ8ùŠ¶“„2J$b381247a-af59-46fe-83ea-c9e6ba941e13
 ¢
-java:S11923"ZDefine a constant instead of duplicating this literal "Nenhum cliente encontrado" 4 times.(®æêıÿÿÿÿ8úŠ¶“„2J$019da6e8-d7a2-499f-b245-e32204f5de70
+java:S11923"ZDefine a constant instead of duplicating this literal "Nenhum cliente encontrado" 4 times.(®æêıÿÿÿÿ8úŠ¶“„2J$dbc304c9-87ea-49c5-aeba-7874fe0ffbbb
 t
-java:S3416"1Update this logger to use "ClienteUseCase.class".(·ø¶8úŠ¶“„2J$65ec6347-2d4f-4795-90a7-a051cc50c28c
+java:S3416"1Update this logger to use "ClienteUseCase.class".(·ø¶8úŠ¶“„2J$7b8f11f4-24b0-4cef-ae0e-a2209dceafdd
 ‰
-java:S3457G"AFormat specifiers should be used instead of string concatenation.(ØĞòøùÿÿÿÿ8ıŠ¶“„2J$71921cde-fe68-41c4-a849-e6d70bc45f16
+java:S3457G"AFormat specifiers should be used instead of string concatenation.(ØĞòøùÿÿÿÿ8ıŠ¶“„2J$b93ee527-4663-4e15-a8e1-c6349deb5be6
 „
-java:S3457L"AFormat specifiers should be used instead of string concatenation.(¼üªş8ıŠ¶“„2J$14e1bc5e-9443-4f7d-a0ad-1bcbdc2d1c9d
+java:S3457L"AFormat specifiers should be used instead of string concatenation.(¼üªş8ıŠ¶“„2J$209a904d-3f7d-4ffe-9b10-7bdecddad71e
 ‰
-java:S3457"AFormat specifiers should be used instead of string concatenation.(Ò–ƒîúÿÿÿÿ8 ò¥³„2J$63585aab-4560-4e47-8ec1-b89fdb29e833
+java:S3457"AFormat specifiers should be used instead of string concatenation.(Ò–ƒîúÿÿÿÿ8 ò¥³„2J$128531bb-db3f-4f6d-8788-23da555e3c65
 „
-java:S3457‚"AFormat specifiers should be used instead of string concatenation.(š¡á}8 ò¥³„2J$b7f46501-c715-4bb6-a171-c4147f06a2b3
-Š
-java:S3457œ"AFormat specifiers should be used instead of string concatenation.(…ùî›ùÿÿÿÿ8¡ò¥³„2J$51b7b9e9-b484-4f91-831a-1a2a36a78ae4
+java:S3457‚"AFormat specifiers should be used instead of string concatenation.(š¡á}8 ò¥³„2J$a864b3e1-b9e6-4004-8eed-7034d15c14a4
 …
-java:S3457 "AFormat specifiers should be used instead of string concatenation.(ÿ°Ï»8¡ò¥³„2J$b349f654-e10d-4faa-84b6-57de61c61dee
-Š
-java:S3457¨"AFormat specifiers should be used instead of string concatenation.(Ó‰Œêøÿÿÿÿ8¡ò¥³„2J$a74cc7d0-8b69-4aa5-9439-a0046e590830
+java:S3457¡"AFormat specifiers should be used instead of string concatenation.(’Ëó’8‚–®‡2J$7301e553-bbbe-4972-97b4-08804a43115f
 €
-java:S6353Û"<Use concise character class syntax '\\d' instead of '[0-9]'.(é¸é¤8£ò¥³„2J$2c598640-a3c2-420c-8923-2577a3b45695
+java:S6353ñ"<Use concise character class syntax '\\d' instead of '[0-9]'.(é¸é¤8£ò¥³„2J$4bf76d6a-3643-474a-9937-9994e09f9ca4
 …
-java:S1128"CRemove this unused import 'br.com.franca.helpdesk.domains.Tecnico'.(¦Ùê"8úô¤³„2J$f99d6440-a72d-4764-bc65-b176ac953517
+java:S1128"CRemove this unused import 'br.com.franca.helpdesk.domains.Tecnico'.(¦Ùê"8¢ì®‡2J$4edc45b7-20e5-4d24-8270-1e386af9d933
 
-java:S1128"KRemove this unused import 'br.com.franca.helpdesk.domains.dtos.TecnicoDTO'.(•Şİv8úô¤³„2J$5fabdfc5-2e66-44eb-a6ff-ec0af26e53ea
+java:S1128"KRemove this unused import 'br.com.franca.helpdesk.domains.dtos.TecnicoDTO'.(•Şİv8¢ì®‡2J$3cfd84f7-3aba-4e35-ab6f-a8f6be661a07

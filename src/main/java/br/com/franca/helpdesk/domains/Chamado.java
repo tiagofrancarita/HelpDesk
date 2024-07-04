@@ -39,8 +39,8 @@ public class Chamado implements Serializable {
     @Column(name = "prioridade_chamado", nullable = false)
     private @NotNull(message = "O campo PRIORIDADE é requerido") PrioridadeEnum prioridadeEnum;
 
-    @Column(name = "status_chamado", nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(name = "status_chamado", nullable = false)
     private StatusEnum statusEnum = StatusEnum.ABERTO;
 
     @Column(name = "observacao_chamado", nullable = true)
@@ -76,8 +76,6 @@ public class Chamado implements Serializable {
         this.prioridadeEnum = chamadosDTO.getPrioridade();
         this.statusEnum = chamadosDTO.getStatusEnum();
         this.observacao = chamadosDTO.getObservacoes();
-        this.cliente = chamadosDTO.getCliente();
-        this.tecnico = chamadosDTO.getTecnico();
     }
 
     public Long getId() {
@@ -120,11 +118,11 @@ public class Chamado implements Serializable {
         this.descricaoChamado = descricaoChamado;
     }
 
-    public PrioridadeEnum getPrioridadeEnum() {
+    public @NotNull(message = "O campo PRIORIDADE é requerido") PrioridadeEnum getPrioridadeEnum() {
         return prioridadeEnum;
     }
 
-    public void setPrioridadeEnum(PrioridadeEnum prioridadeEnum) {
+    public void setPrioridadeEnum(@NotNull(message = "O campo PRIORIDADE é requerido") PrioridadeEnum prioridadeEnum) {
         this.prioridadeEnum = prioridadeEnum;
     }
 
@@ -159,30 +157,4 @@ public class Chamado implements Serializable {
     public void setTecnico(Tecnico tecnico) {
         this.tecnico = tecnico;
     }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Chamado other = (Chamado) obj;
-        if (id == null) {
-            if (other.id != null)
-                return false;
-        } else if (!id.equals(other.id))
-            return false;
-        return true;
-    }
-
 }

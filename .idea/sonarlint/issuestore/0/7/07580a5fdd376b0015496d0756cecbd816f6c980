@@ -1,16 +1,16 @@
 
-V
-java:S59930"9Change the visibility of this constructor to "protected".(µ¸8£Íò…‡2
-V
-java:S59935"9Change the visibility of this constructor to "protected".(¸ñÔ”8£Íò…‡2
-E
-java:S1948*"#Make "perfis" private or transient.(–òÑşÿÿÿÿ8¤Íò…‡2
-X
-java:S1612g";Replace this lambda with method reference 'Perfil::toEnum'.(™¹îÅ8¨Íò…‡2
-X	java:S125k"<This block of commented-out lines of code should be removed.(Î¥İ‰8©Íò…‡2
-e
-java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonGetter'.(×·Æ™8«Íò…‡2
-e
-java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonSetter'.(–ôŒé8«Íò…‡2
-Q
-java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8«Íò…‡2
+|
+java:S59930"9Change the visibility of this constructor to "protected".(µ¸8£Íò…‡2J$795d4876-b940-4e5f-83e7-bd487c9d01d7
+|
+java:S59935"9Change the visibility of this constructor to "protected".(¸ñÔ”8£Íò…‡2J$ac6884ae-b24d-4cee-be92-ec1c9defb3ca
+k
+java:S1948*"#Make "perfis" private or transient.(–òÑşÿÿÿÿ8¤Íò…‡2J$0ad7b92f-8453-4396-875d-d8209550b089
+~
+java:S1612g";Replace this lambda with method reference 'Perfil::toEnum'.(™¹îÅ8¨Íò…‡2J$a9d8599d-5fb2-4fcc-bd8c-6f669395fff9
+~	java:S125k"<This block of commented-out lines of code should be removed.(Î¥İ‰8©Íò…‡2J$8c09b388-81a3-4248-a595-ce144383c648
+‹
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonGetter'.(×·Æ™8«Íò…‡2J$7a765023-4d43-49e5-8dd2-fabe5793924a
+‹
+java:S1128"HRemove this unused import 'com.fasterxml.jackson.annotation.JsonSetter'.(–ôŒé8«Íò…‡2J$14e6040b-2d25-41b9-9e6f-3ac06b765c31
+w
+java:S1128"/Remove this unused import 'java.util.Optional'.(¨˜ëİüÿÿÿÿ8«Íò…‡2J$5fca3698-5633-4bf4-ba43-68e32ad95e1f
