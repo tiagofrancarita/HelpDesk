@@ -4,7 +4,6 @@ import br.com.franca.helpdesk.domains.Chamado;
 import br.com.franca.helpdesk.domains.Cliente;
 import br.com.franca.helpdesk.domains.Tecnico;
 import br.com.franca.helpdesk.domains.dtos.ChamadosDTO;
-import br.com.franca.helpdesk.domains.dtos.ClienteDTO;
 import br.com.franca.helpdesk.domains.enums.StatusEnum;
 import br.com.franca.helpdesk.exceptions.ChamadoStatusUpdateException;
 import br.com.franca.helpdesk.exceptions.ClienteAndChamadosNotDeleted;
@@ -21,7 +20,6 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -48,6 +46,12 @@ public class ChamadoUseCase {
         this.tecnicoRepository = tecnicoRepository;
         this.emailUseCase = emailUseCase;
     }
+
+    public List<Object[]> countByStatus() {
+        log.info("---- Iniciando contagem de chamados por status.... ----");
+        return chamadosRepository.countByStatus();
+    }
+
 
     public ResponseEntity<ChamadosDTO> buscarChamadoPorId(Long id) {
         log.error("---- Iniciando a busca de chamado por ID.... ----");
@@ -332,8 +336,8 @@ public class ChamadoUseCase {
         return new ChamadosDTO(chamadoEncontrado);
     }
 
-    @Scheduled(fixedRate = 300000)
-    public void chamadosAbertosHa7DiasOuMais (){
+    @Scheduled(fixedRate = 300000) // Executa a cada 5 minutos
+    public boolean verificaChamadosAbertosHa7DiasOuMais() {
         log.info("---- Iniciando verificação de chamados abertos há 7 dias ou mais ----");
 
         // Calcula a data de 7 dias atrás
@@ -342,13 +346,10 @@ public class ChamadoUseCase {
         // Busca todos os chamados com status Aberto há 7 dias ou mais
         List<Chamado> chamadosAbertos = chamadosRepository.findByStatusEnumAndDataAberturaBefore(StatusEnum.ABERTO, seteDiasAtras);
 
-        if (chamadosAbertos.isEmpty()) {
-            log.info("---- Nenhum chamado com status Aberto há 7 dias ou mais foi encontrado ----");
-        } else {
-            // Envia alerta
-            enviarAlertaChamadosAbertosHa7DiasOuMais(chamadosAbertos);
-        }
+        boolean existemChamadosAbertosHa7DiasOuMais = !chamadosAbertos.isEmpty();
+        log.info("---- Existem chamados abertos há 7 dias ou mais: " + existemChamadosAbertosHa7DiasOuMais);
 
+        return existemChamadosAbertosHa7DiasOuMais;
     }
 
     private void enviarAlertaChamadosAbertosHa7DiasOuMais(List<Chamado> chamadosAbertos) {
