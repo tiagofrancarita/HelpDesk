@@ -42,6 +42,4 @@ public static StatusEnum toEnum(Integer codigo) {
 
         throw new IllegalArgumentException("Status inválido: " + "código: " + codigo);
     }
-
-
 }

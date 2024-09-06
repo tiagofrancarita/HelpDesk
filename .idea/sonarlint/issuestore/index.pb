@@ -118,3 +118,5 @@ s
 Csrc/main/java/br/com/franca/helpdesk/usecases/RelatorioUseCase.java,2\e\2ea3ba652b86f9a9e21a4a6b8e10633cd5429ced
 x
 Hsrc/main/java/br/com/franca/helpdesk/controller/RelatorioController.java,2\b\2bcbaace2e7756e4f4d6f86fe1a9b9e3e7bd6b4c
+{
+Ksrc/main/java/br/com/franca/helpdesk/exceptions/GlobalExceptionHandler.java,f\5\f54a61b8b2a2c3bdfbda03150ff260cafd4b4ba9
