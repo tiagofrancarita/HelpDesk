@@ -1,47 +1,43 @@
 
 z
-java:S2629A"7Use the built-in formatting to construct this argument.(§ÄŒ€8Òµçì‡2J$d0314347-c740-4523-8bdb-cb7979b9253f
+java:S2629:"7Use the built-in formatting to construct this argument.(§ÄŒ€8§½ÜÌ‰2J$f1e094a4-5da7-4320-ac9a-9dd3285f1bb1
 m
-java:S2629¢"$Invoke method(s) only conditionally.(¯ÇĞÈüÿÿÿÿ8Òµçì‡2J$6e9f6189-3025-40d2-b708-64ffd960d2a0
+java:S2629¿"$Invoke method(s) only conditionally.(¯ÇĞÈüÿÿÿÿ8Šÿ¡¿‹2J$1487217e-e7e4-48ef-86f4-b510ecd9189e
 m
-java:S2629Á"$Invoke method(s) only conditionally.(ø±áèşÿÿÿÿ8Òµçì‡2J$eb8339eb-a32e-425a-a649-580753557f38
+java:S2629Ş"$Invoke method(s) only conditionally.(ø±áèşÿÿÿÿ8‹ÿ¡¿‹2J$73ab8de5-3fa8-4504-b27f-ef777add6903
 h
-java:S2629â"$Invoke method(s) only conditionally.(ø²Â–8Òµçì‡2J$70002612-78dc-4c37-ba7e-68006fcb2b6e
+java:S2629ÿ"$Invoke method(s) only conditionally.(ø²Â–8‹ÿ¡¿‹2J$a05dbb4b-8528-4eda-8f35-0036e0f65c58
 h
-java:S2629ƒ"$Invoke method(s) only conditionally.(ø²Â–8Òµçì‡2J$00d40bf6-fedc-4636-8f0a-4f61c2367d64
+java:S2629 "$Invoke method(s) only conditionally.(ø²Â–8‹ÿ¡¿‹2J$bb77ac99-35f8-41bf-8aad-6c64d1a1add1
 m
-java:S2629¤"$Invoke method(s) only conditionally.(Ñôåàşÿÿÿÿ8Òµçì‡2J$bf5dc4f6-e32f-43a7-aef4-e45d0fefd2a1
+java:S2629Á"$Invoke method(s) only conditionally.(Ñôåàşÿÿÿÿ8‹ÿ¡¿‹2J$ff95f392-11e3-4502-a2ff-d92111ebd9c9
 h
-java:S2629Å"$Invoke method(s) only conditionally.(ßÓãÉ8Òµçì‡2J$12fdff23-7ec1-4404-bc6b-bd30ba5170ff
+java:S2629â"$Invoke method(s) only conditionally.(ßÓãÉ8‹ÿ¡¿‹2J$180258f0-6dc8-46b8-9865-607d33454ef9
 {
-java:S2629Ş"7Use the built-in formatting to construct this argument.(¸ê¯Ä8‹ã’‚ˆ2J$f391dcd0-e5ae-443c-bc14-99defdd8834e
+java:S2629û"7Use the built-in formatting to construct this argument.(¸ê¯Ä8§½ÜÌ‰2J$70b1c2d0-14aa-4d2b-983e-b049e5a5e642
 ¦
-java:S1192–"bDefine a constant instead of duplicating this literal "---- Chamado nÃ£o encontrado ----" 6 times.(° ¡š8Óµçì‡2J$6045f3f9-41b7-4905-805c-02192e003334
+java:S1192³"bDefine a constant instead of duplicating this literal "---- Chamado nÃ£o encontrado ----" 6 times.(° ¡š8©½ÜÌ‰2J$448cbaaa-4b05-4e71-a9b7-9e4a557d82b7
 
-java:S1192B"ZDefine a constant instead of duplicating this literal "Nenhum chamado encontrado" 3 times.(ì¶Ú‹8Óµçì‡2J$33c2969f-21d9-46cb-8f69-4c49b402ad5d
+java:S1192;"ZDefine a constant instead of duplicating this literal "Nenhum chamado encontrado" 3 times.(ì¶Ú‹8©½ÜÌ‰2J$1da56340-d20e-4568-b717-fdefd1eab62f
 
-java:S1192"LDefine a constant instead of duplicating this literal "Id Invalido" 6 times.(ÄØÕÎ8Óµçì‡2J$12ae24fe-b1c7-4186-8d57-70ec623e862b
+java:S1192«"LDefine a constant instead of duplicating this literal "Id Invalido" 6 times.(ÄØÕÎ8©½ÜÌ‰2J$b84aee24-d57d-4983-9b0d-ff91ecbae5cf
 Ã
-java:S1192³"Define a constant instead of duplicating this literal "---- Erro ao atualizar chamado, id informado Ã© invÃ¡lido ----" 5 times.(«ó·Ù8Óµçì‡2J$51fc9d71-4bd3-4956-bc31-bb4acc8ef128
+java:S1192Ğ"Define a constant instead of duplicating this literal "---- Erro ao atualizar chamado, id informado Ã© invÃ¡lido ----" 5 times.(«ó·Ù8©½ÜÌ‰2J$96f8b046-0203-4f93-a896-fef11466d3ef
 œ
-java:S1192—"XDefine a constant instead of duplicating this literal "Chamado nÃ£o encontrado" 6 times.(¥ÃÊ‰8Óµçì‡2J$abcbef53-08af-42ec-bf51-d725ad0e27d7
+java:S1192´"XDefine a constant instead of duplicating this literal "Chamado nÃ£o encontrado" 6 times.(¥ÃÊ‰8©½ÜÌ‰2J$c79aba39-3606-4c3e-94f0-2c303486816b
 ‘
-java:S1144ã"MRemove this unused private "enviarAlertaChamadosAbertosHa7DiasOuMais" method.(´•Ÿã8´ø’‚ˆ2J$3b3f4d4b-0a89-4dac-91bd-afca00b20d85
+java:S1144€"MRemove this unused private "enviarAlertaChamadosAbertosHa7DiasOuMais" method.(´•Ÿã8´ÒÜÌ‰2J$ce75e165-4580-4c6f-9ada-83bf6249f60b
 „
-java:S3457A"AFormat specifiers should be used instead of string concatenation.(§ÄŒ€8×µçì‡2J$5a3b8f6b-9634-4b5d-93f3-163591e8297c
+java:S3457:"AFormat specifiers should be used instead of string concatenation.(§ÄŒ€8¶ÒÜÌ‰2J$378641b2-cdee-4848-adf8-3574f037bf52
 „
-java:S3457F"AFormat specifiers should be used instead of string concatenation.(˜Îû”8×µçì‡2J$bad588c0-94a5-480e-b23d-9a3f7a786051
-„
-java:S3457v"AFormat specifiers should be used instead of string concatenation.(Óòèñ8Ùµçì‡2J$cb55f166-affc-4227-8d90-5d7f8f42dd46
+java:S3457?"AFormat specifiers should be used instead of string concatenation.(˜Îû”8›”¢¿‹2J$953577f2-86aa-4ab7-bd5f-c2b01069d29c
 …
-java:S3457Ş"AFormat specifiers should be used instead of string concatenation.(¸ê¯Ä8Ãø’‚ˆ2J$0492f587-3488-4a02-b035-a6c4854c4534
+java:S3457“"AFormat specifiers should be used instead of string concatenation.(Óòèñ8¡”¢¿‹2J$86e011de-84c5-43e6-9756-2b83509c170a
+…
+java:S3457û"AFormat specifiers should be used instead of string concatenation.(¸ê¯Ä8ÉÒÜÌ‰2J$692e4c65-c4dd-4d0f-a9d9-a57ebe73fa6b
 š
-java:S3457ê"Q%n should be used in place of \n to produce the platform-specific line separator.(¬ÎÆ‰øÿÿÿÿ8ãµçì‡2J$9a884a3d-824c-4b40-b665-3b973f88fd9f
-{
-java:S1068""3Remove this unused "tecnicosUseCase" private field.(ÓÿÈ¸úÿÿÿÿ8åµçì‡2J$95c45c89-3644-4608-bce9-5d5bee3ed047
-z
-java:S1068#"2Remove this unused "clienteUseCase" private field.(Û®ı™øÿÿÿÿ8åµçì‡2J$2bae5792-a698-4a85-a720-045b7f8040b9
-}
-java:S1068$"5Remove this unused "clienteRepository" private field.(ÇÑèüÿÿÿÿ8åµçì‡2J$41835c36-a55b-480c-9ef4-94bf2f34f492
-}
-java:S1068%"5Remove this unused "tecnicoRepository" private field.(şÂÌİùÿÿÿÿ8åµçì‡2J$e2490a6c-e3c8-40b7-abbb-aaed35d492ed
+java:S3457‡"Q%n should be used in place of \n to produce the platform-specific line separator.(¬ÎÆ‰øÿÿÿÿ8©”¢¿‹2J$9e0ef6be-4749-458b-ba36-d20f23146de0
+”
+java:S1128"QRemove this unused import 'br.com.franca.helpdesk.repositorys.ClienteRepository'.(ä‘Ìã8Ï¿¦¿‹2J$2a61c4ff-ec7b-4337-b439-0c037b26faed
+™
+java:S1128"QRemove this unused import 'br.com.franca.helpdesk.repositorys.TecnicoRepository'.(Ì«õüÿÿÿÿ8Ğ¿¦¿‹2J$03cb7217-5cba-4b3f-a206-7bf15959b636

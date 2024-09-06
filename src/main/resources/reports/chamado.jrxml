@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.18.1.final using JasperReports Library version 6.18.1-9d75d1969e774d4f179fb3be8401e98a0e6d1611  -->
+<!-- 2024-07-09T19:31:20 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="chamado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="77b4e474-07a0-4eb0-885f-89e92d6fb1d2">
+    <property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+    <queryString>
+        <![CDATA[]]>
+    </queryString>
+    <field name="dataAbertura" class="java.time.LocalDate"/>
+    <field name="dataFechamento" class="java.time.LocalDate"/>
+    <field name="tituloChamado" class="java.lang.String"/>
+    <field name="descricaoChamado" class="java.lang.String"/>
+    <field name="prioridadeEnum" class="java.lang.String"/>
+    <field name="statusEnum" class="java.lang.String"/>
+    <field name="observacao" class="java.lang.String"/>
+    <field name="cliente" class="br.com.franca.helpdesk.domains.Cliente"/>
+    <field name="tecnico" class="br.com.franca.helpdesk.domains.Tecnico"/>
+    <title>
+        <band height="79" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="30" uuid="a01c9470-ae61-4905-9a9c-1545e49e61c4"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[Relatório de Chamados]]></text>
+            </staticText>
+        </band>
+    </title>
+    <detail>
+        <band height="125" splitType="Stretch">
+            <textField>
+                <reportElement x="0" y="0" width="140" height="20" uuid="16b404bc-59e4-4d1a-9d56-d14be5a40b74"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{dataAbertura} != null ? $F{dataAbertura}.toString() : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="140" y="0" width="140" height="20" uuid="d02b174d-1570-4173-9743-3c17920a8d18"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{dataFechamento} != null ? $F{dataFechamento}.toString() : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="280" y="0" width="140" height="20" uuid="2f0f8c0a-43b7-47e7-bb50-2397a6a3cfb4"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{tituloChamado}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="20" width="420" height="20" uuid="1b7f0e03-2287-4cc0-a6f1-b6e98f7d6d70"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{descricaoChamado}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="420" y="20" width="135" height="20" uuid="4e882f2e-04e5-4d94-ba5a-0a1a9a3e8b98"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{prioridadeEnum}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="40" width="140" height="20" uuid="0f938f0b-6334-4d09-8e56-e9248b75e924"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{statusEnum}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="140" y="40" width="415" height="20" uuid="92a7d9c7-2da3-4ea7-8ed6-6f8c07f1b77a"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{observacao}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="60" width="555" height="20" uuid="6c335e42-1e5b-4e1c-a999-3df6fbb6898b"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{cliente} != null ? $F{cliente}.getNome() : ""]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="0" y="80" width="555" height="20" uuid="e48b2984-0f69-4d01-98b2-758f2a3485a1"/>
+                <textElement/>
+                <textFieldExpression><![CDATA[$F{tecnico} != null ? $F{tecnico}.getNome() : ""]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+</jasperReport>

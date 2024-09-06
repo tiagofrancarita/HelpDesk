@@ -12,6 +12,8 @@ import br.com.franca.helpdesk.exceptions.ObjectnotFoundException;
 import br.com.franca.helpdesk.repositorys.ChamadosRepository;
 import br.com.franca.helpdesk.repositorys.ClienteRepository;
 import br.com.franca.helpdesk.repositorys.TecnicoRepository;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,7 @@ import org.springframework.stereotype.Service;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,19 +32,11 @@ public class ChamadoUseCase {
 
     private Logger log = LoggerFactory.getLogger(ChamadoUseCase.class);
     private final ChamadosRepository chamadosRepository;
-    private final TecnicosUseCase tecnicosUseCase;
-    private final ClienteUseCase clienteUseCase;
-    private final ClienteRepository clienteRepository;
-    private final TecnicoRepository tecnicoRepository;
     private final EmailUseCase emailUseCase;
 
     @Autowired
-    public ChamadoUseCase(ChamadosRepository chamadosRepository, TecnicosUseCase tecnicosUseCase, ClienteUseCase clienteUseCase, ClienteRepository clienteRepository, TecnicoRepository tecnicoRepository, EmailUseCase emailUseCase) {
+    public ChamadoUseCase(ChamadosRepository chamadosRepository, EmailUseCase emailUseCase) {
         this.chamadosRepository = chamadosRepository;
-        this.tecnicosUseCase = tecnicosUseCase;
-        this.clienteUseCase = clienteUseCase;
-        this.clienteRepository = clienteRepository;
-        this.tecnicoRepository = tecnicoRepository;
         this.emailUseCase = emailUseCase;
     }
 
@@ -95,15 +88,51 @@ public class ChamadoUseCase {
             log.info("---- Dados validados com sucesso. ----");
 
             Chamado chamadoSalvo = new Chamado(chamadosDTO);
-
+            chamadosRepository.save(chamadoSalvo);
             log.info("---- Chamado salvo com sucesso ----");
 
-            return chamadosRepository.save(chamadoSalvo);
+            // Gerar relatório
+            log.info("---- Gerando relatório do chamado... ----");
+            gerarRelatorioChamado(chamadoSalvo);
+            log.info("---- Relatório gerado com sucesso ----");
+
+            return chamadoSalvo;
 
         } catch (Exception e) {
-            log.error("---- Erro ao cadastrar o chamado. ----");
+            log.error("---- Erro ao cadastrar o chamado. ----", e);
             throw new DataIntegrityViolationException("Erro ao cadastrar o chamado");
         }
+    }
+
+    private void gerarRelatorioChamado(Chamado chamado) throws JRException {
+        // Caminho do arquivo .jrxml
+        String jrxmlPath = "src/main/resources/reports/chamado.jrxml";
+
+        // Compila o arquivo .jrxml
+        JasperReport jasperReport = JasperCompileManager.compileReport(jrxmlPath);
+
+        // Prepara os dados do relatório
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(Collections.singletonList(chamado));
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("idChamado", chamado.getId());
+        parameters.put("dataAbertura", chamado.getDataAbertura());
+        parameters.put("dataFechamento", chamado.getDataFechamento());
+        parameters.put("tituloChamado", chamado.getTituloChamado());
+        parameters.put("descricaoChamado", chamado.getDescricaoChamado());
+        parameters.put("prioridade", chamado.getPrioridadeEnum().name()); // Exemplo: Usando o nome da enumeração
+        parameters.put("status", chamado.getStatusEnum().name()); // Exemplo: Usando o nome da enumeração
+        parameters.put("observacao", chamado.getObservacao());
+
+        // Adicione outros parâmetros conforme necessário, como cliente, empresa, etc.
+
+        // Preenche o relatório
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+        // Caminho onde o relatório será salvo
+        String pdfPath = "src/main/resources/reports/chamado_" + chamado.getId() + ".pdf";
+
+        // Exporta o relatório para um arquivo PDF
+        JasperExportManager.exportReportToPdfFile(jasperPrint, pdfPath);
     }
 
     public Chamado atualizaInfoChamado(Long id, @Valid ChamadosDTO objDTO) {
