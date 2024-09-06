@@ -17,8 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
+import java.math.BigInteger;
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "v1/chamados", produces = "application/json")
@@ -33,6 +36,52 @@ public class ChamadoController {
     public ChamadoController(ChamadosRepository chamadosRepository, ChamadoUseCase chamadoUseCase) {
         this.chamadosRepository = chamadosRepository;
         this.chamadoUseCase = chamadoUseCase;
+    }
+
+    @ApiOperation(value = "Busca chamados por status", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Chamados listados com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum chamado encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @GetMapping("/countByStatus")
+    public ResponseEntity<?> getCountByStatus() {
+        try {
+            log.info("Recuperando contagem de chamados por status...");
+            List<Object[]> result = chamadoUseCase.countByStatus();
+            log.info("Contagem de chamados por status recuperada com sucesso");
+            // Preparar um mapa para armazenar o resultado
+            Map<String, Long> countByStatusMap = new HashMap<>();
+            log.info("Iterando sobre a lista de arrays de objetos...");
+            // Iterar sobre a lista de arrays de objetos
+            for (Object[] row : result) {
+                String status = (String) row[0];  // Supondo que o primeiro elemento seja uma String (status)
+                BigInteger count = (BigInteger) row[1];  // Usando BigInteger para lidar com o valor retornado
+            log.info("Convertendo BigInteger para Long...");
+                // Convertendo BigInteger para Long
+                Long countLong = count.longValue();
+                log.info("Adicionando contagem por status ao mapa...");
+                countByStatusMap.put(status, countLong);
+            }
+            log.info("Retornando contagem por status...");
+            return ResponseEntity.ok(countByStatusMap);
+        } catch (Exception e) {
+            log.error("Erro ao recuperar contagem por status: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao recuperar contagem por status: " + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Schedule de verificação chamados abertos 7 dias ou mais", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "GET")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Alerta enviado com sucesso"),
+            @ApiResponse(code = 404, message = "Nenhum alerta encontrado"),
+            @ApiResponse(code = 500, message = "Foi gerada uma exceção"),
+    })
+    @GetMapping("/verificaChamadosAbertosHa7DiasOuMais")
+    public ResponseEntity<Boolean> verificaChamadosAbertosHa7DiasOuMais() {
+        boolean existemChamadosAbertos = chamadoUseCase.verificaChamadosAbertosHa7DiasOuMais();
+        return ResponseEntity.ok(existemChamadosAbertos);
     }
 
     @ApiOperation(value = "Busca um chamado cadastrado pelo id", response = ChamadosDTO.class, produces = "application/json", consumes = "application/json", httpMethod = "GET")
