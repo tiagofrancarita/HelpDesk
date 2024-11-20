@@ -25,12 +25,18 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      # 4. Copiar o .jar para a EC2
+      # 4. Adicionar a chave do host EC2 ao known_hosts para evitar problemas de verificação
+      - name: Add EC2 host to known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
+
+      # 5. Copiar o .jar para a EC2
       - name: Copy .jar to EC2
         run: |
           scp -i "${{ secrets.EC2_SSH_KEY }}" target/*.jar ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/app/
 
-      # 5. Rodar a aplicação na EC2
+      # 6. Rodar a aplicação na EC2
       - name: Start application on EC2
         run: |
           ssh -i "${{ secrets.EC2_SSH_KEY }}" ubuntu@${{ secrets.EC2_PUBLIC_IP }} 'cd /home/ubuntu/app && nohup java -jar *.jar &'
