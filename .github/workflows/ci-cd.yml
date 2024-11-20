@@ -19,8 +19,8 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'adoptopenjdk'
-
+          distribution: 'temurin'  # Alterado para temurin
+          
       # 3. Rodar o build com Maven
       - name: Build with Maven
         run: mvn clean package -DskipTests
