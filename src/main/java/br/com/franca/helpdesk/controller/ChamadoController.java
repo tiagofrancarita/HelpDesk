@@ -47,7 +47,7 @@ public class ChamadoController {
     @GetMapping("/countByStatus")
     public ResponseEntity<?> getCountByStatus() {
         try {
-            log.info("Recuperando contagem de chamados por status...");
+            log.info("Recuperando contagem dos chamados por status...");
             List<Object[]> result = chamadoUseCase.countByStatus();
             log.info("Contagem de chamados por status recuperada com sucesso");
             // Preparar um mapa para armazenar o resultado
