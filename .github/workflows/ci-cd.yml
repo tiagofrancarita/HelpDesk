@@ -10,33 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Check out o código do repositório
+      # 1. Checkout do código
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # 2. Configurar JDK 11 com Adoptium (temurin)
+      # 2. Configuração do JDK
       - name: Set up JDK 11
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: 'temurin'
+          distribution: 'adoptopenjdk'
 
       # 3. Rodar o build com Maven
       - name: Build with Maven
         run: mvn clean package -DskipTests
 
-      # 4. Adicionar a chave do host EC2 ao known_hosts para evitar problemas de verificação
-      - name: Add EC2 host to known_hosts
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.EC2_PUBLIC_IP }} >> ~/.ssh/known_hosts
-
-      # 5. Copiar o .jar para a EC2
+      # 4. Copiar o arquivo .jar para EC2 usando SCP
       - name: Copy .jar to EC2
         run: |
-          scp -i "${{ secrets.EC2_SSH_KEY }}" target/*.jar ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/app/
+          mkdir -p ~/.ssh
+          echo "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa target/*.jar ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/app/
 
-      # 6. Rodar a aplicação na EC2
+      # 5. Rodar a aplicação na EC2
       - name: Start application on EC2
         run: |
-          ssh -i "${{ secrets.EC2_SSH_KEY }}" ubuntu@${{ secrets.EC2_PUBLIC_IP }} 'cd /home/ubuntu/app && nohup java -jar *.jar &'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_PUBLIC_IP }} 'cd /home/ubuntu/app && nohup java -jar *.jar &'
