@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'  # Alterado para temurin
-          
+
       # 3. Rodar o build com Maven
       - name: Build with Maven
         run: mvn clean package -DskipTests
@@ -33,7 +33,21 @@ jobs:
           chmod 600 ~/.ssh/id_rsa
           scp -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa target/*.jar ubuntu@${{ secrets.EC2_PUBLIC_IP }}:/home/ubuntu/app/
 
-      # 5. Rodar a aplicação na EC2
+      # 5. Parar a aplicação anterior (caso esteja rodando na porta 8080)
+      - name: Stop previous application if running
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_PUBLIC_IP }} << 'EOF'
+            # Verifica e para qualquer processo utilizando a porta 8080
+            PID=$(sudo lsof -t -i:8080)
+            if [ -n "$PID" ]; then
+              echo "Parando a aplicação antiga (PID: $PID)..."
+              sudo kill -9 $PID
+            else
+              echo "Nenhuma aplicação encontrada na porta 8080."
+            fi
+          EOF
+
+      # 6. Rodar a aplicação na EC2
       - name: Start application on EC2
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_PUBLIC_IP }} 'cd /home/ubuntu/app && nohup java -jar *.jar &'
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ubuntu@${{ secrets.EC2_PUBLIC_IP }} 'cd /home/ubuntu/app && nohup java -jar *.jar > app.log 2>&1 &'
