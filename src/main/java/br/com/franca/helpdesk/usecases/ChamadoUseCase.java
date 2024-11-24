@@ -431,7 +431,5 @@ public class ChamadoUseCase {
             log.error("---- Erro na abertura do chamado, campo prioridade é obrigatório. ----");
             throw new DataIntegrityViolationException("---- Erro na abertura do  chamado, campo prioridade é obrigatório. ----");
         }
-
-
     }
 }
