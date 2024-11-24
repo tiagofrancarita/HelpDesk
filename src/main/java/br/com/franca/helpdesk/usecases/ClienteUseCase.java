@@ -29,12 +29,10 @@ public class ClienteUseCase {
 
     private Logger log = LoggerFactory.getLogger(TecnicosUseCase.class);
 
-
     private final ClienteRepository clienteRepository;
     private final ChamadosRepository chamadosRepository;
     private final PessoaRepository pessoaRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
 
     @Autowired
     public ClienteUseCase(ClienteRepository clienteRepository, ChamadosRepository chamadosRepository, PessoaRepository pessoaRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
@@ -235,7 +233,6 @@ public class ClienteUseCase {
             throw new ValidationException("A senha não atende aos critérios mínimos. A Senha deverá conter pelo menos 8 caracteres, uma letra minúscula, uma letra maiúscula, um dígito, um caractere especial e não deve conter espaços em branco.");
         }
     }
-
     private boolean isValidPassword(String password) {
         // Expressão regular para validar a senha
         String regex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!])(?=\\S+$).{8,}$";
